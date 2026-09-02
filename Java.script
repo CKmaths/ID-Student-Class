@@ -1,19 +1,27 @@
 function doGet() {
-  var template = HtmlService.createTemplateFromFile('Index');
-  
-  // បញ្ជូន Link Spreadsheet និង Sheet ID ទៅ Form ដោយផ្ទាល់ដើម្បីឱ្យល្បឿនដើរលឿនបំផុត
-  var ss = SpreadsheetApp.getActiveSpreadsheet();
-  var dbSheet = ss.getSheetByName("Output Database");
-  
-  template.spreadsheetUrl = ss.getUrl();
-  template.dbSheetGid = dbSheet ? dbSheet.getSheetId() : 0;
-  
-  return template.evaluate()
+  return HtmlService.createTemplateFromFile('Index')
+      .evaluate()
       .setTitle('ប្រព័ន្ធគ្រប់គ្រងជីវប្រវត្តិសិស្ស')
       .setXFrameOptionsMode(HtmlService.XFrameOptionsMode.ALLOWALL);
 }
 
-// មុខងារបញ្ចូលទិន្នន័យទៅ Output Database (Optimize ល្បឿន)
+// មុខងារទាញយក URL និង Sheet ID ផ្ញើទៅ Web App
+function getExportUrls() {
+  var ss = SpreadsheetApp.getActiveSpreadsheet();
+  var dbSheet = ss.getSheetByName("Output Database");
+  var baseUrl = ss.getUrl();
+  var gid = dbSheet ? dbSheet.getSheetId() : 0;
+  
+  // បង្កើត PDF export link
+  var pdfUrl = baseUrl.replace(/\/edit.*$/, '') + '/export?format=pdf&size=A4&portrait=false&fitw=true&gid=' + gid;
+  
+  return {
+    sheetUrl: baseUrl,
+    pdfUrl: pdfUrl
+  };
+}
+
+// មុខងារបញ្ចូលទិន្នន័យ
 function processWebForm(data) {
   try {
     var ss = SpreadsheetApp.getActiveSpreadsheet();
