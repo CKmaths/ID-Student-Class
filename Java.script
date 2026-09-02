@@ -1,11 +1,19 @@
-// បើកបង្ហាញ Web App
 function doGet() {
-  return HtmlService.createHtmlOutputFromFile('Index')
+  var template = HtmlService.createTemplateFromFile('Index');
+  
+  // បញ្ជូន Link Spreadsheet និង Sheet ID ទៅ Form ដោយផ្ទាល់ដើម្បីឱ្យល្បឿនដើរលឿនបំផុត
+  var ss = SpreadsheetApp.getActiveSpreadsheet();
+  var dbSheet = ss.getSheetByName("Output Database");
+  
+  template.spreadsheetUrl = ss.getUrl();
+  template.dbSheetGid = dbSheet ? dbSheet.getSheetId() : 0;
+  
+  return template.evaluate()
       .setTitle('ប្រព័ន្ធគ្រប់គ្រងជីវប្រវត្តិសិស្ស')
       .setXFrameOptionsMode(HtmlService.XFrameOptionsMode.ALLOWALL);
 }
 
-// ទទួលទិន្នន័យពី Form បញ្ចូលទៅ Output Database
+// មុខងារបញ្ចូលទិន្នន័យទៅ Output Database (Optimize ល្បឿន)
 function processWebForm(data) {
   try {
     var ss = SpreadsheetApp.getActiveSpreadsheet();
@@ -15,7 +23,6 @@ function processWebForm(data) {
       return { success: false, message: "មិនរកឃើញ Sheet ឈ្មោះ 'Output Database' ឡើយ!" };
     }
 
-    // គណនាលេខរៀង
     var lastRow = dbSheet.getLastRow();
     var autoNo = 1;
     if (lastRow > 1) {
@@ -23,7 +30,6 @@ function processWebForm(data) {
       autoNo = (!isNaN(lastNoValue) && lastNoValue !== "") ? Number(lastNoValue) + 1 : lastRow;
     }
 
-    // រៀបចំថ្ងៃខែឆ្នាំកំណើត
     var formattedDob = data.dob || "";
     if (data.dob && data.dob.indexOf('-') !== -1) {
       var parts = data.dob.split('-');
@@ -32,7 +38,6 @@ function processWebForm(data) {
       }
     }
 
-    // បញ្ចូលជួរថ្មី
     var newRow = [
       autoNo,
       data.studentId || "",
@@ -61,9 +66,4 @@ function processWebForm(data) {
   } catch (error) {
     return { success: false, message: error.toString() };
   }
-}
-
-// ទាញយក URL Sheet
-function getSpreadsheetUrl() {
-  return SpreadsheetApp.getActiveSpreadsheet().getUrl();
 }
