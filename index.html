@@ -132,15 +132,13 @@
             <!-- Action Buttons ទាំងអស់ -->
             <div class="d-flex flex-wrap gap-2 justify-content-between align-items-center mt-4 pt-3 border-top">
               <div class="d-flex gap-2">
-                <!-- ប៊ូតុងទាញយក Excel/Sheet (Direct Link) -->
-                <a href="<?= spreadsheetUrl ?>" target="_blank" class="btn btn-outline-success btn-custom">
+                <button type="button" class="btn btn-outline-success btn-custom" onclick="openExportLink('sheet')">
                   <i class="fa-solid fa-file-excel me-1"></i> ទាញយក Excel/Sheet
-                </a>
+                </button>
                 
-                <!-- ប៊ូតុងទាញយក PDF នៃ Output Database (Direct Link) -->
-                <a href="<?= spreadsheetUrl.replace(/\/edit.*$/, '') ?>/export?format=pdf&size=A4&portrait=false&fitw=true&gid=<?= dbSheetGid ?>" target="_blank" class="btn btn-outline-danger btn-custom">
+                <button type="button" class="btn btn-outline-danger btn-custom" onclick="openExportLink('pdf')">
                   <i class="fa-solid fa-file-pdf me-1"></i> ទាញយក PDF
-                </a>
+                </button>
               </div>
               
               <div class="d-flex gap-2">
@@ -164,6 +162,28 @@
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
 <script>
+  // មុខងារទាញយក Link បើកក្នុង Tab ថ្មី
+  function openExportLink(type) {
+    Swal.fire({
+      title: 'កំពុងដំណើរការ...',
+      text: 'ប្រព័ន្ធកំពុងរៀបចំ Link...',
+      allowOutsideClick: false,
+      didOpen: () => { Swal.showLoading(); }
+    });
+
+    google.script.run
+      .withSuccessHandler(function(data) {
+        Swal.close();
+        var url = (type === 'sheet') ? data.sheetUrl : data.pdfUrl;
+        window.open(url, '_blank');
+      })
+      .withFailureHandler(function(err) {
+        Swal.fire('កំហុស!', err.message, 'error');
+      })
+      .getExportUrls();
+  }
+
+  // មុខងារ រក្សាទុកទិន្នន័យ
   function handleFormSubmit(event) {
     event.preventDefault();
     
