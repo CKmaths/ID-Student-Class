@@ -1,208 +1,3 @@
-<!DOCTYPE html>
-<html lang="km">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>ប្រព័ន្ធគ្រប់គ្រងជីវប្រវត្តិសិស្ស</title>
-  <!-- Bootstrap 5 CSS -->
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-  <!-- FontAwesome Icons -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-  <!-- Google Fonts (Kantumruy Pro / Moul) -->
-  <link href="https://fonts.googleapis.com/css2?family=Kantumruy+Pro:wght@400;500;600;700&display=swap" rel="stylesheet">
-
-  <style>
-    body {
-      font-family: 'Kantumruy Pro', sans-serif;
-      background-color: #f4f6f9;
-      color: #333;
-    }
-    .main-card {
-      border: none;
-      border-radius: 15px;
-      box-shadow: 0 4px 20px rgba(0,0,0,0.08);
-      background: #ffffff;
-    }
-    .card-header-custom {
-      background: linear-gradient(135deg, #0d6efd, #0b5ed7);
-      color: white;
-      border-top-left-radius: 15px !important;
-      border-top-right-radius: 15px !important;
-      padding: 1.2rem;
-    }
-    .form-label {
-      font-weight: 500;
-      color: #495057;
-      margin-bottom: 4px;
-    }
-    .form-control, .form-select {
-      border-radius: 8px;
-      padding: 8px 12px;
-      border: 1px solid #ced4da;
-    }
-    .form-control:focus, .form-select:focus {
-      border-color: #0d6efd;
-      box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.15);
-    }
-    .section-title {
-      font-size: 1.05rem;
-      font-weight: 700;
-      color: #0d6efd;
-      border-bottom: 2px solid #e9ecef;
-      padding-bottom: 6px;
-      margin-top: 15px;
-      margin-bottom: 15px;
-    }
-    .btn-custom {
-      border-radius: 8px;
-      padding: 8px 20px;
-      font-weight: 600;
-    }
-  </style>
-</head>
-<body>
-
-<div class="container py-4">
-  <div class="row justify-content-center">
-    <div class="col-lg-10">
-      
-      <!-- Main Dashboard Card -->
-      <div class="card main-card">
-        <div class="card-header card-header-custom text-center">
-          <h3 class="mb-1"><i class="fa-solid fa-graduation-cap me-2"></i>ទម្រង់បញ្ចូលជីវប្រវត្តិសិស្ស</h3>
-          <p class="mb-0 fs-6 opacity-75">ប្រព័ន្ធគ្រប់គ្រង និងរក្សាទុកទិន្នន័យសិស្សស្វ័យប្រវត្តិ</p>
-        </div>
-        
-        <div class="card-body p-4">
-          <form id="studentForm" onsubmit="handleFormSubmit(event)">
-            
-            <!-- ផ្នែកទី ១: ព័ត៌មានផ្ទាល់ខ្លួនសិស្ស -->
-            <div class="section-title"><i class="fa-solid fa-user me-2"></i>ព័ត៌មានផ្ទាល់ខ្លួនសិស្ស</div>
-            <div class="row g-3">
-              <div class="col-md-4">
-                <label class="form-label">អត្តលេខ <span class="text-danger">*</span></label>
-                <input type="text" id="studentId" class="form-control" placeholder="ឧ. STU-001" required>
-              </div>
-              <div class="col-md-5">
-                <label class="form-label">គោត្តនាម-នាមខ្លួន <span class="text-danger">*</span></label>
-                <input type="text" id="fullName" class="form-control" placeholder="បញ្ចូលឈ្មោះពេញ" required>
-              </div>
-              <div class="col-md-3">
-                <label class="form-label">ភេទ</label>
-                <select id="gender" class="form-select">
-                  <option value="ប្រុស">ប្រុស</option>
-                  <option value="ស្រី">ស្រី</option>
-                </select>
-              </div>
-              
-              <!-- ថ្ងៃខែឆ្នាំកំណើត (បន្ថែមបន្ទាប់ពីភេទ) -->
-              <div class="col-md-4">
-                <label class="form-label">ថ្ងៃខែឆ្នាំកំណើត</label>
-                <input type="date" id="dob" class="form-control">
-              </div>
-              <div class="col-md-4">
-                <label class="form-label">លេខទូរស័ព្ទ (សាម៉ីខ្លួន)</label>
-                <input type="tel" id="studentPhone" class="form-control" placeholder="012345678">
-              </div>
-              <div class="col-md-4">
-                <label class="form-label">អាសយដ្ឋានបច្ចុប្បន្ន</label>
-                <input type="text" id="address" class="form-control" placeholder="ភូមិ/ឃុំ/ស្រុក/ខេត្ត">
-              </div>
-            </div>
-
-            <!-- ផ្នែកទី ២: ព័ត៌មានអាណាព្យាបាល -->
-            <div class="section-title"><i class="fa-solid fa-users me-2"></i>ព័ត៌មានឪពុកម្តាយ / អាណាព្យាបាល</div>
-            <div class="row g-3">
-              <!-- ឪពុក -->
-              <div class="col-md-3">
-                <label class="form-label">ឈ្មោះឪពុក</label>
-                <input type="text" id="fatherName" class="form-control">
-              </div>
-              <div class="col-md-3">
-                <label class="form-label">មុខរបរ (ឪពុក)</label>
-                <input type="text" id="fatherJob" class="form-control">
-              </div>
-              <div class="col-md-3">
-                <label class="form-label">អាសយដ្ឋាន (ឪពុក)</label>
-                <input type="text" id="fatherAddress" class="form-control">
-              </div>
-              <div class="col-md-3">
-                <label class="form-label">លេខទូរស័ព្ទ (ឪពុក)</label>
-                <input type="tel" id="fatherPhone" class="form-control">
-              </div>
-
-              <!-- ម្តាយ -->
-              <div class="col-md-3">
-                <label class="form-label">ឈ្មោះម្តាយ</label>
-                <input type="text" id="motherName" class="form-control">
-              </div>
-              <div class="col-md-3">
-                <label class="form-label">មុខរបរ (ម្តាយ)</label>
-                <input type="text" id="motherJob" class="form-control">
-              </div>
-              <div class="col-md-3">
-                <label class="form-label">អាសយដ្ឋាន (ម្តាយ)</label>
-                <input type="text" id="motherAddress" class="form-control">
-              </div>
-              <div class="col-md-3">
-                <label class="form-label">លេខទូរស័ព្ទ (ម្តាយ)</label>
-                <input type="tel" id="motherPhone" class="form-control">
-              </div>
-            </div>
-
-            <!-- ផ្នែកទី ៣: ព័ត៌មានការប្រឡង & ផ្សេងៗ -->
-            <div class="section-title"><i class="fa-solid fa-file-signature me-2"></i>ព័ត៌មានការប្រឡង</div>
-            <div class="row g-3">
-              <div class="col-md-3">
-                <label class="form-label">លេខតុ</label>
-                <input type="text" id="deskNo" class="form-control">
-              </div>
-              <div class="col-md-3">
-                <label class="form-label">លេខបន្ទប់</label>
-                <input type="text" id="roomNo" class="form-control">
-              </div>
-              <div class="col-md-3">
-                <label class="form-label">សម័យប្រឡង</label>
-                <input type="text" id="examSession" class="form-control">
-              </div>
-              <div class="col-md-3">
-                <label class="form-label">មណ្ឌលប្រឡង</label>
-                <input type="text" id="examCenter" class="form-control">
-              </div>
-              <div class="col-md-12">
-                <label class="form-label">ផ្សេងៗ (ចំណាំ)</label>
-                <textarea id="note" class="form-control" rows="2"></textarea>
-              </div>
-            </div>
-
-            <!-- Action Buttons -->
-            <div class="d-flex flex-wrap gap-2 justify-content-between align-items-center mt-4 pt-3 border-top">
-              <div>
-                <button type="button" class="btn btn-outline-danger btn-custom" onclick="window.print()">
-                  <i class="fa-solid fa-file-pdf me-1"></i> ទាញយក PDF (Print)
-                </button>
-                <button type="button" class="btn btn-outline-success btn-custom" onclick="exportExcel()">
-                  <i class="fa-solid fa-file-excel me-1"></i> ទាញយក Excel/Sheet
-                </button>
-              </div>
-              <div class="d-flex gap-2">
-                <button type="reset" class="btn btn-light btn-custom text-secondary">
-                  <i class="fa-solid fa-rotate-right me-1"></i> សម្អាត
-                </button>
-                <button type="submit" id="btnSubmit" class="btn btn-primary btn-custom px-4">
-                  <i class="fa-solid fa-floppy-disk me-1"></i> រក្សាទុកទិន្នន័យ
-                </button>
-              </div>
-            </div>
-
-          </form>
-        </div>
-      </div>
-
-    </div>
-  </div>
-</div>
-
 <!-- SweetAlert2 for Pretty Alerts -->
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
@@ -241,13 +36,22 @@
         btn.disabled = false;
         btn.innerHTML = `<i class="fa-solid fa-floppy-disk me-1"></i> រក្សាទុកទិន្នន័យ`;
         
-        Swal.fire({
-          icon: 'success',
-          title: 'ជោគជ័យ!',
-          text: response,
-          confirmButtonColor: '#0d6efd'
-        });
-        document.getElementById("studentForm").reset();
+        if (response.success) {
+          Swal.fire({
+            icon: 'success',
+            title: 'ជោគជ័យ!',
+            text: response.message,
+            confirmButtonColor: '#0d6efd'
+          });
+          document.getElementById("studentForm").reset();
+        } else {
+          Swal.fire({
+            icon: 'error',
+            title: 'មានបញ្ហា!',
+            text: response.message,
+            confirmButtonColor: '#d33'
+          });
+        }
       })
       .withFailureHandler(function(error) {
         btn.disabled = false;
@@ -255,7 +59,7 @@
         
         Swal.fire({
           icon: 'error',
-          title: 'មានបញ្ហា!',
+          title: 'កំហុសប្រព័ន្ធ!',
           text: error.message,
           confirmButtonColor: '#d33'
         });
@@ -263,12 +67,28 @@
       .processWebForm(formData);
   }
 
+  // កែប្រែការទាញយក Excel/Sheet ដើម្បីកុំឱ្យ Browser បិទ (Pop-up Block)
   function exportExcel() {
-    google.script.run.withSuccessHandler(function(url) {
-      window.open(url, '_blank');
-    }).getSpreadsheetUrl();
+    Swal.fire({
+      title: 'កំពុងទាញយក...',
+      text: 'ប្រព័ន្ធកំពុងស្វែងរកដំណLink Google Sheet',
+      allowOutsideClick: false,
+      didOpen: () => {
+        Swal.showLoading();
+      }
+    });
+
+    google.script.run
+      .withSuccessHandler(function(url) {
+        Swal.close();
+        // បើក Link ដោយសុវត្ថិភាព
+        var a = document.createElement('a');
+        a.href = url;
+        a.target = '_blank';
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+      })
+      .getSpreadsheetUrl();
   }
 </script>
-
-</body>
-</html>
