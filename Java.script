@@ -1,27 +1,21 @@
 function doGet() {
-  return HtmlService.createTemplateFromFile('Index')
-      .evaluate()
+  var template = HtmlService.createTemplateFromFile('Index');
+  
+  var ss = SpreadsheetApp.getActiveSpreadsheet();
+  var dbSheet = ss.getSheetByName("Output Database");
+  
+  // បញ្ជូន Links ទៅកាន់ HTML តាំងពីពេល Load ទំព័រដំបូង
+  template.sheetUrl = ss.getUrl();
+  
+  var gid = dbSheet ? dbSheet.getSheetId() : 0;
+  template.pdfUrl = ss.getUrl().replace(/\/edit.*$/, '') + '/export?format=pdf&size=A4&portrait=false&fitw=true&gid=' + gid;
+  
+  return template.evaluate()
       .setTitle('ប្រព័ន្ធគ្រប់គ្រងជីវប្រវត្តិសិស្ស')
       .setXFrameOptionsMode(HtmlService.XFrameOptionsMode.ALLOWALL);
 }
 
-// មុខងារទាញយក URL និង Sheet ID ផ្ញើទៅ Web App
-function getExportUrls() {
-  var ss = SpreadsheetApp.getActiveSpreadsheet();
-  var dbSheet = ss.getSheetByName("Output Database");
-  var baseUrl = ss.getUrl();
-  var gid = dbSheet ? dbSheet.getSheetId() : 0;
-  
-  // បង្កើត PDF export link
-  var pdfUrl = baseUrl.replace(/\/edit.*$/, '') + '/export?format=pdf&size=A4&portrait=false&fitw=true&gid=' + gid;
-  
-  return {
-    sheetUrl: baseUrl,
-    pdfUrl: pdfUrl
-  };
-}
-
-// មុខងារបញ្ចូលទិន្នន័យ
+// មុខងារបញ្ចូលទិន្នន័យ Form
 function processWebForm(data) {
   try {
     var ss = SpreadsheetApp.getActiveSpreadsheet();
