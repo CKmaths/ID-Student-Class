@@ -1,0 +1,103 @@
+/**
+ * ប្រព័ន្ធគ្រប់គ្រងជីវប្រវត្តិសិស្ស (បញ្ចូលថ្ងៃខែឆ្នាំកំណើតបន្ទាប់ពីភេទ)
+ */
+
+function submitData() {
+  var ss = SpreadsheetApp.getActiveSpreadsheet();
+  var formSheet = ss.getSheetByName("Form Input Data");
+  var dbSheet = ss.getSheetByName("Output Database");
+  var ui = SpreadsheetApp.getUi();
+
+  if (!formSheet || !dbSheet) {
+    ui.alert("⚠️ កំហុស៖ មិនរកឃើញ Sheet ឈ្មោះ 'Form Input Data' ឬ 'Output Database' ឡើយ!");
+    return;
+  }
+
+  // ១. ទាញយកទិន្នន័យពី B1 ដល់ B19 (បន្ថែមប្រឡោះ B4 ជាថ្ងៃខែឆ្នាំកំណើត)
+  var formData = formSheet.getRange("B1:B19").getValues();
+
+  var studentId     = formData[0][0];  // B1: អត្តលេខ
+  var fullName      = formData[1][0];  // B2: គោត្តនាម-នាមខ្លួន
+  var gender        = formData[2][0];  // B3: ភេទ
+  var dob           = formData[3][0];  // B4: ថ្ងៃខែឆ្នាំកំណើត (បន្ថែមថ្មី)
+  var address       = formData[4][0];  // B5: អាសយដ្ឋាន
+  var studentPhone  = formData[5][0];  // B6: លេខទូរស័ព្ទ(សាម៉ីខ្លួន)
+  var fatherName    = formData[6][0];  // B7: ឈ្មោះឪពុក
+  var fatherJob     = formData[7][0];  // B8: មុខរបរ (ឪពុក)
+  var fatherAddress = formData[8][0];  // B9: អាសយដ្ឋាន (ឪពុក)
+  var fatherPhone   = formData[9][0];  // B10: លេខទូរស័ព្ទ (ឪពុក)
+  var motherName    = formData[10][0]; // B11: ឈ្មោះម្តាយ
+  var motherJob     = formData[11][0]; // B12: មុខរបរ (ម្តាយ)
+  var motherAddress = formData[12][0]; // B13: អាសយដ្ឋាន (ម្តាយ)
+  var motherPhone   = formData[13][0]; // B14: លេខទូរស័ព្ទ (ម្តាយ)
+  var deskNo        = formData[14][0]; // B15: លេខតុ
+  var roomNo        = formData[15][0]; // B16: លេខបន្ទប់
+  var examSession   = formData[16][0]; // B17: សម័យប្រឡង
+  var examCenter    = formData[17][0]; // B18: មណ្ឌលប្រឡង
+  var note          = formData[18][0]; // B19: ផ្សេងៗ
+
+  // ប្រសិនបើ dob ជា Date Object ត្រូវចាត់ចែងទម្រង់ថ្ងៃខែឆ្នាំឱ្យស្រស់ស្អាត (dd/MM/yyyy)
+  if (dob instanceof Date) {
+    dob = Utilities.formatDate(dob, ss.getSpreadsheetTimeZone(), "dd/MM/yyyy");
+  }
+
+  // ២. ត្រួតពិនិត្យលក្ខខណ្ឌ (Validation)
+  if (studentId === "" || fullName === "") {
+    ui.alert("⚠️ កំហុស៖ សូមបញ្ចូល 'អត្តលេខ' និង 'គោត្តនាម-នាមខ្លួន' ជាមុនសិន!");
+    return;
+  }
+
+  // ៣. គណនាលេខរៀង (Auto Increment ID)
+  var lastRow = dbSheet.getLastRow();
+  var autoNo = 1;
+  
+  if (lastRow > 1) {
+    var lastNoValue = dbSheet.getRange(lastRow, 1).getValue();
+    if (!isNaN(lastNoValue) && lastNoValue !== "") {
+      autoNo = Number(lastNoValue) + 1;
+    } else {
+      autoNo = lastRow;
+    }
+  }
+
+  // ៤. រៀបចំអារ៉េបញ្ចូលទៅ Output Database (បញ្ចូល dob បន្ទាប់ពី gender)
+  var newRow = [
+    autoNo,         // Col A: លេខរៀង
+    studentId,      // Col B: អត្តលេខ
+    fullName,       // Col C: គោត្តនាម+នាមខ្លួន
+    gender,         // Col D: ភេទ
+    dob,            // Col E: ថ្ងៃខែឆ្នាំកំណើត (ថែមថ្មី)
+    address,        // Col F: អសយដ្ឋាន
+    studentPhone,   // Col G: លេខទូរស័ព្ទ
+    fatherName,     // Col H: ឈ្មោះឪពុក
+    fatherJob,      // Col I: មុខរបរ
+    fatherAddress,  // Col J: អសយដ្ឋាន
+    fatherPhone,    // Col K: លេខទួរស័ព្ទ
+    motherName,     // Col L: ឈ្មោះម្តាយ
+    motherJob,      // Col M: មុខរបរ
+    motherAddress,  // Col N: អសយដ្ឋាន
+    motherPhone,    // Col O: លេខទួរស័ព្ទ
+    deskNo,         // Col P: លេខតុ
+    roomNo,         // Col Q: លេខបន្ទប់
+    examSession,    // Col R: សម័យប្រឡង
+    examCenter,     // Col S: មណ្ឌលប្រឡង
+    note            // Col T: ផ្សេងៗ
+  ];
+
+  // ៥. បញ្ចូលទៅ Database
+  dbSheet.appendRow(newRow);
+
+  // ៦. សម្អាតប្រឡោះ B1:B19
+  formSheet.getRange("B1:B19").clearContent();
+
+  ui.alert("✅ ជោគជ័យ! ជីវប្រវត្តិសិស្សឈ្មោះ '" + fullName + "' ត្រូវបានបញ្ចូលទៅ Output Database រួចរាល់។");
+}
+
+// មុខងារសម្អាត Form តែមួយមុខ
+function clearFormOnly() {
+  var ss = SpreadsheetApp.getActiveSpreadsheet();
+  var formSheet = ss.getSheetByName("Form Input Data");
+  if (formSheet) {
+    formSheet.getRange("B1:B19").clearContent();
+  }
+}
