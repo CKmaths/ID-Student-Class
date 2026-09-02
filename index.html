@@ -15,7 +15,7 @@
     .form-label { font-weight: 500; color: #495057; margin-bottom: 4px; }
     .form-control, .form-select { border-radius: 8px; padding: 8px 12px; border: 1px solid #ced4da; }
     .section-title { font-size: 1.05rem; font-weight: 700; color: #0d6efd; border-bottom: 2px solid #e9ecef; padding-bottom: 6px; margin-top: 15px; margin-bottom: 15px; }
-    .btn-custom { border-radius: 8px; padding: 8px 20px; font-weight: 600; }
+    .btn-custom { border-radius: 8px; padding: 8px 18px; font-weight: 600; }
   </style>
 </head>
 <body>
@@ -33,6 +33,7 @@
         <div class="card-body p-4">
           <form id="studentForm" onsubmit="handleFormSubmit(event)">
             
+            <!-- ព័ត៌មានផ្ទាល់ខ្លួន -->
             <div class="section-title"><i class="fa-solid fa-user me-2"></i>ព័ត៌មានផ្ទាល់ខ្លួនសិស្ស</div>
             <div class="row g-3">
               <div class="col-md-4">
@@ -65,6 +66,7 @@
               </div>
             </div>
 
+            <!-- ព័ត៌មានអាណាព្យាបាល -->
             <div class="section-title"><i class="fa-solid fa-users me-2"></i>ព័ត៌មានឪពុកម្តាយ / អាណាព្យាបាល</div>
             <div class="row g-3">
               <div class="col-md-3">
@@ -102,6 +104,7 @@
               </div>
             </div>
 
+            <!-- ព័ត៌មានការប្រឡង -->
             <div class="section-title"><i class="fa-solid fa-file-signature me-2"></i>ព័ត៌មានការប្រឡង</div>
             <div class="row g-3">
               <div class="col-md-3">
@@ -126,12 +129,20 @@
               </div>
             </div>
 
+            <!-- Action Buttons ទាំងអស់ -->
             <div class="d-flex flex-wrap gap-2 justify-content-between align-items-center mt-4 pt-3 border-top">
-              <div>
-                <button type="button" class="btn btn-outline-success btn-custom" onclick="exportExcel()">
+              <div class="d-flex gap-2">
+                <!-- ប៊ូតុងទាញយក Excel/Sheet (Direct Link) -->
+                <a href="<?= spreadsheetUrl ?>" target="_blank" class="btn btn-outline-success btn-custom">
                   <i class="fa-solid fa-file-excel me-1"></i> ទាញយក Excel/Sheet
-                </button>
+                </a>
+                
+                <!-- ប៊ូតុងទាញយក PDF នៃ Output Database (Direct Link) -->
+                <a href="<?= spreadsheetUrl.replace(/\/edit.*$/, '') ?>/export?format=pdf&size=A4&portrait=false&fitw=true&gid=<?= dbSheetGid ?>" target="_blank" class="btn btn-outline-danger btn-custom">
+                  <i class="fa-solid fa-file-pdf me-1"></i> ទាញយក PDF
+                </a>
               </div>
+              
               <div class="d-flex gap-2">
                 <button type="reset" class="btn btn-light btn-custom text-secondary">
                   <i class="fa-solid fa-rotate-right me-1"></i> សម្អាត
@@ -199,7 +210,7 @@
           Swal.fire({
             icon: 'error',
             title: 'មានបញ្ហា!',
-            text: (response ? response.message : 'Unknown error'),
+            text: (response ? response.message : 'មិនអាចបញ្ចូលបាន'),
             confirmButtonColor: '#d33'
           });
         }
@@ -215,22 +226,6 @@
         });
       })
       .processWebForm(formData);
-  }
-
-  function exportExcel() {
-    Swal.fire({
-      title: 'កំពុងដំណើរការ...',
-      text: 'ប្រព័ន្ធកំពុងបើក Google Sheet',
-      allowOutsideClick: false,
-      didOpen: () => { Swal.showLoading(); }
-    });
-
-    google.script.run
-      .withSuccessHandler(function(url) {
-        Swal.close();
-        window.open(url, '_blank');
-      })
-      .getSpreadsheetUrl();
   }
 </script>
 
