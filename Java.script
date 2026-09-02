@@ -9,56 +9,60 @@ function doGet() {
 
 // ពីរ. ទទួលទិន្នន័យពី Form ហើយបញ្ចូលទៅកាន់ Sheet "Output Database"
 function processWebForm(data) {
-  var ss = SpreadsheetApp.getActiveSpreadsheet();
-  var dbSheet = ss.getSheetByName("Output Database");
-  
-  if (!dbSheet) {
-    throw new Error("មិនរកឃើញ Sheet ឈ្មោះ 'Output Database' ឡើយ!");
-  }
-
-  // គណនាលេខរៀង Auto
-  var lastRow = dbSheet.getLastRow();
-  var autoNo = 1;
-  if (lastRow > 1) {
-    var lastNoValue = dbSheet.getRange(lastRow, 1).getValue();
-    autoNo = (!isNaN(lastNoValue) && lastNoValue !== "") ? Number(lastNoValue) + 1 : lastRow;
-  }
-
-  // រៀបចំថ្ងៃខែឆ្នាំកំណើត
-  var formattedDob = data.dob;
-  if (data.dob) {
-    var parts = data.dob.split('-'); // yyyy-mm-dd
-    if (parts.length === 3) {
-      formattedDob = parts[2] + '/' + parts[1] + '/' + parts[0]; // dd/mm/yyyy
+  try {
+    var ss = SpreadsheetApp.getActiveSpreadsheet();
+    var dbSheet = ss.getSheetByName("Output Database");
+    
+    if (!dbSheet) {
+      return { success: false, message: "មិនរកឃើញ Sheet ឈ្មោះ 'Output Database' ឡើយ!" };
     }
+
+    // គណនាលេខរៀង Auto
+    var lastRow = dbSheet.getLastRow();
+    var autoNo = 1;
+    if (lastRow > 1) {
+      var lastNoValue = dbSheet.getRange(lastRow, 1).getValue();
+      autoNo = (!isNaN(lastNoValue) && lastNoValue !== "") ? Number(lastNoValue) + 1 : lastRow;
+    }
+
+    // រៀបចំថ្ងៃខែឆ្នាំកំណើត
+    var formattedDob = data.dob || "";
+    if (data.dob && data.dob.indexOf('-') !== -1) {
+      var parts = data.dob.split('-'); // yyyy-mm-dd
+      if (parts.length === 3) {
+        formattedDob = parts[2] + '/' + parts[1] + '/' + parts[0]; // dd/mm/yyyy
+      }
+    }
+
+    // រៀបចំអារ៉េបញ្ចូលទៅ Output Database
+    var newRow = [
+      autoNo,
+      data.studentId || "",
+      data.fullName || "",
+      data.gender || "",
+      formattedDob,
+      data.address || "",
+      data.studentPhone || "",
+      data.fatherName || "",
+      data.fatherJob || "",
+      data.fatherAddress || "",
+      data.fatherPhone || "",
+      data.motherName || "",
+      data.motherJob || "",
+      data.motherAddress || "",
+      data.motherPhone || "",
+      data.deskNo || "",
+      data.roomNo || "",
+      data.examSession || "",
+      data.examCenter || "",
+      data.note || ""
+    ];
+
+    dbSheet.appendRow(newRow);
+    return { success: true, message: "ជីវប្រវត្តិសិស្សឈ្មោះ '" + data.fullName + "' ត្រូវបានបញ្ចូលទៅក្នុង Database រក្សាទុកជោគជ័យ!" };
+  } catch (error) {
+    return { success: false, message: error.toString() };
   }
-
-  // រៀបចំរចនាសម្ព័ន្ធ Array សម្រាប់ Append ចូល Database
-  var newRow = [
-    autoNo,
-    data.studentId,
-    data.fullName,
-    data.gender,
-    formattedDob,       // ថ្ងៃខែឆ្នាំកំណើត (បន្ទាប់ពី ភេទ)
-    data.address,
-    data.studentPhone,
-    data.fatherName,
-    data.fatherJob,
-    data.fatherAddress,
-    data.fatherPhone,
-    data.motherName,
-    data.motherJob,
-    data.motherAddress,
-    data.motherPhone,
-    data.deskNo,
-    data.roomNo,
-    data.examSession,
-    data.examCenter,
-    data.note
-  ];
-
-  dbSheet.appendRow(newRow);
-  return "ជីវប្រវត្តិសិស្សឈ្មោះ '" + data.fullName + "' ត្រូវបានបញ្ចូលទៅក្នុង Database រួចរាល់!";
 }
 
 // បី. ទាញយក Link Google Sheet
