@@ -1,13 +1,11 @@
-// ១. បើកបង្ហាញ Web App Interface
+// បើកបង្ហាញ Web App
 function doGet() {
-  return HtmlService.createTemplateFromFile('Index')
-      .evaluate()
+  return HtmlService.createHtmlOutputFromFile('Index')
       .setTitle('ប្រព័ន្ធគ្រប់គ្រងជីវប្រវត្តិសិស្ស')
-      .addMetaTag('viewport', 'width=device-width, initial-scale=1')
       .setXFrameOptionsMode(HtmlService.XFrameOptionsMode.ALLOWALL);
 }
 
-// ពីរ. ទទួលទិន្នន័យពី Form ហើយបញ្ចូលទៅកាន់ Sheet "Output Database"
+// ទទួលទិន្នន័យពី Form បញ្ចូលទៅ Output Database
 function processWebForm(data) {
   try {
     var ss = SpreadsheetApp.getActiveSpreadsheet();
@@ -17,7 +15,7 @@ function processWebForm(data) {
       return { success: false, message: "មិនរកឃើញ Sheet ឈ្មោះ 'Output Database' ឡើយ!" };
     }
 
-    // គណនាលេខរៀង Auto
+    // គណនាលេខរៀង
     var lastRow = dbSheet.getLastRow();
     var autoNo = 1;
     if (lastRow > 1) {
@@ -28,13 +26,13 @@ function processWebForm(data) {
     // រៀបចំថ្ងៃខែឆ្នាំកំណើត
     var formattedDob = data.dob || "";
     if (data.dob && data.dob.indexOf('-') !== -1) {
-      var parts = data.dob.split('-'); // yyyy-mm-dd
+      var parts = data.dob.split('-');
       if (parts.length === 3) {
-        formattedDob = parts[2] + '/' + parts[1] + '/' + parts[0]; // dd/mm/yyyy
+        formattedDob = parts[2] + '/' + parts[1] + '/' + parts[0];
       }
     }
 
-    // រៀបចំអារ៉េបញ្ចូលទៅ Output Database
+    // បញ្ចូលជួរថ្មី
     var newRow = [
       autoNo,
       data.studentId || "",
@@ -59,13 +57,13 @@ function processWebForm(data) {
     ];
 
     dbSheet.appendRow(newRow);
-    return { success: true, message: "ជីវប្រវត្តិសិស្សឈ្មោះ '" + data.fullName + "' ត្រូវបានបញ្ចូលទៅក្នុង Database រក្សាទុកជោគជ័យ!" };
+    return { success: true, message: "រក្សាទុកទិន្នន័យសិស្សឈ្មោះ '" + data.fullName + "' ជោគជ័យ!" };
   } catch (error) {
     return { success: false, message: error.toString() };
   }
 }
 
-// បី. ទាញយក Link Google Sheet
+// ទាញយក URL Sheet
 function getSpreadsheetUrl() {
   return SpreadsheetApp.getActiveSpreadsheet().getUrl();
 }
