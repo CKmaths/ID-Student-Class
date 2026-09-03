@@ -15,6 +15,7 @@
     <script src="https://cdn.jsdelivr.net/npm/mammoth@1.6.0/mammoth.browser.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
     <script>pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';</script>
 
     <!-- Google Fonts for Khmer & English -->
@@ -204,6 +205,19 @@
                     <option value="GRADED">កែរួចរាល់</option>
                     <option value="UNGRADED">មិនទាន់កែ</option>
                 </select>
+
+                <!-- Export Buttons: Excel & PDF -->
+                <div class="flex items-center gap-1.5">
+                    <button onclick="exportToExcel()" class="px-3 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-semibold shadow-sm flex items-center gap-1.5 transition active:scale-95">
+                        <i class="ph-bold ph-file-xls text-base"></i>
+                        <span>ទាញយកជា Excel</span>
+                    </button>
+
+                    <button onclick="exportToPDF()" class="px-3 py-2 rounded-xl bg-rose-600 hover:bg-rose-700 text-white text-xs font-semibold shadow-sm flex items-center gap-1.5 transition active:scale-95">
+                        <i class="ph-bold ph-file-pdf text-base"></i>
+                        <span>ទាញយកជា PDF</span>
+                    </button>
+                </div>
 
                 <div class="flex items-center bg-slate-100 p-1 rounded-xl border border-slate-200">
                     <button id="viewGridBtn" onclick="setViewMode('grid')" class="p-1.5 rounded-lg text-slate-600 hover:text-slate-900 bg-white shadow-sm transition">
@@ -699,9 +713,13 @@
                     <h2 class="text-sm font-bold text-slate-800">ទម្រង់មើលគំរូជីវប្រវត្តិសិស្ស (Biography Preview)</h2>
                 </div>
                 <div class="flex items-center gap-2">
+                    <button onclick="downloadSingleBioPDF()" class="px-3 py-1.5 rounded-xl bg-rose-600 hover:bg-rose-700 text-white text-xs font-bold shadow flex items-center gap-1.5 transition">
+                        <i class="ph-bold ph-file-pdf text-base"></i>
+                        <span>ទាញយកជា PDF</span>
+                    </button>
                     <button onclick="window.print()" class="px-3.5 py-1.5 rounded-xl bg-brand-600 hover:bg-brand-700 text-white text-xs font-bold shadow flex items-center gap-1.5 transition">
                         <i class="ph-bold ph-printer text-base"></i>
-                        <span>បោះពុម្ព (Print / PDF)</span>
+                        <span>បោះពុម្ព (Print)</span>
                     </button>
                     <button onclick="closePreviewModal()" class="w-8 h-8 rounded-full hover:bg-slate-200 text-slate-400 hover:text-slate-600 flex items-center justify-center transition">
                         <i class="ph-bold ph-x text-lg"></i>
@@ -1291,6 +1309,164 @@ ${data.fullBioText}
             const modal = document.getElementById('previewCardModal');
             modal.classList.add('opacity-0');
             setTimeout(() => modal.classList.add('hidden'), 200);
+        }
+
+        // Export Filtered Student List to Excel (.xlsx)
+        function exportToExcel() {
+            if (students.length === 0) {
+                showToast("គ្មានទិន្នន័យសម្រាប់ទាញយកទេ!", "error");
+                return;
+            }
+
+            const searchQuery = document.getElementById('searchInput').value.toLowerCase();
+            const filterClass = document.getElementById('classFilter').value;
+            const filterYear = document.getElementById('yearFilter').value;
+            const filterGrade = document.getElementById('gradeFilter').value;
+
+            const filtered = students.filter(s => {
+                const matchesSearch = s.name.toLowerCase().includes(searchQuery) ||
+                                      s.id.toLowerCase().includes(searchQuery) ||
+                                      (s.studentClass && s.studentClass.toLowerCase().includes(searchQuery));
+                
+                const matchesClass = filterClass === 'ALL' || s.studentClass === filterClass;
+                const matchesYear = filterYear === 'ALL' || s.academicYear === filterYear;
+                const matchesGrade = filterGrade === 'ALL' ||
+                                     (filterGrade === 'GRADED' && s.isGraded) ||
+                                     (filterGrade === 'UNGRADED' && !s.isGraded);
+
+                return matchesSearch && matchesClass && matchesYear && matchesGrade;
+            });
+
+            if (filtered.length === 0) {
+                showToast("គ្មានទិន្នន័យដែលត្រូវគ្នានឹងតម្រងស្វែងរក!", "error");
+                return;
+            }
+
+            const excelData = filtered.map((s, index) => ({
+                "ល.រ": index + 1,
+                "អត្តលេខសិស្ស": s.id,
+                "ឈ្មោះសិស្ស": s.name,
+                "ថ្នាក់សិក្សា": s.studentClass || '',
+                "ឆ្នាំសិក្សា": s.academicYear || '',
+                "លេខទូរស័ព្ទ": s.contact || '',
+                "ស្ថានភាពអត្រាកែ": s.isGraded ? 'កែរួចរាល់' : 'មិនទាន់កែ',
+                "ពិន្ទុអត្រាកែ": s.isGraded ? s.evaluation.overallScore : '',
+                "និទ្ទេស": s.isGraded ? s.evaluation.grade : '',
+                "ថ្ងៃបញ្ចូល": s.createdAt || ''
+            }));
+
+            const worksheet = XLSX.utils.json_to_sheet(excelData);
+            const workbook = XLSX.utils.book_new();
+            XLSX.utils.book_append_sheet(workbook, worksheet, "Student_Bios");
+
+            XLSX.writeFile(workbook, `Student_Bio_List_${new Date().toISOString().slice(0, 10)}.xlsx`);
+            showToast("បានទាញយកទិន្នន័យជា Excel (.xlsx) ដោយជោគជ័យ!", "success");
+        }
+
+        // Export Filtered Student Roster List to PDF
+        function exportToPDF() {
+            if (students.length === 0) {
+                showToast("គ្មានទិន្នន័យសម្រាប់ទាញយកទេ!", "error");
+                return;
+            }
+
+            const searchQuery = document.getElementById('searchInput').value.toLowerCase();
+            const filterClass = document.getElementById('classFilter').value;
+            const filterYear = document.getElementById('yearFilter').value;
+            const filterGrade = document.getElementById('gradeFilter').value;
+
+            const filtered = students.filter(s => {
+                const matchesSearch = s.name.toLowerCase().includes(searchQuery) ||
+                                      s.id.toLowerCase().includes(searchQuery) ||
+                                      (s.studentClass && s.studentClass.toLowerCase().includes(searchQuery));
+                
+                const matchesClass = filterClass === 'ALL' || s.studentClass === filterClass;
+                const matchesYear = filterYear === 'ALL' || s.academicYear === filterYear;
+                const matchesGrade = filterGrade === 'ALL' ||
+                                     (filterGrade === 'GRADED' && s.isGraded) ||
+                                     (filterGrade === 'UNGRADED' && !s.isGraded);
+
+                return matchesSearch && matchesClass && matchesYear && matchesGrade;
+            });
+
+            if (filtered.length === 0) {
+                showToast("គ្មានទិន្នន័យដែលត្រូវគ្នានឹងតម្រងស្វែងរក!", "error");
+                return;
+            }
+
+            const pdfContainer = document.createElement('div');
+            pdfContainer.style.padding = '20px';
+            pdfContainer.style.fontFamily = "'Kantumruy Pro', sans-serif";
+            pdfContainer.innerHTML = `
+                <div style="text-align: center; margin-bottom: 20px;">
+                    <h2 style="font-size: 16px; font-weight: bold; color: #1e3a8a; margin: 0;">បញ្ជីរាយនាម និងជីវប្រវត្តិសិស្ស</h2>
+                    <p style="font-size: 11px; color: #64748b; margin-top: 4px;">កាលបរិច្ឆេទ៖ ${new Date().toLocaleDateString('km-KH')}</p>
+                </div>
+                <table style="width: 100%; border-collapse: collapse; font-size: 10px;">
+                    <thead>
+                        <tr style="background-color: #f1f5f9; text-align: left; border-bottom: 2px solid #cbd5e1;">
+                            <th style="padding: 6px; border: 1px solid #cbd5e1;">ល.រ</th>
+                            <th style="padding: 6px; border: 1px solid #cbd5e1;">អត្តលេខ</th>
+                            <th style="padding: 6px; border: 1px solid #cbd5e1;">ឈ្មោះសិស្ស</th>
+                            <th style="padding: 6px; border: 1px solid #cbd5e1;">ថ្នាក់</th>
+                            <th style="padding: 6px; border: 1px solid #cbd5e1;">ឆ្នាំសិក្សា</th>
+                            <th style="padding: 6px; border: 1px solid #cbd5e1;">ស្ថានភាពកែ</th>
+                            <th style="padding: 6px; border: 1px solid #cbd5e1;">ពិន្ទុ/និទ្ទេស</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        ${filtered.map((s, i) => `
+                            <tr style="border-bottom: 1px solid #e2e8f0;">
+                                <td style="padding: 6px; border: 1px solid #e2e8f0; text-align: center;">${i + 1}</td>
+                                <td style="padding: 6px; border: 1px solid #e2e8f0;">${s.id}</td>
+                                <td style="padding: 6px; border: 1px solid #e2e8f0; font-weight: bold;">${s.name}</td>
+                                <td style="padding: 6px; border: 1px solid #e2e8f0;">${s.studentClass || '-'}</td>
+                                <td style="padding: 6px; border: 1px solid #e2e8f0;">${s.academicYear || '-'}</td>
+                                <td style="padding: 6px; border: 1px solid #e2e8f0;">${s.isGraded ? 'កែរួចរាល់' : 'មិនទាន់កែ'}</td>
+                                <td style="padding: 6px; border: 1px solid #e2e8f0;">${s.isGraded ? `${s.evaluation.overallScore} (${s.evaluation.grade})` : '-'}</td>
+                            </tr>
+                        `).join('')}
+                    </tbody>
+                </table>
+            `;
+
+            const opt = {
+                margin:       10,
+                filename:     `Student_List_${new Date().toISOString().slice(0, 10)}.pdf`,
+                image:        { type: 'jpeg', quality: 0.98 },
+                html2canvas:  { scale: 2 },
+                jsPDF:        { unit: 'mm', format: 'a4', orientation: 'portrait' }
+            };
+
+            showToast("កំពុងរៀបចំទាញយកជា PDF...", "info");
+            html2pdf().set(opt).from(pdfContainer).save().then(() => {
+                showToast("បានទាញយកជា PDF ដោយជោគជ័យ!", "success");
+            }).catch(err => {
+                console.error(err);
+                showToast("មានបញ្ហាក្នុងការទាញយក PDF", "error");
+            });
+        }
+
+        // Export Single Student Preview Card as PDF
+        function downloadSingleBioPDF() {
+            const element = document.getElementById('printablePreviewCard');
+            if (!element) return;
+
+            const opt = {
+                margin:       10,
+                filename:     `Student_Biography_${new Date().toISOString().slice(0, 10)}.pdf`,
+                image:        { type: 'jpeg', quality: 0.98 },
+                html2canvas:  { scale: 2 },
+                jsPDF:        { unit: 'mm', format: 'a4', orientation: 'portrait' }
+            };
+
+            showToast("កំពុងបង្កើត PDF ជីវប្រវត្តិសិស្ស...", "info");
+            html2pdf().set(opt).from(element).save().then(() => {
+                showToast("បានទាញយកជីវប្រវត្តិជា PDF រួចរាល់!", "success");
+            }).catch(err => {
+                console.error(err);
+                showToast("មានបញ្ហាក្នុងការបង្កើត PDF", "error");
+            });
         }
 
         // Save Student Record
