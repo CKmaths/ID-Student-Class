@@ -240,36 +240,163 @@
                 </div>
 
                 <!-- Shared/Manual Form Fields -->
-                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                    <div>
-                        <label class="block text-xs font-semibold text-slate-700 mb-1">ឈ្មោះសិស្ស (Student Name) *</label>
-                        <input type="text" id="inputStudentName" placeholder="ឧ. កែវ សុខា / Keo Sokha" class="w-full px-3 py-2 border border-slate-200 rounded-xl text-xs focus:ring-2 focus:ring-brand-500/20 focus:border-brand-500 outline-none">
-                    </div>
-                    <div>
-                        <label class="block text-xs font-semibold text-slate-700 mb-1">អត្តលេខសិស្ស (Student ID)</label>
-                        <input type="text" id="inputStudentID" placeholder="ឧ. STU-2026-089" class="w-full px-3 py-2 border border-slate-200 rounded-xl text-xs focus:ring-2 focus:ring-brand-500/20 focus:border-brand-500 outline-none">
-                    </div>
-                    <div>
-                        <label class="block text-xs font-semibold text-slate-700 mb-1">ជំនាញ / ថ្នាក់សិក្សា (Major/Class)</label>
-                        <input type="text" id="inputStudentMajor" placeholder="ឧ. វិទ្យាសាស្ត្រកុំព្យូទ័រ (Computer Science)" class="w-full px-3 py-2 border border-slate-200 rounded-xl text-xs focus:ring-2 focus:ring-brand-500/20 focus:border-brand-500 outline-none">
-                    </div>
-                    <div>
-                        <label class="block text-xs font-semibold text-slate-700 mb-1">អ៊ីមែល / លេខទូរស័ព្ទ (Contact)</label>
-                        <input type="text" id="inputStudentContact" placeholder="ឧ. sokha@gmail.com / 012 345 678" class="w-full px-3 py-2 border border-slate-200 rounded-xl text-xs focus:ring-2 focus:ring-brand-500/20 focus:border-brand-500 outline-none">
-                    </div>
-                </div>
+                <div class="space-y-6">
+                    
+                    <!-- ផ្នែកទី១: ព័ត៌មានផ្ទាល់ខ្លួនសិស្ស -->
+                    <div class="bg-slate-50 p-4 rounded-2xl border border-slate-200/80 space-y-4">
+                        <h3 class="text-xs font-bold text-brand-700 uppercase tracking-wider flex items-center gap-1.5 border-b border-slate-200 pb-2">
+                            <i class="ph-bold ph-user text-base"></i> ផ្នែកទី១៖ ព័ត៌មានផ្ទាល់ខ្លួនសិស្ស
+                        </h3>
+                        
+                        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
+                            <!-- ១. អត្តលេខ -->
+                            <div>
+                                <label class="block text-[11px] font-semibold text-slate-700 mb-1">១. អត្តលេខសិស្ស *</label>
+                                <input type="text" id="inputStudentID" placeholder="ឧ. STU-2026-089" class="w-full px-3 py-2 border border-slate-200 rounded-xl text-xs focus:ring-2 focus:ring-brand-500/20 focus:border-brand-500 outline-none">
+                            </div>
 
-                <!-- Student Biography / Resume Textarea -->
-                <div>
-                    <div class="flex items-center justify-between mb-1">
-                        <label class="block text-xs font-semibold text-slate-700">ខ្លឹមសារជីវប្រវត្តិសិស្ស (Biography / Bio Details) *</label>
-                        <button type="button" onclick="preserveAndFormatWithAI()" id="aiFormatBtn" class="text-[11px] text-brand-600 hover:text-brand-700 font-semibold flex items-center gap-1 bg-brand-50 hover:bg-brand-100 px-2 py-0.5 rounded-md border border-brand-200 transition">
-                            <i class="ph-bold ph-sparkle text-amber-500"></i>
-                            <span>រៀបចំរចនាសម្ព័ន្ធ (រក្សាអត្ថន័យដើម)</span>
-                        </button>
+                            <!-- ២. គោត្តនាម+នាមខ្លួន -->
+                            <div>
+                                <label class="block text-[11px] font-semibold text-slate-700 mb-1">២. គោត្តនាម + នាមខ្លួន *</label>
+                                <input type="text" id="inputStudentName" placeholder="ឧ. កែវ សុខា" class="w-full px-3 py-2 border border-slate-200 rounded-xl text-xs focus:ring-2 focus:ring-brand-500/20 focus:border-brand-500 outline-none">
+                            </div>
+
+                            <!-- ៣. ភេទ -->
+                            <div>
+                                <label class="block text-[11px] font-semibold text-slate-700 mb-1">៣. ភេទ</label>
+                                <select id="inputStudentGender" class="w-full px-3 py-2 border border-slate-200 rounded-xl text-xs focus:ring-2 focus:ring-brand-500/20 focus:border-brand-500 outline-none bg-white">
+                                    <option value="ប្រុស">ប្រុស (Male)</option>
+                                    <option value="ស្រី">ស្រី (Female)</option>
+                                </select>
+                            </div>
+
+                            <!-- ៤. ថ្ងៃខែឆ្នាំកំណើត -->
+                            <div>
+                                <label class="block text-[11px] font-semibold text-slate-700 mb-1">៤. ថ្ងៃខែឆ្នាំកំណើត (dd/mm/yyyy)</label>
+                                <input type="text" id="inputStudentDOB" placeholder="ឧ. 15/08/2005" class="w-full px-3 py-2 border border-slate-200 rounded-xl text-xs focus:ring-2 focus:ring-brand-500/20 focus:border-brand-500 outline-none">
+                            </div>
+
+                            <!-- ៦. លេខទូរស័ព្ទ (វាយបានតែលេខអារ៉ាប់) -->
+                            <div>
+                                <label class="block text-[11px] font-semibold text-slate-700 mb-1">៦. លេខទូរស័ព្ទ (លេខអារ៉ាប់) *</label>
+                                <input type="text" id="inputStudentPhone" oninput="this.value = this.value.replace(/[^0-9]/g, '')" placeholder="ឧ. 012345678" class="w-full px-3 py-2 border border-slate-200 rounded-xl text-xs focus:ring-2 focus:ring-brand-500/20 focus:border-brand-500 outline-none">
+                            </div>
+
+                            <!-- ៧. លេខតុ -->
+                            <div>
+                                <label class="block text-[11px] font-semibold text-slate-700 mb-1">៧. លេខតុ</label>
+                                <input type="text" id="inputStudentDeskNo" placeholder="ឧ. 24" class="w-full px-3 py-2 border border-slate-200 rounded-xl text-xs focus:ring-2 focus:ring-brand-500/20 focus:border-brand-500 outline-none">
+                            </div>
+
+                            <!-- ៨. លេខបន្ទប់ -->
+                            <div>
+                                <label class="block text-[11px] font-semibold text-slate-700 mb-1">៨. លេខបន្ទប់</label>
+                                <input type="text" id="inputStudentRoomNo" placeholder="ឧ. B-102" class="w-full px-3 py-2 border border-slate-200 rounded-xl text-xs focus:ring-2 focus:ring-brand-500/20 focus:border-brand-500 outline-none">
+                            </div>
+
+                            <!-- ៩. មណ្ឌលប្រឡង -->
+                            <div>
+                                <label class="block text-[11px] font-semibold text-slate-700 mb-1">៩. មណ្ឌលប្រឡង</label>
+                                <input type="text" id="inputExamCenter" placeholder="ឧ. វិទ្យាល័យស៊ីសុវត្ថិ" class="w-full px-3 py-2 border border-slate-200 rounded-xl text-xs focus:ring-2 focus:ring-brand-500/20 focus:border-brand-500 outline-none">
+                            </div>
+
+                            <!-- ១០. សម័យប្រឡង -->
+                            <div>
+                                <label class="block text-[11px] font-semibold text-slate-700 mb-1">១០. សម័យប្រឡង</label>
+                                <input type="text" id="inputExamSession" placeholder="ឧ. ០៨ តុលា ២០២៦" class="w-full px-3 py-2 border border-slate-200 rounded-xl text-xs focus:ring-2 focus:ring-brand-500/20 focus:border-brand-500 outline-none">
+                            </div>
+                        </div>
+
+                        <!-- ៥. អាសយដ្ឋានសិស្ស (Button / Input វាយបញ្ចូលដាច់ដោយឡែកពីគ្នា) -->
+                        <div class="space-y-1.5 pt-1">
+                            <label class="block text-[11px] font-semibold text-slate-700">៥. អាសយដ្ឋានសិស្ស (វាយបញ្ចូលដាច់ដោយឡែកពីគ្នា)</label>
+                            <div class="grid grid-cols-2 sm:grid-cols-4 gap-2">
+                                <input type="text" id="inputStudentVillage" placeholder="ភូមិ" class="px-2.5 py-1.5 border border-slate-200 rounded-lg text-xs focus:ring-2 focus:ring-brand-500/20 focus:border-brand-500 outline-none">
+                                <input type="text" id="inputStudentCommune" placeholder="ឃុំ / សង្កាត់" class="px-2.5 py-1.5 border border-slate-200 rounded-lg text-xs focus:ring-2 focus:ring-brand-500/20 focus:border-brand-500 outline-none">
+                                <input type="text" id="inputStudentDistrict" placeholder="ស្រុក / ខណ្ឌ" class="px-2.5 py-1.5 border border-slate-200 rounded-lg text-xs focus:ring-2 focus:ring-brand-500/20 focus:border-brand-500 outline-none">
+                                <input type="text" id="inputStudentProvince" placeholder="ខេត្ត / ក្រុង" class="px-2.5 py-1.5 border border-slate-200 rounded-lg text-xs focus:ring-2 focus:ring-brand-500/20 focus:border-brand-500 outline-none">
+                            </div>
+                        </div>
                     </div>
-                    <textarea id="inputStudentBio" rows="6" placeholder="វាយបញ្ចូលជីវប្រវត្តិ ប្រវត្តិការសិក្សា បទពិសោធន៍ ជំនាញ ឬសមិទ្ធផលនៅទីនេះ..." class="w-full p-3 border border-slate-200 rounded-xl text-xs focus:ring-2 focus:ring-brand-500/20 focus:border-brand-500 outline-none leading-relaxed custom-scrollbar"></textarea>
-                    <p class="text-[10px] text-slate-400 mt-1">* ការរៀបចំរចនាសម្ព័ន្ធជីវប្រវត្តិនឹងកែទម្រង់ឱ្យស្អាតដោយមិនបាត់បង់ ឬប្រែប្រួលអត្ថន័យដើមឡើយ។</p>
+
+                    <!-- ផ្នែកទី២: ព័ត៌មានអាណាព្យាបាលសិស្ស -->
+                    <div class="bg-slate-50 p-4 rounded-2xl border border-slate-200/80 space-y-4">
+                        <h3 class="text-xs font-bold text-amber-700 uppercase tracking-wider flex items-center gap-1.5 border-b border-slate-200 pb-2">
+                            <i class="ph-bold ph-users text-base"></i> ផ្នែកទី២៖ ព័ត៌មានអាណាព្យាបាលសិស្ស
+                        </h3>
+
+                        <!-- ឪពុក -->
+                        <div class="space-y-2">
+                            <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                                <div>
+                                    <label class="block text-[11px] font-semibold text-slate-700 mb-1">១១. ឈ្មោះឪពុក</label>
+                                    <input type="text" id="inputFatherName" placeholder="ឈ្មោះឪពុក" class="w-full px-3 py-2 border border-slate-200 rounded-xl text-xs focus:ring-2 focus:ring-brand-500/20 focus:border-brand-500 outline-none">
+                                </div>
+                                <div>
+                                    <label class="block text-[11px] font-semibold text-slate-700 mb-1">១២. មុខរបរឪពុក</label>
+                                    <input type="text" id="inputFatherJob" placeholder="មុខរបរ" class="w-full px-3 py-2 border border-slate-200 rounded-xl text-xs focus:ring-2 focus:ring-brand-500/20 focus:border-brand-500 outline-none">
+                                </div>
+                                <div>
+                                    <label class="block text-[11px] font-semibold text-slate-700 mb-1">១៤. លេខទូរស័ព្ទឪពុក (លេខអារ៉ាប់)</label>
+                                    <input type="text" id="inputFatherPhone" oninput="this.value = this.value.replace(/[^0-9]/g, '')" placeholder="ឧ. 011222333" class="w-full px-3 py-2 border border-slate-200 rounded-xl text-xs focus:ring-2 focus:ring-brand-500/20 focus:border-brand-500 outline-none">
+                                </div>
+                            </div>
+                            <!-- ១៣. អាសយដ្ឋានឪពុក -->
+                            <div class="space-y-1">
+                                <label class="block text-[11px] font-semibold text-slate-600">១៣. អាសយដ្ឋានឪពុក (វាយបញ្ចូលដាច់ដោយឡែកពីគ្នា)</label>
+                                <div class="grid grid-cols-2 sm:grid-cols-4 gap-2">
+                                    <input type="text" id="inputFatherVillage" placeholder="ភូមិ" class="px-2.5 py-1.5 border border-slate-200 rounded-lg text-xs focus:ring-2 focus:ring-brand-500/20 focus:border-brand-500 outline-none">
+                                    <input type="text" id="inputFatherCommune" placeholder="ឃុំ / សង្កាត់" class="px-2.5 py-1.5 border border-slate-200 rounded-lg text-xs focus:ring-2 focus:ring-brand-500/20 focus:border-brand-500 outline-none">
+                                    <input type="text" id="inputFatherDistrict" placeholder="ស្រុក / ខណ្ឌ" class="px-2.5 py-1.5 border border-slate-200 rounded-lg text-xs focus:ring-2 focus:ring-brand-500/20 focus:border-brand-500 outline-none">
+                                    <input type="text" id="inputFatherProvince" placeholder="ខេត្ត / ក្រុង" class="px-2.5 py-1.5 border border-slate-200 rounded-lg text-xs focus:ring-2 focus:ring-brand-500/20 focus:border-brand-500 outline-none">
+                                </div>
+                            </div>
+                        </div>
+
+                        <hr class="border-slate-200 my-2">
+
+                        <!-- ម្តាយ -->
+                        <div class="space-y-2">
+                            <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                                <div>
+                                    <label class="block text-[11px] font-semibold text-slate-700 mb-1">១៥. ឈ្មោះម្តាយ</label>
+                                    <input type="text" id="inputMotherName" placeholder="ឈ្មោះម្តាយ" class="w-full px-3 py-2 border border-slate-200 rounded-xl text-xs focus:ring-2 focus:ring-brand-500/20 focus:border-brand-500 outline-none">
+                                </div>
+                                <div>
+                                    <label class="block text-[11px] font-semibold text-slate-700 mb-1">១៦. មុខរបរម្តាយ</label>
+                                    <input type="text" id="inputMotherJob" placeholder="មុខរបរ" class="w-full px-3 py-2 border border-slate-200 rounded-xl text-xs focus:ring-2 focus:ring-brand-500/20 focus:border-brand-500 outline-none">
+                                </div>
+                                <div>
+                                    <label class="block text-[11px] font-semibold text-slate-700 mb-1">១៨. លេខទូរស័ព្ទម្តាយ (លេខអារ៉ាប់)</label>
+                                    <input type="text" id="inputMotherPhone" oninput="this.value = this.value.replace(/[^0-9]/g, '')" placeholder="ឧ. 012444555" class="w-full px-3 py-2 border border-slate-200 rounded-xl text-xs focus:ring-2 focus:ring-brand-500/20 focus:border-brand-500 outline-none">
+                                </div>
+                            </div>
+                            <!-- ១៧. អាសយដ្ឋានម្តាយ -->
+                            <div class="space-y-1">
+                                <label class="block text-[11px] font-semibold text-slate-600">១៧. អាសយដ្ឋានម្តាយ (វាយបញ្ចូលដាច់ដោយឡែកពីគ្នា)</label>
+                                <div class="grid grid-cols-2 sm:grid-cols-4 gap-2">
+                                    <input type="text" id="inputMotherVillage" placeholder="ភូមិ" class="px-2.5 py-1.5 border border-slate-200 rounded-lg text-xs focus:ring-2 focus:ring-brand-500/20 focus:border-brand-500 outline-none">
+                                    <input type="text" id="inputMotherCommune" placeholder="ឃុំ / សង្កាត់" class="px-2.5 py-1.5 border border-slate-200 rounded-lg text-xs focus:ring-2 focus:ring-brand-500/20 focus:border-brand-500 outline-none">
+                                    <input type="text" id="inputMotherDistrict" placeholder="ស្រុក / ខណ្ឌ" class="px-2.5 py-1.5 border border-slate-200 rounded-lg text-xs focus:ring-2 focus:ring-brand-500/20 focus:border-brand-500 outline-none">
+                                    <input type="text" id="inputMotherProvince" placeholder="ខេត្ត / ក្រុង" class="px-2.5 py-1.5 border border-slate-200 rounded-lg text-xs focus:ring-2 focus:ring-brand-500/20 focus:border-brand-500 outline-none">
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <!-- ១៩. ផ្សេងៗ / ខ្លឹមសារជីវប្រវត្តិបន្ថែម -->
+                    <div>
+                        <div class="flex items-center justify-between mb-1">
+                            <label class="block text-xs font-semibold text-slate-700">១៩. ផ្សេងៗ / ខ្លឹមសារជីវប្រវត្តិសិស្សបន្ថែម (Other Bio Details)</label>
+                            <button type="button" onclick="preserveAndFormatWithAI()" id="aiFormatBtn" class="text-[11px] text-brand-600 hover:text-brand-700 font-semibold flex items-center gap-1 bg-brand-50 hover:bg-brand-100 px-2 py-0.5 rounded-md border border-brand-200 transition">
+                                <i class="ph-bold ph-sparkle text-amber-500"></i>
+                                <span>រៀបចំរចនាសម្ព័ន្ធ (រក្សាអត្ថន័យដើម)</span>
+                            </button>
+                        </div>
+                        <textarea id="inputStudentBio" rows="4" placeholder="ព័ត៌មានបន្ថែម ជំនាញ សមិទ្ធផល ឬប្រវត្តិការសិក្សាផ្សេងៗ..." class="w-full p-3 border border-slate-200 rounded-xl text-xs focus:ring-2 focus:ring-brand-500/20 focus:border-brand-500 outline-none leading-relaxed custom-scrollbar"></textarea>
+                    </div>
+
                 </div>
 
             </div>
@@ -846,8 +973,38 @@
         function resetUploadForm() {
             document.getElementById('inputStudentName').value = '';
             document.getElementById('inputStudentID').value = '';
-            document.getElementById('inputStudentMajor').value = '';
-            document.getElementById('inputStudentContact').value = '';
+            document.getElementById('inputStudentGender').value = 'ប្រុស';
+            document.getElementById('inputStudentDOB').value = '';
+            document.getElementById('inputStudentPhone').value = '';
+            document.getElementById('inputStudentDeskNo').value = '';
+            document.getElementById('inputStudentRoomNo').value = '';
+            document.getElementById('inputExamCenter').value = '';
+            document.getElementById('inputExamSession').value = '';
+            
+            // Address Student
+            document.getElementById('inputStudentVillage').value = '';
+            document.getElementById('inputStudentCommune').value = '';
+            document.getElementById('inputStudentDistrict').value = '';
+            document.getElementById('inputStudentProvince').value = '';
+
+            // Father
+            document.getElementById('inputFatherName').value = '';
+            document.getElementById('inputFatherJob').value = '';
+            document.getElementById('inputFatherPhone').value = '';
+            document.getElementById('inputFatherVillage').value = '';
+            document.getElementById('inputFatherCommune').value = '';
+            document.getElementById('inputFatherDistrict').value = '';
+            document.getElementById('inputFatherProvince').value = '';
+
+            // Mother
+            document.getElementById('inputMotherName').value = '';
+            document.getElementById('inputMotherJob').value = '';
+            document.getElementById('inputMotherPhone').value = '';
+            document.getElementById('inputMotherVillage').value = '';
+            document.getElementById('inputMotherCommune').value = '';
+            document.getElementById('inputMotherDistrict').value = '';
+            document.getElementById('inputMotherProvince').value = '';
+
             document.getElementById('inputStudentBio').value = '';
             document.getElementById('fileInfoBox').classList.add('hidden');
             currentUploadFile = null;
@@ -857,19 +1014,76 @@
         // Save Student Record
         function saveStudentBio() {
             const name = document.getElementById('inputStudentName').value.trim();
-            const bio = document.getElementById('inputStudentBio').value.trim();
+            const studentId = document.getElementById('inputStudentID').value.trim() || 'STU-' + Math.floor(1000 + Math.random() * 9000);
 
-            if (!name || !bio) {
-                showToast("សូមបំពេញ ឈ្មោះសិស្ស និង ខ្លឹមសារជីវប្រវត្តិ!", "error");
+            if (!name) {
+                showToast("សូមបំពេញ គោត្តនាម និងនាមខ្លួនសិស្ស!", "error");
                 return;
             }
 
+            // Gather student address
+            const sVillage = document.getElementById('inputStudentVillage').value.trim();
+            const sCommune = document.getElementById('inputStudentCommune').value.trim();
+            const sDistrict = document.getElementById('inputStudentDistrict').value.trim();
+            const sProvince = document.getElementById('inputStudentProvince').value.trim();
+            const sAddress = [sVillage ? `ភូមិ${sVillage}` : '', sCommune ? `ឃុំ/សង្កាត់${sCommune}` : '', sDistrict ? `ស្រុក/ខណ្ឌ${sDistrict}` : '', sProvince ? `ខេត្ត/ក្រុង${sProvince}` : ''].filter(Boolean).join(' ');
+
+            // Father info
+            const fName = document.getElementById('inputFatherName').value.trim();
+            const fJob = document.getElementById('inputFatherJob').value.trim();
+            const fPhone = document.getElementById('inputFatherPhone').value.trim();
+            const fVillage = document.getElementById('inputFatherVillage').value.trim();
+            const fCommune = document.getElementById('inputFatherCommune').value.trim();
+            const fDistrict = document.getElementById('inputFatherDistrict').value.trim();
+            const fProvince = document.getElementById('inputFatherProvince').value.trim();
+            const fAddress = [fVillage ? `ភូមិ${fVillage}` : '', fCommune ? `ឃុំ/សង្កាត់${fCommune}` : '', fDistrict ? `ស្រុក/ខណ្ឌ${fDistrict}` : '', fProvince ? `ខេត្ត/ក្រុង${fProvince}` : ''].filter(Boolean).join(' ');
+
+            // Mother info
+            const mName = document.getElementById('inputMotherName').value.trim();
+            const mJob = document.getElementById('inputMotherJob').value.trim();
+            const mPhone = document.getElementById('inputMotherPhone').value.trim();
+            const mVillage = document.getElementById('inputMotherVillage').value.trim();
+            const mCommune = document.getElementById('inputMotherCommune').value.trim();
+            const mDistrict = document.getElementById('inputMotherDistrict').value.trim();
+            const mProvince = document.getElementById('inputMotherProvince').value.trim();
+            const mAddress = [mVillage ? `ភូមិ${mVillage}` : '', mCommune ? `ឃុំ/សង្កាត់${mVillage}` : '', mDistrict ? `ស្រុក/ខណ្ឌ${mDistrict}` : '', mProvince ? `ខេត្ត/ក្រុង${mProvince}` : ''].filter(Boolean).join(' ');
+
+            const extraBio = document.getElementById('inputStudentBio').value.trim();
+
+            // Formatted Combined Biography Text for Grading Engine
+            const fullBioText = `
+=== ផ្នែកទី១៖ ព័ត៌មានផ្ទាល់ខ្លួនសិស្ស ===
+១. អត្តលេខ៖ ${studentId}
+២. គោត្តនាម+នាមខ្លួន៖ ${name}
+៣. ភេទ៖ ${document.getElementById('inputStudentGender').value}
+៤. ថ្ងៃខែឆ្នាំកំណើត៖ ${document.getElementById('inputStudentDOB').value || 'N/A'}
+៥. អាសយដ្ឋាន៖ ${sAddress || 'N/A'}
+៦. លេខទូរស័ព្ទ៖ ${document.getElementById('inputStudentPhone').value || 'N/A'}
+៧. លេខតុ៖ ${document.getElementById('inputStudentDeskNo').value || 'N/A'}
+៨. លេខបន្ទប់៖ ${document.getElementById('inputStudentRoomNo').value || 'N/A'}
+៩. មណ្ឌលប្រឡង៖ ${document.getElementById('inputExamCenter').value || 'N/A'}
+១០. សម័យប្រឡង៖ ${document.getElementById('inputExamSession').value || 'N/A'}
+
+=== ផ្នែកទី២៖ ព័ត៌មានអាណាព្យាបាលសិស្ស ===
+១១. ឈ្មោះឪពុក៖ ${fName || 'N/A'}
+១២. មុខរបរឪពុក៖ ${fJob || 'N/A'}
+១៣. អាសយដ្ឋានឪពុក៖ ${fAddress || 'N/A'}
+១៤. លេខទូរស័ព្ទឪពុក៖ ${fPhone || 'N/A'}
+១៥. ឈ្មោះម្តាយ៖ ${mName || 'N/A'}
+១៦. មុខរបរម្តាយ៖ ${mJob || 'N/A'}
+១៧. អាសយដ្ឋានម្តាយ៖ ${mAddress || 'N/A'}
+១៨. លេខទូរស័ព្ទម្តាយ៖ ${mPhone || 'N/A'}
+
+=== ១៩. ផ្សេងៗ / ជីវប្រវត្តិបន្ថែម ===
+${extraBio || 'គ្មាន'}
+`.trim();
+
             const newStudent = {
-                id: document.getElementById('inputStudentID').value.trim() || 'STU-' + Math.floor(1000 + Math.random() * 9000),
+                id: studentId,
                 name: name,
-                major: document.getElementById('inputStudentMajor').value.trim() || 'ទូទៅ (General)',
-                contact: document.getElementById('inputStudentContact').value.trim() || 'N/A',
-                bio: bio,
+                major: `មណ្ឌល៖ ${document.getElementById('inputExamCenter').value || 'ទូទៅ'}`,
+                contact: document.getElementById('inputStudentPhone').value || 'N/A',
+                bio: fullBioText,
                 fileName: currentUploadFile ? currentUploadFile.name : null,
                 fileType: currentUploadFile ? currentUploadFile.name.split('.').pop().toUpperCase() : null,
                 createdAt: new Date().toLocaleDateString('km-KH'),
@@ -1120,24 +1334,35 @@
             students = [
                 {
                     id: "STU-2026-001",
-                    name: "ចាន់ សុវណ្ណារ៉ា (Chan Sovannara)",
-                    major: "វិទ្យាសាស្ត្រកុំព្យូទ័រ (Computer Science)",
-                    contact: "sovannara@gmail.com / 012 888 999",
-                    bio: `ប្រវត្តិរូបសង្ខេប៖\n- និស្សិតឆ្នាំទី៤ ជំនាញវិទ្យាសាស្ត្រកុំព្យូទ័រ នៅសាកលវិទ្យាល័យភូមិន្ទភ្នំពេញ។\n- មានជំនាញក្នុងការសរសេរកម្មវិធី Web Development (React, Node.js, Tailwind CSS) និងការគ្រប់គ្រង Database (PostgreSQL, MongoDB)។\n- ធ្លាប់ធ្វើការងារស្ម័គ្រចិត្តជានាយកបច្ចេកវិទ្យាក្នុងកម្មវិធីថ្នាក់ជាតិ Hackathon ឆ្នាំ២០២៥។\n- ភាសា៖ ខ្មែរ (មាតាភាសា), អង់គ្លេស (កម្រិតខ្ពស់ Advanced)។`,
+                    name: "ចាន់ សុវណ្ណារ៉ា",
+                    major: "មណ្ឌល៖ វិទ្យាល័យស៊ីសុវត្ថិ",
+                    contact: "012888999",
+                    bio: `=== ផ្នែកទី១៖ ព័ត៌មានផ្ទាល់ខ្លួនសិស្ស ===
+១. អត្តលេខ៖ STU-2026-001
+២. គោត្តនាម+នាមខ្លួន៖ ចាន់ សុវណ្ណារ៉ា
+៣. ភេទ៖ ប្រុស
+៤. ថ្ងៃខែឆ្នាំកំណើត៖ 15/08/2005
+៥. អាសយដ្ឋាន៖ ភូមិ១ ឃុំ/សង្កាត់ផ្សារថ្មី ស្រុក/ខណ្ឌដូនពេញ ខេត្ត/ក្រុងភ្នំពេញ
+៦. លេខទូរស័ព្ទ៖ 012888999
+៧. លេខតុ៖ 24
+៨. លេខបន្ទប់៖ B-102
+៩. មណ្ឌលប្រឡង៖ វិទ្យាល័យស៊ីសុវត្ថិ
+១០. សម័យប្រឡង៖ ០៨ តុលា ២០២៦
+
+=== ផ្នែកទី២៖ ព័ត៌មានអាណាព្យាបាលសិស្ស ===
+១១. ឈ្មោះឪពុក៖ ចាន់ សុខ
+១២. មុខរបរឪពុក៖ គ្រូបង្រៀន
+១៣. អាសយដ្ឋានឪពុក៖ ភូមិ១ ឃុំ/សង្កាត់ផ្សារថ្មី ស្រុក/ខណ្ឌដូនពេញ ខេត្ត/ក្រុងភ្នំពេញ
+១៤. លេខទូរស័ព្ទឪពុក៖ 012777666
+១៥. ឈ្មោះម្តាយ៖ កែវ ស៊ីណាត
+១៦. មុខរបរម្តាយ៖ អាជីវករ
+១៧. អាសយដ្ឋានម្តាយ៖ ភូមិ១ ឃុំ/សង្កាត់ផ្សារថ្មី ស្រុក/ខណ្ឌដូនពេញ ខេត្ត/ក្រុងភ្នំពេញ
+១៨. លេខទូរស័ព្ទម្តាយ៖ 012555444
+
+=== ១៩. ផ្សេងៗ / ជីវប្រវត្តិបន្ថែម ===
+សិស្សពូកែផ្នែកគណិតវិទ្យា និងមានបំណងបន្តការសិក្សាជំនាញវិទ្យាសាស្ត្រកុំព្យូទ័រ។`,
                     fileName: "Sovannara_CV.docx",
                     fileType: "DOCX",
-                    createdAt: "3/9/2026",
-                    isGraded: false,
-                    evaluation: null
-                },
-                {
-                    id: "STU-2026-002",
-                    name: "ស៊ិន សុខលីដា (Sin Soklyda)",
-                    major: "គ្រប់គ្រងពាណិជ្ជកម្ម (Business Admin)",
-                    contact: "lyda.sin@hotmail.com / 097 555 1234",
-                    bio: `ជីវប្រវត្តិរូប៖\nកញ្ញា ស៊ិន សុខលីដា បានបញ្ចប់ការសិក្សាថ្នាក់បរិញ្ញាបត្ររងផ្នែកគ្រប់គ្រង។ មានបទពិសោធន៍ធ្វើការងារផ្នែកទំនាក់ទំនងអតិថិជន (Customer Support) រយៈពេល ២ ឆ្នាំនៅក្រុមហ៊ុនឯកជន។ ចេះប្រើប្រាស់ Microsoft Word, Excel, PowerPoint បានយ៉ាងស្ទាត់ជំនាញ។ មានការតាំងចិត្តខ្ពស់ក្នុងការរៀនសូត្រ និងធ្វើការងារជាក្រុម។`,
-                    fileName: "Soklyda_Bio.pdf",
-                    fileType: "PDF",
                     createdAt: "3/9/2026",
                     isGraded: false,
                     evaluation: null
