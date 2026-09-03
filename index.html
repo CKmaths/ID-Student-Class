@@ -1,232 +1,1158 @@
 <!DOCTYPE html>
 <html lang="km">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>ប្រព័ន្ធគ្រប់គ្រងជីវប្រវត្តិសិស្ស</title>
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-  <link href="https://fonts.googleapis.com/css2?family=Kantumruy+Pro:wght@400;500;600;700&display=swap" rel="stylesheet">
-
-  <style>
-    body { font-family: 'Kantumruy Pro', sans-serif; background-color: #f4f6f9; color: #333; }
-    .main-card { border: none; border-radius: 15px; box-shadow: 0 4px 20px rgba(0,0,0,0.08); background: #ffffff; }
-    .card-header-custom { background: linear-gradient(135deg, #0d6efd, #0b5ed7); color: white; border-top-left-radius: 15px !important; border-top-right-radius: 15px !important; padding: 1.2rem; }
-    .form-label { font-weight: 500; color: #495057; margin-bottom: 4px; }
-    .form-control, .form-select { border-radius: 8px; padding: 8px 12px; border: 1px solid #ced4da; }
-    .section-title { font-size: 1.05rem; font-weight: 700; color: #0d6efd; border-bottom: 2px solid #e9ecef; padding-bottom: 6px; margin-top: 15px; margin-bottom: 15px; }
-    .btn-custom { border-radius: 8px; padding: 8px 18px; font-weight: 600; text-decoration: none; }
-  </style>
-</head>
-<body>
-
-<div class="container py-4">
-  <div class="row justify-content-center">
-    <div class="col-lg-10">
-      
-      <div class="card main-card">
-        <div class="card-header card-header-custom text-center">
-          <h3 class="mb-1"><i class="fa-solid fa-graduation-cap me-2"></i>ទម្រង់បញ្ចូលជីវប្រវត្តិសិស្ស</h3>
-          <p class="mb-0 fs-6 opacity-75">ប្រព័ន្ធគ្រប់គ្រង និងរក្សាទុកទិន្នន័យសិស្សស្វ័យប្រវត្តិ</p>
-        </div>
-        
-        <div class="card-body p-4">
-          <form id="studentForm" onsubmit="handleFormSubmit(event)">
-            
-            <!-- ព័ត៌មានផ្ទាល់ខ្លួន -->
-            <div class="section-title"><i class="fa-solid fa-user me-2"></i>ព័ត៌មានផ្ទាល់ខ្លួនសិស្ស</div>
-            <div class="row g-3">
-              <div class="col-md-4">
-                <label class="form-label">អត្តលេខ <span class="text-danger">*</span></label>
-                <input type="text" id="studentId" class="form-control" placeholder="ឧ. STU-001" required>
-              </div>
-              <div class="col-md-5">
-                <label class="form-label">គោត្តនាម-នាមខ្លួន <span class="text-danger">*</span></label>
-                <input type="text" id="fullName" class="form-control" placeholder="បញ្ចូលឈ្មោះពេញ" required>
-              </div>
-              <div class="col-md-3">
-                <label class="form-label">ភេទ</label>
-                <select id="gender" class="form-select">
-                  <option value="ប្រុស">ប្រុស</option>
-                  <option value="ស្រី">ស្រី</option>
-                </select>
-              </div>
-              
-              <div class="col-md-4">
-                <label class="form-label">ថ្ងៃខែឆ្នាំកំណើត</label>
-                <input type="date" id="dob" class="form-control">
-              </div>
-              <div class="col-md-4">
-                <label class="form-label">លេខទូរស័ព្ទ (សាម៉ីខ្លួន)</label>
-                <input type="tel" id="studentPhone" class="form-control" placeholder="012345678">
-              </div>
-              <div class="col-md-4">
-                <label class="form-label">អាសយដ្ឋានបច្ចុប្បន្ន</label>
-                <input type="text" id="address" class="form-control" placeholder="ភូមិ/ឃុំ/ស្រុក/ខេត្ត">
-              </div>
-            </div>
-
-            <!-- ព័ត៌មានអាណាព្យាបាល -->
-            <div class="section-title"><i class="fa-solid fa-users me-2"></i>ព័ត៌មានឪពុកម្តាយ / អាណាព្យាបាល</div>
-            <div class="row g-3">
-              <div class="col-md-3">
-                <label class="form-label">ឈ្មោះឪពុក</label>
-                <input type="text" id="fatherName" class="form-control">
-              </div>
-              <div class="col-md-3">
-                <label class="form-label">មុខរបរ (ឪពុក)</label>
-                <input type="text" id="fatherJob" class="form-control">
-              </div>
-              <div class="col-md-3">
-                <label class="form-label">អាសយដ្ឋាន (ឪពុក)</label>
-                <input type="text" id="fatherAddress" class="form-control">
-              </div>
-              <div class="col-md-3">
-                <label class="form-label">លេខទូរស័ព្ទ (ឪពុក)</label>
-                <input type="tel" id="fatherPhone" class="form-control">
-              </div>
-
-              <div class="col-md-3">
-                <label class="form-label">ឈ្មោះម្តាយ</label>
-                <input type="text" id="motherName" class="form-control">
-              </div>
-              <div class="col-md-3">
-                <label class="form-label">មុខរបរ (ម្តាយ)</label>
-                <input type="text" id="motherJob" class="form-control">
-              </div>
-              <div class="col-md-3">
-                <label class="form-label">អាសយដ្ឋាន (ម្តាយ)</label>
-                <input type="text" id="motherAddress" class="form-control">
-              </div>
-              <div class="col-md-3">
-                <label class="form-label">លេខទូរស័ព្ទ (ម្តាយ)</label>
-                <input type="tel" id="motherPhone" class="form-control">
-              </div>
-            </div>
-
-            <!-- ព័ត៌មានការប្រឡង -->
-            <div class="section-title"><i class="fa-solid fa-file-signature me-2"></i>ព័ត៌មានការប្រឡង</div>
-            <div class="row g-3">
-              <div class="col-md-3">
-                <label class="form-label">លេខតុ</label>
-                <input type="text" id="deskNo" class="form-control">
-              </div>
-              <div class="col-md-3">
-                <label class="form-label">លេខបន្ទប់</label>
-                <input type="text" id="roomNo" class="form-control">
-              </div>
-              <div class="col-md-3">
-                <label class="form-label">សម័យប្រឡង</label>
-                <input type="text" id="examSession" class="form-control">
-              </div>
-              <div class="col-md-3">
-                <label class="form-label">មណ្ឌលប្រឡង</label>
-                <input type="text" id="examCenter" class="form-control">
-              </div>
-              <div class="col-md-12">
-                <label class="form-label">ផ្សេងៗ (ចំណាំ)</label>
-                <textarea id="note" class="form-control" rows="2"></textarea>
-              </div>
-            </div>
-
-            <!-- Action Buttons ទាំងអស់ -->
-            <div class="d-flex flex-wrap gap-2 justify-content-between align-items-center mt-4 pt-3 border-top">
-              <div class="d-flex gap-2">
-                <!-- Direct Links ចុចបើកភ្លាមៗ ១០០% គ្មានរង់ចាំ Loading -->
-                <a href="<?= sheetUrl ?>" target="_blank" class="btn btn-outline-success btn-custom">
-                  <i class="fa-solid fa-file-excel me-1"></i> ទាញយក Excel/Sheet
-                </a>
-                
-                <a href="<?= pdfUrl ?>" target="_blank" class="btn btn-outline-danger btn-custom">
-                  <i class="fa-solid fa-file-pdf me-1"></i> ទាញយក PDF
-                </a>
-              </div>
-              
-              <div class="d-flex gap-2">
-                <button type="reset" class="btn btn-light btn-custom text-secondary">
-                  <i class="fa-solid fa-rotate-right me-1"></i> សម្អាត
-                </button>
-                <button type="submit" id="btnSubmit" class="btn btn-primary btn-custom px-4">
-                  <i class="fa-solid fa-floppy-disk me-1"></i> រក្សាទុកទិន្នន័យ
-                </button>
-              </div>
-            </div>
-
-          </form>
-        </div>
-      </div>
-
-    </div>
-  </div>
-</div>
-
-<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-
-<script>
-  function handleFormSubmit(event) {
-    event.preventDefault();
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ប្រព័ន្ធគ្រប់គ្រងជីវប្រវត្តិ និងអត្រាកែស្វ័យប្រវត្តិ | Student Bio Auto-Grading System</title>
     
-    var btn = document.getElementById("btnSubmit");
-    btn.disabled = true;
-    btn.innerHTML = `<span class="spinner-border spinner-border-sm me-2"></span>កំពុងរក្សាទុក...`;
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Phosphor Icons -->
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+    
+    <!-- Document Parsers (Mammoth for DOCX, XLSX for Excel, PDF.js for PDF) -->
+    <script src="https://cdn.jsdelivr.net/npm/mammoth@1.6.0/mammoth.browser.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+    <script>pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';</script>
 
-    var formData = {
-      studentId: document.getElementById("studentId").value,
-      fullName: document.getElementById("fullName").value,
-      gender: document.getElementById("gender").value,
-      dob: document.getElementById("dob").value,
-      address: document.getElementById("address").value,
-      studentPhone: document.getElementById("studentPhone").value,
-      fatherName: document.getElementById("fatherName").value,
-      fatherJob: document.getElementById("fatherJob").value,
-      fatherAddress: document.getElementById("fatherAddress").value,
-      fatherPhone: document.getElementById("fatherPhone").value,
-      motherName: document.getElementById("motherName").value,
-      motherJob: document.getElementById("motherJob").value,
-      motherAddress: document.getElementById("motherAddress").value,
-      motherPhone: document.getElementById("motherPhone").value,
-      deskNo: document.getElementById("deskNo").value,
-      roomNo: document.getElementById("roomNo").value,
-      examSession: document.getElementById("examSession").value,
-      examCenter: document.getElementById("examCenter").value,
-      note: document.getElementById("note").value
-    };
+    <!-- Google Fonts for Khmer & English -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Kantumruy+Pro:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
 
-    google.script.run
-      .withSuccessHandler(function(response) {
-        btn.disabled = false;
-        btn.innerHTML = `<i class="fa-solid fa-floppy-disk me-1"></i> រក្សាទុកទិន្នន័យ`;
-        
-        if (response && response.success) {
-          Swal.fire({
-            icon: 'success',
-            title: 'ជោគជ័យ!',
-            text: response.message,
-            confirmButtonColor: '#0d6efd'
-          });
-          document.getElementById("studentForm").reset();
-        } else {
-          Swal.fire({
-            icon: 'error',
-            title: 'មានបញ្ហា!',
-            text: (response ? response.message : 'មិនអាចបញ្ចូលបាន'),
-            confirmButtonColor: '#d33'
-          });
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['"Kantumruy Pro"', '"Plus Jakarta Sans"', 'sans-serif'],
+                    },
+                    colors: {
+                        brand: {
+                            50: '#f0f7ff',
+                            100: '#e0effe',
+                            500: '#2563eb',
+                            600: '#1d4ed8',
+                            700: '#1e40af',
+                            900: '#1e3a8a',
+                        }
+                    }
+                }
+            }
         }
-      })
-      .withFailureHandler(function(error) {
-        btn.disabled = false;
-        btn.innerHTML = `<i class="fa-solid fa-floppy-disk me-1"></i> រក្សាទុកទិន្នន័យ`;
-        Swal.fire({
-          icon: 'error',
-          title: 'កំហុសប្រព័ន្ធ!',
-          text: error.message,
-          confirmButtonColor: '#d33'
-        });
-      })
-      .processWebForm(formData);
-  }
-</script>
+    </script>
 
+    <style>
+        body {
+            font-family: 'Kantumruy Pro', 'Plus Jakarta Sans', sans-serif;
+            background-color: #f8fafc;
+            color: #1e293b;
+        }
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: #f1f5f9;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 4px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+            background: #94a3b8;
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col custom-scrollbar">
+
+    <!-- Navigation / Header Bar -->
+    <header class="bg-white border-b border-slate-200 sticky top-0 z-30 shadow-sm">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+            <div class="flex items-center gap-3">
+                <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-blue-600 to-indigo-600 flex items-center justify-center text-white text-xl shadow-md shadow-blue-500/20">
+                    <i class="ph-bold ph-student"></i>
+                </div>
+                <div>
+                    <h1 class="text-lg font-bold text-slate-800 leading-tight">ប្រព័ន្ធគ្រប់គ្រងជីវប្រវត្តិសិស្ស & Auto-Grading</h1>
+                    <p class="text-xs text-slate-500">Student Bio Management & AI Evaluation System</p>
+                </div>
+            </div>
+
+            <div class="flex items-center gap-2 sm:gap-3">
+                <!-- Quick Language Switch -->
+                <button id="langToggleBtn" onclick="toggleLanguage()" class="px-3 py-1.5 rounded-lg border border-slate-200 text-xs font-semibold text-slate-700 hover:bg-slate-50 flex items-center gap-1.5 transition">
+                    <i class="ph ph-globe text-base text-blue-600"></i>
+                    <span id="currentLangText">ខ្មែរ / EN</span>
+                </button>
+
+                <!-- Load Demo Data Button -->
+                <button onclick="loadSampleData()" class="hidden md:flex px-3 py-1.5 rounded-lg bg-slate-100 hover:bg-slate-200 text-xs font-medium text-slate-700 items-center gap-1.5 transition">
+                    <i class="ph ph-magic-wand text-amber-500 text-base"></i>
+                    <span>ទិន្នន័យគំរូ</span>
+                </button>
+
+                <!-- Add Student / Upload Button -->
+                <button onclick="openUploadModal()" class="px-4 py-2 rounded-xl bg-brand-600 hover:bg-brand-700 text-white text-xs sm:text-sm font-semibold shadow-md shadow-brand-500/20 flex items-center gap-2 transition transform active:scale-95">
+                    <i class="ph-bold ph-plus text-base"></i>
+                    <span>បញ្ចូលជីវប្រវត្តិថ្មី</span>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Workspace Container -->
+    <main class="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-6 flex flex-col gap-6">
+
+        <!-- Stats Summary Section -->
+        <section class="grid grid-cols-2 md:grid-cols-4 gap-4">
+            <div class="bg-white p-4 sm:p-5 rounded-2xl border border-slate-200/80 shadow-sm flex items-center gap-4">
+                <div class="w-12 h-12 rounded-xl bg-blue-50 text-blue-600 flex items-center justify-center text-2xl flex-shrink-0">
+                    <i class="ph-duotone ph-users"></i>
+                </div>
+                <div>
+                    <p class="text-xs font-medium text-slate-500">សិស្សសរុប (Total)</p>
+                    <h3 id="statTotalStudents" class="text-2xl font-bold text-slate-800">0</h3>
+                </div>
+            </div>
+
+            <div class="bg-white p-4 sm:p-5 rounded-2xl border border-slate-200/80 shadow-sm flex items-center gap-4">
+                <div class="w-12 h-12 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center text-2xl flex-shrink-0">
+                    <i class="ph-duotone ph-check-circle"></i>
+                </div>
+                <div>
+                    <p class="text-xs font-medium text-slate-500">កែរួច (Graded)</p>
+                    <h3 id="statGraded" class="text-2xl font-bold text-slate-800">0</h3>
+                </div>
+            </div>
+
+            <div class="bg-white p-4 sm:p-5 rounded-2xl border border-slate-200/80 shadow-sm flex items-center gap-4">
+                <div class="w-12 h-12 rounded-xl bg-amber-50 text-amber-600 flex items-center justify-center text-2xl flex-shrink-0">
+                    <i class="ph-duotone ph-star"></i>
+                </div>
+                <div>
+                    <p class="text-xs font-medium text-slate-500">ពិន្ទុមធ្យម (Avg Score)</p>
+                    <h3 id="statAvgScore" class="text-2xl font-bold text-slate-800">0.0</h3>
+                </div>
+            </div>
+
+            <div class="bg-white p-4 sm:p-5 rounded-2xl border border-slate-200/80 shadow-sm flex items-center gap-4">
+                <div class="w-12 h-12 rounded-xl bg-purple-50 text-purple-600 flex items-center justify-center text-2xl flex-shrink-0">
+                    <i class="ph-duotone ph-file-text"></i>
+                </div>
+                <div>
+                    <p class="text-xs font-medium text-slate-500">ឯកសារ Uploaded</p>
+                    <h3 id="statFilesCount" class="text-2xl font-bold text-slate-800">0</h3>
+                </div>
+            </div>
+        </section>
+
+        <!-- Search, Filter & Action Bar -->
+        <section class="bg-white p-4 rounded-2xl border border-slate-200/80 shadow-sm flex flex-col md:flex-row gap-3 items-center justify-between">
+            <div class="relative w-full md:w-80">
+                <i class="ph ph-magnifying-glass absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 text-lg"></i>
+                <input type="text" id="searchInput" oninput="renderStudentList()" placeholder="ស្វែងរកតាមឈ្មោះ, ID, ជំនាញ..." class="w-full pl-9 pr-4 py-2 rounded-xl border border-slate-200 text-sm focus:outline-none focus:ring-2 focus:ring-brand-500/20 focus:border-brand-500 transition">
+            </div>
+
+            <div class="flex items-center gap-3 w-full md:w-auto justify-between md:justify-end">
+                <select id="gradeFilter" onchange="renderStudentList()" class="px-3 py-2 rounded-xl border border-slate-200 text-xs sm:text-sm text-slate-700 bg-white focus:outline-none focus:ring-2 focus:ring-brand-500/20">
+                    <option value="ALL">គ្រប់ស្ថានភាពអត្រាកែ (All Status)</option>
+                    <option value="GRADED">កែរួចរាល់ (Graded Only)</option>
+                    <option value="UNGRADED">មិនទាន់កែ (Pending)</option>
+                </select>
+
+                <div class="flex items-center bg-slate-100 p-1 rounded-xl border border-slate-200">
+                    <button id="viewGridBtn" onclick="setViewMode('grid')" class="p-1.5 rounded-lg text-slate-600 hover:text-slate-900 bg-white shadow-sm transition">
+                        <i class="ph-bold ph-squares-four text-base"></i>
+                    </button>
+                    <button id="viewTableBtn" onclick="setViewMode('table')" class="p-1.5 rounded-lg text-slate-500 hover:text-slate-900 transition">
+                        <i class="ph-bold ph-list-bullets text-base"></i>
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Student Roster Listing -->
+        <section id="studentsContainer" class="min-h-[300px]">
+            <!-- Rendered dynamically via JavaScript -->
+        </section>
+
+    </main>
+
+    <!-- Modal 1: Add/Upload Student Biography Modal -->
+    <div id="uploadModal" class="fixed inset-0 bg-slate-900/50 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden opacity-0 transition-opacity duration-200">
+        <div class="bg-white rounded-3xl max-w-2xl w-full max-h-[90vh] flex flex-col shadow-2xl overflow-hidden border border-slate-100">
+            <!-- Modal Header -->
+            <div class="px-6 py-4 border-b border-slate-100 flex items-center justify-between bg-slate-50/50">
+                <div class="flex items-center gap-2.5">
+                    <div class="w-8 h-8 rounded-lg bg-blue-100 text-blue-600 flex items-center justify-center text-lg font-bold">
+                        <i class="ph-bold ph-file-arrow-up"></i>
+                    </div>
+                    <h2 class="text-base font-bold text-slate-800">បញ្ចូលជីវប្រវត្តិសិស្ស ឬ Upload File (JPG, Word, Excel, PDF)</h2>
+                </div>
+                <button onclick="closeUploadModal()" class="w-8 h-8 rounded-full hover:bg-slate-200/60 text-slate-400 hover:text-slate-600 flex items-center justify-center transition">
+                    <i class="ph-bold ph-x text-lg"></i>
+                </button>
+            </div>
+
+            <!-- Modal Content Body -->
+            <div class="p-6 overflow-y-auto custom-scrollbar flex-1 space-y-5">
+                
+                <!-- Input Source Tabs -->
+                <div class="flex p-1 bg-slate-100 rounded-xl border border-slate-200 text-xs font-semibold">
+                    <button type="button" id="tabFileUpload" onclick="switchInputTab('file')" class="flex-1 py-2 rounded-lg bg-white shadow-sm text-brand-600 transition">
+                        <i class="ph-bold ph-upload-simple mr-1"></i> Upload File (JPG, Word, Excel, PDF)
+                    </button>
+                    <button type="button" id="tabManualInput" onclick="switchInputTab('manual')" class="flex-1 py-2 rounded-lg text-slate-600 hover:text-slate-900 transition">
+                        <i class="ph-bold ph-note-pencil mr-1"></i> វាយបញ្ចូលដោយផ្ទាល់ (Manual Entry)
+                    </button>
+                </div>
+
+                <!-- Tab 1: File Upload Container -->
+                <div id="fileUploadContainer" class="space-y-4">
+                    <div id="dropZone" onclick="document.getElementById('fileInput').click()" class="border-2 border-dashed border-slate-300 hover:border-brand-500 rounded-2xl p-6 text-center cursor-pointer bg-slate-50/50 hover:bg-brand-50/30 transition group">
+                        <input type="file" id="fileInput" onchange="handleFileSelect(event)" accept=".jpg,.jpeg,.png,.docx,.xlsx,.xls,.pdf,.txt" class="hidden">
+                        <div class="w-14 h-14 bg-white rounded-2xl shadow-sm border border-slate-200 flex items-center justify-center mx-auto text-brand-600 text-2xl group-hover:scale-110 transition">
+                            <i class="ph-duotone ph-cloud-arrow-up"></i>
+                        </div>
+                        <p class="mt-3 text-sm font-semibold text-slate-700">ចុចទីនេះ ឬទម្លាក់ File បញ្ចូល</p>
+                        <p class="text-xs text-slate-400 mt-1">គាំទ្រ: JPG, PNG, Word (.docx), Excel (.xlsx), PDF, TXT</p>
+                    </div>
+
+                    <!-- Selected File Info & Live Text Extracted Banner -->
+                    <div id="fileInfoBox" class="hidden p-4 bg-blue-50/60 rounded-xl border border-blue-200/80 flex flex-col gap-2">
+                        <div class="flex items-center justify-between">
+                            <div class="flex items-center gap-2">
+                                <i class="ph-bold ph-file-text text-blue-600 text-xl"></i>
+                                <div>
+                                    <p id="fileName" class="text-xs font-bold text-slate-800">filename.docx</p>
+                                    <p id="fileSize" class="text-[10px] text-slate-500">250 KB</p>
+                                </div>
+                            </div>
+                            <span id="fileTypeBadge" class="px-2 py-0.5 rounded text-[10px] font-bold bg-blue-200 text-blue-800">WORD</span>
+                        </div>
+                        <div class="mt-2 text-xs text-slate-600 bg-white p-2.5 rounded-lg border border-blue-100 max-h-28 overflow-y-auto custom-scrollbar font-mono" id="extractedPreviewText">
+                            អត្ថបទដែលទាញយកបានពី File...
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Shared/Manual Form Fields -->
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-xs font-semibold text-slate-700 mb-1">ឈ្មោះសិស្ស (Student Name) *</label>
+                        <input type="text" id="inputStudentName" placeholder="ឧ. កែវ សុខា / Keo Sokha" class="w-full px-3 py-2 border border-slate-200 rounded-xl text-xs focus:ring-2 focus:ring-brand-500/20 focus:border-brand-500 outline-none">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-semibold text-slate-700 mb-1">អត្តលេខសិស្ស (Student ID)</label>
+                        <input type="text" id="inputStudentID" placeholder="ឧ. STU-2026-089" class="w-full px-3 py-2 border border-slate-200 rounded-xl text-xs focus:ring-2 focus:ring-brand-500/20 focus:border-brand-500 outline-none">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-semibold text-slate-700 mb-1">ជំនាញ / ថ្នាក់សិក្សា (Major/Class)</label>
+                        <input type="text" id="inputStudentMajor" placeholder="ឧ. វិទ្យាសាស្ត្រកុំព្យូទ័រ (Computer Science)" class="w-full px-3 py-2 border border-slate-200 rounded-xl text-xs focus:ring-2 focus:ring-brand-500/20 focus:border-brand-500 outline-none">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-semibold text-slate-700 mb-1">អ៊ីមែល / លេខទូរស័ព្ទ (Contact)</label>
+                        <input type="text" id="inputStudentContact" placeholder="ឧ. sokha@gmail.com / 012 345 678" class="w-full px-3 py-2 border border-slate-200 rounded-xl text-xs focus:ring-2 focus:ring-brand-500/20 focus:border-brand-500 outline-none">
+                    </div>
+                </div>
+
+                <!-- Student Biography / Resume Textarea -->
+                <div>
+                    <div class="flex items-center justify-between mb-1">
+                        <label class="block text-xs font-semibold text-slate-700">ខ្លឹមសារជីវប្រវត្តិសិស្ស (Biography / Bio Details) *</label>
+                        <button type="button" onclick="preserveAndFormatWithAI()" id="aiFormatBtn" class="text-[11px] text-brand-600 hover:text-brand-700 font-semibold flex items-center gap-1 bg-brand-50 hover:bg-brand-100 px-2 py-0.5 rounded-md border border-brand-200 transition">
+                            <i class="ph-bold ph-sparkle text-amber-500"></i>
+                            <span>រៀបចំរចនាសម្ព័ន្ធ (រក្សាអត្ថន័យដើម)</span>
+                        </button>
+                    </div>
+                    <textarea id="inputStudentBio" rows="6" placeholder="វាយបញ្ចូលជីវប្រវត្តិ ប្រវត្តិការសិក្សា បទពិសោធន៍ ជំនាញ ឬសមិទ្ធផលនៅទីនេះ..." class="w-full p-3 border border-slate-200 rounded-xl text-xs focus:ring-2 focus:ring-brand-500/20 focus:border-brand-500 outline-none leading-relaxed custom-scrollbar"></textarea>
+                    <p class="text-[10px] text-slate-400 mt-1">* ការរៀបចំរចនាសម្ព័ន្ធជីវប្រវត្តិនឹងកែទម្រង់ឱ្យស្អាតដោយមិនបាត់បង់ ឬប្រែប្រួលអត្ថន័យដើមឡើយ។</p>
+                </div>
+
+            </div>
+
+            <!-- Modal Footer Buttons -->
+            <div class="px-6 py-4 border-t border-slate-100 bg-slate-50/50 flex items-center justify-end gap-3">
+                <button onclick="closeUploadModal()" class="px-4 py-2 rounded-xl text-slate-600 hover:bg-slate-200/60 text-xs font-semibold transition">បោះបង់ (Cancel)</button>
+                <button onclick="saveStudentBio()" class="px-5 py-2 rounded-xl bg-brand-600 hover:bg-brand-700 text-white text-xs font-semibold shadow-md shadow-brand-500/20 flex items-center gap-1.5 transition">
+                    <i class="ph-bold ph-floppy-disk text-base"></i>
+                    <span>រក្សាទុកជីវប្រវត្តិ</span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal 2: View Student Biography & Auto-Grading Workspace -->
+    <div id="detailModal" class="fixed inset-0 bg-slate-900/50 backdrop-blur-sm z-50 flex items-center justify-center p-3 sm:p-4 hidden opacity-0 transition-opacity duration-200">
+        <div class="bg-white rounded-3xl max-w-5xl w-full h-[92vh] flex flex-col shadow-2xl overflow-hidden border border-slate-100">
+            <!-- Modal Header -->
+            <div class="px-6 py-4 border-b border-slate-100 flex items-center justify-between bg-slate-50/80">
+                <div class="flex items-center gap-3">
+                    <div id="modalAvatar" class="w-10 h-10 rounded-full bg-slate-200 font-bold text-slate-700 flex items-center justify-center text-lg border border-slate-300">
+                        S
+                    </div>
+                    <div>
+                        <h2 id="modalStudentName" class="text-base font-bold text-slate-800">ឈ្មោះសិស្ស</h2>
+                        <p id="modalStudentSub" class="text-xs text-slate-500">ID: STU-000 • Major</p>
+                    </div>
+                </div>
+                
+                <div class="flex items-center gap-2">
+                    <!-- Auto-Grading Trigger Button in Modal Header -->
+                    <button id="modalGradingBtn" onclick="triggerAutoGradingCurrent()" class="px-4 py-2 rounded-xl bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-600 hover:to-orange-600 text-white text-xs font-bold shadow-md shadow-amber-500/20 flex items-center gap-2 transition active:scale-95">
+                        <i class="ph-bold ph-magic-wand text-base"></i>
+                        <span>អត្រាកែដោយស្វ័យប្រវត្តិ (Auto-Grade)</span>
+                    </button>
+                    
+                    <button onclick="closeDetailModal()" class="w-8 h-8 rounded-full hover:bg-slate-200/60 text-slate-400 hover:text-slate-600 flex items-center justify-center transition">
+                        <i class="ph-bold ph-x text-lg"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Modal Content - Split 2 Columns -->
+            <div class="flex-1 grid grid-cols-1 lg:grid-cols-12 overflow-hidden divide-y lg:divide-y-0 lg:divide-x divide-slate-100">
+                
+                <!-- Left Column: Biography & Attached File View (7 cols) -->
+                <div class="lg:col-span-7 p-6 overflow-y-auto custom-scrollbar space-y-5 bg-white">
+                    <div class="flex items-center justify-between">
+                        <h3 class="text-xs font-bold uppercase tracking-wider text-slate-400 flex items-center gap-1.5">
+                            <i class="ph-bold ph-user-text text-brand-600 text-base"></i>
+                            ខ្លឹមសារជីវប្រវត្តិ (Student Biography Content)
+                        </h3>
+                        <button onclick="toggleEditMode()" id="editToggleBtn" class="text-xs text-slate-600 hover:text-brand-600 font-semibold flex items-center gap-1 border border-slate-200 px-2.5 py-1 rounded-lg transition">
+                            <i class="ph-bold ph-pencil-simple"></i> <span>កែសម្រួល</span>
+                        </button>
+                    </div>
+
+                    <!-- Read View / Editable View -->
+                    <div id="bioDisplayArea" class="bg-slate-50/70 p-4 rounded-2xl border border-slate-200/80 text-xs text-slate-700 leading-relaxed whitespace-pre-wrap min-h-[220px]">
+                        <!-- Bio text -->
+                    </div>
+
+                    <div id="bioEditArea" class="hidden space-y-3">
+                        <textarea id="bioEditTextarea" rows="10" class="w-full p-3 border border-slate-300 rounded-xl text-xs focus:ring-2 focus:ring-brand-500/20 outline-none leading-relaxed font-mono custom-scrollbar"></textarea>
+                        <div class="flex items-center justify-between">
+                            <button onclick="preserveFormatInEditor()" class="text-xs text-brand-600 font-semibold bg-brand-50 hover:bg-brand-100 px-3 py-1.5 rounded-lg border border-brand-200 flex items-center gap-1">
+                                <i class="ph-bold ph-sparkle text-amber-500"></i>
+                                <span>កែតម្រង់អត្ថបទ (រក្សាអត្ថន័យ)</span>
+                            </button>
+                            <div class="flex gap-2">
+                                <button onclick="cancelBioEdit()" class="px-3 py-1.5 rounded-lg border border-slate-200 text-xs font-semibold text-slate-600">បោះបង់</button>
+                                <button onclick="saveBioEdit()" class="px-4 py-1.5 rounded-lg bg-brand-600 text-white text-xs font-semibold shadow-sm">រក្សាទុក</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Attachment Info Badge -->
+                    <div id="modalAttachmentBox" class="p-3 bg-slate-50 rounded-xl border border-slate-200 flex items-center justify-between text-xs">
+                        <div class="flex items-center gap-2">
+                            <i class="ph-bold ph-paperclip text-slate-400 text-lg"></i>
+                            <div>
+                                <span class="font-semibold text-slate-700">ឯកសារភ្ជាប់ (Attachment): </span>
+                                <span id="modalAttachmentName" class="text-slate-500">គ្មាន</span>
+                            </div>
+                        </div>
+                        <span id="modalAttachmentType" class="px-2 py-0.5 rounded text-[10px] font-bold bg-slate-200 text-slate-700">NONE</span>
+                    </div>
+                </div>
+
+                <!-- Right Column: Auto-Grading & AI Evaluation Result (5 cols) -->
+                <div class="lg:col-span-5 p-6 overflow-y-auto custom-scrollbar bg-slate-50/50 space-y-5">
+                    <div class="flex items-center justify-between">
+                        <h3 class="text-xs font-bold uppercase tracking-wider text-slate-400 flex items-center gap-1.5">
+                            <i class="ph-bold ph-chart-polar text-amber-500 text-base"></i>
+                            លទ្ធផលការកែស្វ័យប្រវត្តិ (Auto-Grading Result)
+                        </h3>
+                    </div>
+
+                    <!-- Loading State Indicator -->
+                    <div id="gradingLoading" class="hidden p-8 text-center space-y-3 bg-white rounded-2xl border border-slate-200">
+                        <div class="w-10 h-10 border-4 border-amber-500 border-t-transparent rounded-full animate-spin mx-auto"></div>
+                        <p class="text-xs font-bold text-slate-700">កំពុងវិភាគ និងកែជីវប្រវត្តិសិស្សដោយ AI...</p>
+                        <p class="text-[11px] text-slate-400">កំពុងវាយតម្លៃលើ រចនាសម្ព័ន្ធ, ជំនាញ, និងភាសា...</p>
+                    </div>
+
+                    <!-- Empty State before Grading -->
+                    <div id="gradingEmpty" class="p-8 text-center space-y-3 bg-white rounded-2xl border border-slate-200/80">
+                        <div class="w-12 h-12 rounded-full bg-amber-50 text-amber-500 flex items-center justify-center text-2xl mx-auto">
+                            <i class="ph-duotone ph-clipboard-text"></i>
+                        </div>
+                        <p class="text-xs font-semibold text-slate-700">មិនទាន់បានកែ (Not Graded Yet)</p>
+                        <p class="text-[11px] text-slate-500">ចុចប៊ូតុង "អត្រាកែដោយស្វ័យប្រវត្តិ" ដើម្បីឱ្យ AI វាយតម្លៃពិន្ទុ និងបង្កើតរបាយការណ៍។</p>
+                    </div>
+
+                    <!-- Graded Content Display Container -->
+                    <div id="gradingContent" class="hidden space-y-4">
+                        <!-- Score Badge & Grade Banner -->
+                        <div class="p-4 bg-white rounded-2xl border border-slate-200/80 shadow-sm flex items-center justify-between">
+                            <div>
+                                <p class="text-[11px] text-slate-400 font-semibold uppercase">ពិន្ទុសរុប (Overall Score)</p>
+                                <div class="flex items-baseline gap-2 mt-0.5">
+                                    <span id="resTotalScore" class="text-3xl font-black text-slate-800">0</span>
+                                    <span class="text-xs text-slate-400">/ 100</span>
+                                </div>
+                            </div>
+                            <div class="text-right">
+                                <span id="resGradeBadge" class="inline-block px-3.5 py-1 rounded-xl text-lg font-black bg-emerald-100 text-emerald-800 border border-emerald-200">
+                                    A+
+                                </span>
+                                <p id="resStatusText" class="text-[10px] text-emerald-600 font-semibold mt-1">ល្អប្រសើរ (Excellent)</p>
+                            </div>
+                        </div>
+
+                        <!-- Criteria Breakdown List -->
+                        <div class="bg-white p-4 rounded-2xl border border-slate-200/80 space-y-3">
+                            <h4 class="text-xs font-bold text-slate-700">ការបែងចែកពិន្ទុតាមលក្ខណៈវិនិច្ឆ័យ (Breakdown)</h4>
+                            
+                            <!-- Criterion 1 -->
+                            <div>
+                                <div class="flex justify-between text-[11px] font-semibold mb-1">
+                                    <span class="text-slate-600">១. រចនាសម្ព័ន្ធ & ភាពពេញលេញ</span>
+                                    <span id="scoreStruct" class="text-slate-800">0/100</span>
+                                </div>
+                                <div class="w-full bg-slate-100 h-2 rounded-full overflow-hidden">
+                                    <div id="barStruct" class="bg-blue-600 h-full rounded-full transition-all duration-500" style="width: 0%"></div>
+                                </div>
+                            </div>
+
+                            <!-- Criterion 2 -->
+                            <div>
+                                <div class="flex justify-between text-[11px] font-semibold mb-1">
+                                    <span class="text-slate-600">២. ជំនាញ & បទពិសោធន៍</span>
+                                    <span id="scoreSkills" class="text-slate-800">0/100</span>
+                                </div>
+                                <div class="w-full bg-slate-100 h-2 rounded-full overflow-hidden">
+                                    <div id="barSkills" class="bg-emerald-600 h-full rounded-full transition-all duration-500" style="width: 0%"></div>
+                                </div>
+                            </div>
+
+                            <!-- Criterion 3 -->
+                            <div>
+                                <div class="flex justify-between text-[11px] font-semibold mb-1">
+                                    <span class="text-slate-600">៣. ការប្រើប្រាស់ភាសា & អក្ខរាវិរុទ្ធ</span>
+                                    <span id="scoreLang" class="text-slate-800">0/100</span>
+                                </div>
+                                <div class="w-full bg-slate-100 h-2 rounded-full overflow-hidden">
+                                    <div id="barLang" class="bg-purple-600 h-full rounded-full transition-all duration-500" style="width: 0%"></div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Strengths Section -->
+                        <div class="bg-emerald-50/60 p-4 rounded-2xl border border-emerald-200/60 space-y-1.5">
+                            <h4 class="text-xs font-bold text-emerald-800 flex items-center gap-1">
+                                <i class="ph-bold ph-thumbs-up text-emerald-600"></i> ចំណុចខ្លាំង (Strengths)
+                            </h4>
+                            <ul id="resStrengths" class="text-xs text-emerald-900 list-disc list-inside space-y-1 leading-relaxed">
+                                <!-- Dynamic strength bullets -->
+                            </ul>
+                        </div>
+
+                        <!-- Areas for Improvement -->
+                        <div class="bg-amber-50/60 p-4 rounded-2xl border border-amber-200/60 space-y-1.5">
+                            <h4 class="text-xs font-bold text-amber-800 flex items-center gap-1">
+                                <i class="ph-bold ph-warning-circle text-amber-600"></i> ចំណុចត្រូវកែលម្អ (Areas for Improvement)
+                            </h4>
+                            <ul id="resWeaknesses" class="text-xs text-amber-900 list-disc list-inside space-y-1 leading-relaxed">
+                                <!-- Dynamic weaknesses bullets -->
+                            </ul>
+                        </div>
+
+                        <!-- Evaluator Recommendation Note -->
+                        <div class="bg-white p-4 rounded-2xl border border-slate-200/80 space-y-1">
+                            <h4 class="text-xs font-bold text-slate-700 flex items-center gap-1">
+                                <i class="ph-bold ph-note-pencil text-blue-600"></i> អនុសាសន៍បន្ថែម (Recommendation)
+                            </h4>
+                            <p id="resRecommendation" class="text-xs text-slate-600 leading-relaxed italic">
+                                --
+                            </p>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- Notification Toast Container -->
+    <div id="toastContainer" class="fixed bottom-5 right-5 z-50 flex flex-col gap-2 pointer-events-none"></div>
+
+    <script>
+        // Global Application State
+        let students = [];
+        let activeStudentId = null;
+        let viewMode = 'grid'; // 'grid' or 'table'
+        let currentLang = 'km'; // 'km' or 'en'
+        let currentUploadFile = null;
+        let extractedFileText = "";
+
+        // API Key setup for Gemini AI calls
+        const apiKey = "";
+        const geminiApiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-3-flash-preview:generateContent?key=${apiKey}`;
+
+        // Toast Notification System
+        function showToast(message, type = 'info') {
+            const container = document.getElementById('toastContainer');
+            const toast = document.createElement('div');
+            
+            const bgClass = type === 'success' ? 'bg-emerald-800 text-white' : 
+                            type === 'error' ? 'bg-rose-800 text-white' : 'bg-slate-800 text-white';
+            const iconClass = type === 'success' ? 'ph-check-circle text-emerald-400' : 
+                              type === 'error' ? 'ph-x-circle text-rose-400' : 'ph-info text-blue-400';
+
+            toast.className = `pointer-events-auto flex items-center gap-2.5 px-4 py-3 rounded-xl shadow-xl text-xs font-medium ${bgClass} transition duration-300 transform translate-y-2 opacity-0`;
+            toast.innerHTML = `<i class="ph-bold ${iconClass} text-lg"></i> <span>${message}</span>`;
+            
+            container.appendChild(toast);
+            
+            setTimeout(() => {
+                toast.classList.remove('translate-y-2', 'opacity-0');
+            }, 10);
+
+            setTimeout(() => {
+                toast.classList.add('opacity-0', 'translate-y-2');
+                setTimeout(() => toast.remove(), 300);
+            }, 3500);
+        }
+
+        // Toggle Application Language (Khmer / English UI)
+        function toggleLanguage() {
+            currentLang = currentLang === 'km' ? 'en' : 'km';
+            document.getElementById('currentLangText').innerText = currentLang === 'km' ? 'ខ្មែរ / EN' : 'EN / ខ្មែរ';
+            showToast(currentLang === 'km' ? "បានប្តូរទៅភាសាខ្មែរ" : "Switched to English UI", 'info');
+            renderStudentList();
+        }
+
+        // File Selection and Parser Handler
+        async function handleFileSelect(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+
+            currentUploadFile = file;
+            const fileExt = file.name.split('.').pop().toLowerCase();
+            
+            document.getElementById('fileInfoBox').classList.remove('hidden');
+            document.getElementById('fileName').innerText = file.name;
+            document.getElementById('fileSize').innerText = (file.size / 1024).toFixed(1) + " KB";
+            document.getElementById('fileTypeBadge').innerText = fileExt.toUpperCase();
+            document.getElementById('extractedPreviewText').innerText = "កំពុងទាញយកអត្ថបទចេញពី File (Extracting text)...";
+
+            try {
+                if (['jpg', 'jpeg', 'png'].includes(fileExt)) {
+                    // Extract text from image using Gemini Vision OCR
+                    extractedFileText = await extractTextFromImage(file);
+                } else if (fileExt === 'docx') {
+                    // Extract text from Word DOCX
+                    const arrayBuffer = await file.arrayBuffer();
+                    const result = await mammoth.extractRawText({ arrayBuffer: arrayBuffer });
+                    extractedFileText = result.value;
+                } else if (['xlsx', 'xls'].includes(fileExt)) {
+                    // Extract text from Excel XLSX
+                    const arrayBuffer = await file.arrayBuffer();
+                    const workbook = XLSX.read(arrayBuffer, { type: 'array' });
+                    let fullText = "";
+                    workbook.SheetNames.forEach(sheetName => {
+                        const worksheet = workbook.Sheets[sheetName];
+                        fullText += `[Sheet: ${sheetName}]\n` + XLSX.utils.sheet_to_txt(worksheet) + "\n\n";
+                    });
+                    extractedFileText = fullText;
+                } else if (fileExt === 'pdf') {
+                    // Extract text from PDF
+                    const arrayBuffer = await file.arrayBuffer();
+                    const pdf = await pdfjsLib.getDocument({ data: arrayBuffer }).promise;
+                    let fullText = "";
+                    for (let i = 1; i <= pdf.numPages; i++) {
+                        const page = await pdf.getPage(i);
+                        const textContent = await page.getTextContent();
+                        const pageText = textContent.items.map(item => item.str).join(' ');
+                        fullText += pageText + "\n";
+                    }
+                    extractedFileText = fullText;
+                } else {
+                    // Plain text or fallback
+                    extractedFileText = await file.text();
+                }
+
+                document.getElementById('extractedPreviewText').innerText = extractedFileText.substring(0, 500) + (extractedFileText.length > 500 ? "..." : "");
+                document.getElementById('inputStudentBio').value = extractedFileText;
+                
+                // Auto fill name if blank and detectable from filename
+                if (!document.getElementById('inputStudentName').value) {
+                    const cleanName = file.name.replace(/\.[^/.]+$/, "").replace(/[-_]/g, " ");
+                    document.getElementById('inputStudentName').value = cleanName;
+                }
+
+                showToast("ទាញយកទិន្នន័យពី File រួចរាល់!", "success");
+
+            } catch (err) {
+                console.error(err);
+                document.getElementById('extractedPreviewText').innerText = "បរាជ័យក្នុងការ đọc file: " + err.message;
+                showToast("មានបញ្ហាក្នុងការ đọc File!", "error");
+            }
+        }
+
+        // Image Base64 convert & OCR via Gemini
+        async function extractTextFromImage(file) {
+            return new Promise((resolve, reject) => {
+                const reader = new FileReader();
+                reader.onload = async () => {
+                    const base64Data = reader.result.split(',')[1];
+                    try {
+                        const payload = {
+                            contents: [{
+                                role: 'user',
+                                parts: [
+                                    { text: "Extract all Cambodian/Khmer or English student resume, CV, and biography text from this image accurately. Output only the extracted plain text." },
+                                    { inlineData: { mimeType: file.type || "image/jpeg", data: base64Data } }
+                                ]
+                            }]
+                        };
+
+                        const response = await fetch(geminiApiUrl, {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify(payload)
+                        });
+
+                        const result = await response.json();
+                        const extracted = result.candidates?.[0]?.content?.parts?.[0]?.text || "មិនអាចទាញយកអត្ថបទពីចំនុចរូបភាពបានទេ។";
+                        resolve(extracted);
+                    } catch (e) {
+                        reject(e);
+                    }
+                };
+                reader.onerror = error => reject(error);
+                reader.readAsDataURL(file);
+            });
+        }
+
+        // Format & Preserve Original Meaning of Biography with Gemini AI
+        async function preserveAndFormatWithAI() {
+            const rawText = document.getElementById('inputStudentBio').value;
+            if (!rawText.trim()) {
+                showToast("សូមបញ្ចូលអត្ថបទជីវប្រវត្តិជាមុនសិន!", "error");
+                return;
+            }
+
+            const btn = document.getElementById('aiFormatBtn');
+            const originalHtml = btn.innerHTML;
+            btn.innerHTML = `<i class="ph-bold ph-spinner animate-spin"></i> កំពុងរៀបចំ...`;
+            btn.disabled = true;
+
+            try {
+                const systemPrompt = `You are an expert Cambodian academic CV and resume formatting system. Your sole job is to reformat and structure the student's raw biography text cleanly into standard sections ( personal info, education, skills, experience, achievements) while STRICTLY PRESERVING 100% OF THE ORIGINAL MEANING AND FACTS. Do not omit facts, invent new facts, or alter meaning. Format clearly in Khmer/English as provided.`;
+                
+                const payload = {
+                    contents: [{ parts: [{ text: `Format and clean up this student biography while preserving all original meanings:\n\n${rawText}` }] }],
+                    systemInstruction: { parts: [{ text: systemPrompt }] }
+                };
+
+                const response = await fetch(geminiApiUrl, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+
+                const result = await response.json();
+                const formatted = result.candidates?.[0]?.content?.parts?.[0]?.text;
+
+                if (formatted) {
+                    document.getElementById('inputStudentBio').value = formatted;
+                    showToast("រៀបចំរចនាសម្ព័ន្ធដោយរក្សាអត្ថន័យដើមរួចរាល់!", "success");
+                } else {
+                    showToast("ពុំអាចរៀបចំទម្រង់បានឡើយ។", "error");
+                }
+            } catch (err) {
+                console.error(err);
+                showToast("មានបញ្ហាក្នុងការតភ្ជាប់ AI", "error");
+            } finally {
+                btn.innerHTML = originalHtml;
+                btn.disabled = false;
+            }
+        }
+
+        // Preserve Format inside Modal Editor
+        async function preserveFormatInEditor() {
+            const text = document.getElementById('bioEditTextarea').value;
+            if (!text.trim()) return;
+
+            try {
+                showToast("កំពុងរៀបចំរចនាសម្ព័ន្ធ...", "info");
+                const payload = {
+                    contents: [{ parts: [{ text: `Reformat this student bio into clean sections while keeping original facts and meaning identical:\n\n${text}` }] }]
+                };
+
+                const response = await fetch(geminiApiUrl, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+
+                const result = await response.json();
+                const formatted = result.candidates?.[0]?.content?.parts?.[0]?.text;
+                if (formatted) {
+                    document.getElementById('bioEditTextarea').value = formatted;
+                    showToast("កែរចនាសម្ព័ន្ធរួចរាល់!", "success");
+                }
+            } catch (e) {
+                showToast("មានបញ្ហាក្នុងការកែទម្រង់", "error");
+            }
+        }
+
+        // Execute Auto-Grading Engine with Structured JSON Response
+        async function runAutoGrading(studentId) {
+            const student = students.find(s => s.id === studentId);
+            if (!student) return;
+
+            // UI State updates
+            document.getElementById('gradingEmpty').classList.add('hidden');
+            document.getElementById('gradingContent').classList.add('hidden');
+            document.getElementById('gradingLoading').classList.remove('hidden');
+
+            try {
+                const prompt = `Perform an objective academic auto-grading and review on this Cambodian student biography/resume.
+                Evaluate the student based on:
+                1. Structure & Completeness (0-100)
+                2. Skills & Qualifications (0-100)
+                3. Language & Grammar Quality (0-100)
+                
+                Student Name: ${student.name}
+                Major: ${student.major}
+                Biography Content:
+                ${student.bio}`;
+
+                const jsonSchema = {
+                    type: "OBJECT",
+                    properties: {
+                        overallScore: { type: "NUMBER" },
+                        grade: { type: "STRING" },
+                        statusTitle: { type: "STRING" },
+                        scoreStructure: { type: "NUMBER" },
+                        scoreSkills: { type: "NUMBER" },
+                        scoreLanguage: { type: "NUMBER" },
+                        strengths: { type: "ARRAY", items: { type: "STRING" } },
+                        weaknesses: { type: "ARRAY", items: { type: "STRING" } },
+                        recommendation: { type: "STRING" }
+                    },
+                    required: ["overallScore", "grade", "scoreStructure", "scoreSkills", "scoreLanguage", "strengths", "weaknesses", "recommendation"]
+                };
+
+                const payload = {
+                    contents: [{ parts: [{ text: prompt }] }],
+                    generationConfig: {
+                        responseMimeType: "application/json",
+                        responseSchema: jsonSchema
+                    }
+                };
+
+                const response = await fetch(geminiApiUrl, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+
+                const result = await response.json();
+                const jsonText = result.candidates?.[0]?.content?.parts?.[0]?.text;
+
+                if (!jsonText) throw new Error("No evaluation returned");
+
+                const gradeResult = JSON.parse(jsonText);
+
+                // Attach grade result to student object
+                student.evaluation = gradeResult;
+                student.isGraded = true;
+
+                // Save & Refresh UI
+                updateStats();
+                renderStudentList();
+
+                if (activeStudentId === studentId) {
+                    displayEvaluationResult(gradeResult);
+                }
+
+                showToast(`អត្រាកែរួចរាល់សម្រាប់ ${student.name}! ពិន្ទុ: ${gradeResult.overallScore}`, "success");
+
+            } catch (err) {
+                console.error("Auto-grading error:", err);
+                showToast("មានបញ្ហាក្នុងការអត្រាកែដោយស្វ័យប្រវត្តិ", "error");
+                document.getElementById('gradingLoading').classList.add('hidden');
+                document.getElementById('gradingEmpty').classList.remove('hidden');
+            }
+        }
+
+        // Display Graded JSON Results in Modal
+        function displayEvaluationResult(evalData) {
+            document.getElementById('gradingLoading').classList.add('hidden');
+            document.getElementById('gradingEmpty').classList.add('hidden');
+            document.getElementById('gradingContent').classList.remove('hidden');
+
+            document.getElementById('resTotalScore').innerText = evalData.overallScore;
+            document.getElementById('resGradeBadge').innerText = evalData.grade;
+            document.getElementById('resStatusText').innerText = evalData.statusTitle || (evalData.overallScore >= 80 ? "ល្អប្រសើរ (Excellent)" : "មធ្យម (Satisfactory)");
+
+            // Score bars
+            document.getElementById('scoreStruct').innerText = `${evalData.scoreStructure}/100`;
+            document.getElementById('barStruct').style.width = `${evalData.scoreStructure}%`;
+
+            document.getElementById('scoreSkills').innerText = `${evalData.scoreSkills}/100`;
+            document.getElementById('barSkills').style.width = `${evalData.scoreSkills}%`;
+
+            document.getElementById('scoreLang').innerText = `${evalData.scoreLanguage}/100`;
+            document.getElementById('barLang').style.width = `${evalData.scoreLanguage}%`;
+
+            // Strengths list
+            const strengthsUl = document.getElementById('resStrengths');
+            strengthsUl.innerHTML = evalData.strengths.map(s => `<li>${s}</li>`).join('');
+
+            // Weaknesses list
+            const weaknessesUl = document.getElementById('resWeaknesses');
+            weaknessesUl.innerHTML = evalData.weaknesses.map(w => `<li>${w}</li>`).join('');
+
+            // Recommendation
+            document.getElementById('resRecommendation').innerText = `"${evalData.recommendation}"`;
+        }
+
+        // Modal Open/Close Controls
+        function openUploadModal() {
+            const modal = document.getElementById('uploadModal');
+            modal.classList.remove('hidden');
+            setTimeout(() => modal.classList.remove('opacity-0'), 10);
+        }
+
+        function closeUploadModal() {
+            const modal = document.getElementById('uploadModal');
+            modal.classList.add('opacity-0');
+            setTimeout(() => modal.classList.add('hidden'), 200);
+            resetUploadForm();
+        }
+
+        function switchInputTab(tab) {
+            if (tab === 'file') {
+                document.getElementById('tabFileUpload').className = "flex-1 py-2 rounded-lg bg-white shadow-sm text-brand-600 font-semibold transition";
+                document.getElementById('tabManualInput').className = "flex-1 py-2 rounded-lg text-slate-600 hover:text-slate-900 transition";
+                document.getElementById('fileUploadContainer').classList.remove('hidden');
+            } else {
+                document.getElementById('tabFileUpload').className = "flex-1 py-2 rounded-lg text-slate-600 hover:text-slate-900 transition";
+                document.getElementById('tabManualInput').className = "flex-1 py-2 rounded-lg bg-white shadow-sm text-brand-600 font-semibold transition";
+                document.getElementById('fileUploadContainer').classList.add('hidden');
+            }
+        }
+
+        function resetUploadForm() {
+            document.getElementById('inputStudentName').value = '';
+            document.getElementById('inputStudentID').value = '';
+            document.getElementById('inputStudentMajor').value = '';
+            document.getElementById('inputStudentContact').value = '';
+            document.getElementById('inputStudentBio').value = '';
+            document.getElementById('fileInfoBox').classList.add('hidden');
+            currentUploadFile = null;
+            extractedFileText = '';
+        }
+
+        // Save Student Record
+        function saveStudentBio() {
+            const name = document.getElementById('inputStudentName').value.trim();
+            const bio = document.getElementById('inputStudentBio').value.trim();
+
+            if (!name || !bio) {
+                showToast("សូមបំពេញ ឈ្មោះសិស្ស និង ខ្លឹមសារជីវប្រវត្តិ!", "error");
+                return;
+            }
+
+            const newStudent = {
+                id: document.getElementById('inputStudentID').value.trim() || 'STU-' + Math.floor(1000 + Math.random() * 9000),
+                name: name,
+                major: document.getElementById('inputStudentMajor').value.trim() || 'ទូទៅ (General)',
+                contact: document.getElementById('inputStudentContact').value.trim() || 'N/A',
+                bio: bio,
+                fileName: currentUploadFile ? currentUploadFile.name : null,
+                fileType: currentUploadFile ? currentUploadFile.name.split('.').pop().toUpperCase() : null,
+                createdAt: new Date().toLocaleDateString('km-KH'),
+                isGraded: false,
+                evaluation: null
+            };
+
+            students.unshift(newStudent);
+            updateStats();
+            renderStudentList();
+            closeUploadModal();
+            showToast("បានរក្សាទុកជីវប្រវត្តិសិស្សដោយជោគជ័យ!", "success");
+        }
+
+        // Open Detail Modal
+        function openDetailModal(studentId) {
+            activeStudentId = studentId;
+            const student = students.find(s => s.id === studentId);
+            if (!student) return;
+
+            document.getElementById('modalAvatar').innerText = student.name.charAt(0).toUpperCase();
+            document.getElementById('modalStudentName').innerText = student.name;
+            document.getElementById('modalStudentSub').innerText = `ID: ${student.id} • ${student.major}`;
+            document.getElementById('bioDisplayArea').innerText = student.bio;
+            document.getElementById('bioEditTextarea').value = student.bio;
+
+            if (student.fileName) {
+                document.getElementById('modalAttachmentName').innerText = student.fileName;
+                document.getElementById('modalAttachmentType').innerText = student.fileType || 'FILE';
+                document.getElementById('modalAttachmentBox').classList.remove('hidden');
+            } else {
+                document.getElementById('modalAttachmentBox').classList.add('hidden');
+            }
+
+            // Evaluation state in modal
+            if (student.isGraded && student.evaluation) {
+                displayEvaluationResult(student.evaluation);
+            } else {
+                document.getElementById('gradingContent').classList.add('hidden');
+                document.getElementById('gradingLoading').classList.add('hidden');
+                document.getElementById('gradingEmpty').classList.remove('hidden');
+            }
+
+            const modal = document.getElementById('detailModal');
+            modal.classList.remove('hidden');
+            setTimeout(() => modal.classList.remove('opacity-0'), 10);
+        }
+
+        function closeDetailModal() {
+            const modal = document.getElementById('detailModal');
+            modal.classList.add('opacity-0');
+            setTimeout(() => modal.classList.add('hidden'), 200);
+            activeStudentId = null;
+            cancelBioEdit();
+        }
+
+        function triggerAutoGradingCurrent() {
+            if (activeStudentId) {
+                runAutoGrading(activeStudentId);
+            }
+        }
+
+        // Bio Edit Handlers
+        function toggleEditMode() {
+            document.getElementById('bioDisplayArea').classList.add('hidden');
+            document.getElementById('bioEditArea').classList.remove('hidden');
+        }
+
+        function cancelBioEdit() {
+            document.getElementById('bioDisplayArea').classList.remove('hidden');
+            document.getElementById('bioEditArea').classList.add('hidden');
+        }
+
+        function saveBioEdit() {
+            const student = students.find(s => s.id === activeStudentId);
+            if (!student) return;
+
+            const newText = document.getElementById('bioEditTextarea').value.trim();
+            student.bio = newText;
+            document.getElementById('bioDisplayArea').innerText = newText;
+            cancelBioEdit();
+            renderStudentList();
+            showToast("បានធ្វើបច្ចុប្បន្នភាពជីវប្រវត្តិ!", "success");
+        }
+
+        // Render Student Grid / Table List
+        function renderStudentList() {
+            const container = document.getElementById('studentsContainer');
+            const searchQuery = document.getElementById('searchInput').value.toLowerCase();
+            const filterGrade = document.getElementById('gradeFilter').value;
+
+            const filtered = students.filter(s => {
+                const matchesSearch = s.name.toLowerCase().includes(searchQuery) ||
+                                      s.id.toLowerCase().includes(searchQuery) ||
+                                      s.major.toLowerCase().includes(searchQuery);
+                
+                const matchesGrade = filterGrade === 'ALL' ||
+                                     (filterGrade === 'GRADED' && s.isGraded) ||
+                                     (filterGrade === 'UNGRADED' && !s.isGraded);
+
+                return matchesSearch && matchesGrade;
+            });
+
+            if (filtered.length === 0) {
+                container.innerHTML = `
+                    <div class="bg-white p-12 rounded-2xl border border-slate-200 text-center space-y-3">
+                        <i class="ph-duotone ph-user-minus text-4xl text-slate-300"></i>
+                        <p class="text-sm font-semibold text-slate-600">មិនមានទិន្នន័យសិស្សឡើយ (No Records Found)</p>
+                        <p class="text-xs text-slate-400">សូមបញ្ចូលជីវប្រវត្តិថ្មី ឬចុច "ទិន្នន័យគំរូ" ដើម្បីសាកល្បង។</p>
+                    </div>
+                `;
+                return;
+            }
+
+            if (viewMode === 'grid') {
+                container.className = "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5";
+                container.innerHTML = filtered.map(s => `
+                    <div class="bg-white rounded-2xl border border-slate-200/80 p-5 shadow-sm hover:shadow-md transition flex flex-col justify-between group">
+                        <div>
+                            <div class="flex items-start justify-between gap-3 mb-3">
+                                <div class="flex items-center gap-3">
+                                    <div class="w-10 h-10 rounded-xl bg-brand-50 text-brand-600 font-bold flex items-center justify-center text-base border border-brand-100">
+                                        ${s.name.charAt(0).toUpperCase()}
+                                    </div>
+                                    <div>
+                                        <h4 class="text-sm font-bold text-slate-800 group-hover:text-brand-600 transition">${s.name}</h4>
+                                        <p class="text-[11px] text-slate-400">${s.id} • ${s.major}</p>
+                                    </div>
+                                </div>
+                                ${s.isGraded ? `
+                                    <span class="px-2.5 py-1 rounded-lg text-xs font-bold bg-emerald-50 text-emerald-700 border border-emerald-200">
+                                        ${s.evaluation.grade} (${s.evaluation.overallScore})
+                                    </span>
+                                ` : `
+                                    <span class="px-2.5 py-0.5 rounded-lg text-[11px] font-semibold bg-amber-50 text-amber-600 border border-amber-200">
+                                        មិនទាន់កែ
+                                    </span>
+                                `}
+                            </div>
+
+                            <p class="text-xs text-slate-600 line-clamp-3 mb-4 leading-relaxed font-sans">
+                                ${s.bio}
+                            </p>
+                        </div>
+
+                        <div class="pt-3 border-t border-slate-100 flex items-center justify-between">
+                            <div class="flex items-center gap-1.5 text-[11px] text-slate-400">
+                                <i class="ph ph-file text-slate-400"></i>
+                                <span>${s.fileType ? s.fileType : 'Manual'}</span>
+                            </div>
+
+                            <div class="flex items-center gap-2">
+                                <button onclick="runAutoGrading('${s.id}')" class="px-3 py-1.5 rounded-lg bg-amber-50 hover:bg-amber-100 text-amber-700 text-xs font-bold border border-amber-200 flex items-center gap-1 transition">
+                                    <i class="ph-bold ph-magic-wand"></i> Auto-Grade
+                                </button>
+                                <button onclick="openDetailModal('${s.id}')" class="px-3 py-1.5 rounded-lg bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-semibold transition">
+                                    មើលបន្ថែម
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                `).join('');
+            } else {
+                container.className = "bg-white rounded-2xl border border-slate-200/80 overflow-hidden shadow-sm";
+                container.innerHTML = `
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-left border-collapse">
+                            <thead>
+                                <tr class="bg-slate-50 border-b border-slate-200 text-[11px] uppercase tracking-wider text-slate-500 font-bold">
+                                    <th class="p-4">ឈ្មោះសិស្ស (Student)</th>
+                                    <th class="p-4">ជំនាញ (Major)</th>
+                                    <th class="p-4">ឯកសារ (Source)</th>
+                                    <th class="p-4">ស្ថានភាពអត្រាកែ (Grading)</th>
+                                    <th class="p-4 text-right">សកម្មភាព (Actions)</th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y divide-slate-100 text-xs">
+                                ${filtered.map(s => `
+                                    <tr class="hover:bg-slate-50/60 transition">
+                                        <td class="p-4">
+                                            <div class="font-bold text-slate-800">${s.name}</div>
+                                            <div class="text-[10px] text-slate-400">${s.id}</div>
+                                        </td>
+                                        <td class="p-4 text-slate-600">${s.major}</td>
+                                        <td class="p-4">
+                                            <span class="px-2 py-0.5 rounded text-[10px] font-bold ${s.fileName ? 'bg-blue-50 text-blue-700' : 'bg-slate-100 text-slate-600'}">
+                                                ${s.fileType || 'TEXT'}
+                                            </span>
+                                        </td>
+                                        <td class="p-4">
+                                            ${s.isGraded ? `
+                                                <span class="px-2.5 py-1 rounded-lg text-xs font-bold bg-emerald-100 text-emerald-800">
+                                                    ${s.evaluation.grade} (${s.evaluation.overallScore}/100)
+                                                </span>
+                                            ` : `
+                                                <span class="px-2.5 py-0.5 rounded text-[11px] font-medium bg-amber-50 text-amber-600 border border-amber-200">
+                                                    មិនទាន់កែ
+                                                </span>
+                                            `}
+                                        </td>
+                                        <td class="p-4 text-right space-x-2">
+                                            <button onclick="runAutoGrading('${s.id}')" class="px-3 py-1.5 rounded-lg bg-amber-50 hover:bg-amber-100 text-amber-700 text-xs font-bold border border-amber-200 inline-flex items-center gap-1">
+                                                <i class="ph-bold ph-magic-wand"></i> Auto-Grade
+                                            </button>
+                                            <button onclick="openDetailModal('${s.id}')" class="px-3 py-1.5 rounded-lg bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-semibold">
+                                                មើលលម្អិត
+                                            </button>
+                                        </td>
+                                    </tr>
+                                `).join('')}
+                            </tbody>
+                        </table>
+                    </div>
+                `;
+            }
+        }
+
+        function setViewMode(mode) {
+            viewMode = mode;
+            if (mode === 'grid') {
+                document.getElementById('viewGridBtn').className = "p-1.5 rounded-lg text-slate-600 hover:text-slate-900 bg-white shadow-sm transition";
+                document.getElementById('viewTableBtn').className = "p-1.5 rounded-lg text-slate-500 hover:text-slate-900 transition";
+            } else {
+                document.getElementById('viewGridBtn').className = "p-1.5 rounded-lg text-slate-500 hover:text-slate-900 transition";
+                document.getElementById('viewTableBtn').className = "p-1.5 rounded-lg text-slate-600 hover:text-slate-900 bg-white shadow-sm transition";
+            }
+            renderStudentList();
+        }
+
+        function updateStats() {
+            document.getElementById('statTotalStudents').innerText = students.length;
+            const gradedList = students.filter(s => s.isGraded);
+            document.getElementById('statGraded').innerText = gradedList.length;
+            
+            if (gradedList.length > 0) {
+                const total = gradedList.reduce((acc, curr) => acc + curr.evaluation.overallScore, 0);
+                document.getElementById('statAvgScore').innerText = (total / gradedList.length).toFixed(1);
+            } else {
+                document.getElementById('statAvgScore').innerText = "0.0";
+            }
+
+            const filesCount = students.filter(s => s.fileName).length;
+            document.getElementById('statFilesCount').innerText = filesCount;
+        }
+
+        // Load Initial Cambodian Demo Student Data
+        function loadSampleData() {
+            students = [
+                {
+                    id: "STU-2026-001",
+                    name: "ចាន់ សុវណ្ណារ៉ា (Chan Sovannara)",
+                    major: "វិទ្យាសាស្ត្រកុំព្យូទ័រ (Computer Science)",
+                    contact: "sovannara@gmail.com / 012 888 999",
+                    bio: `ប្រវត្តិរូបសង្ខេប៖\n- និស្សិតឆ្នាំទី៤ ជំនាញវិទ្យាសាស្ត្រកុំព្យូទ័រ នៅសាកលវិទ្យាល័យភូមិន្ទភ្នំពេញ។\n- មានជំនាញក្នុងការសរសេរកម្មវិធី Web Development (React, Node.js, Tailwind CSS) និងការគ្រប់គ្រង Database (PostgreSQL, MongoDB)។\n- ធ្លាប់ធ្វើការងារស្ម័គ្រចិត្តជានាយកបច្ចេកវិទ្យាក្នុងកម្មវិធីថ្នាក់ជាតិ Hackathon ឆ្នាំ២០២៥។\n- ភាសា៖ ខ្មែរ (មាតាភាសា), អង់គ្លេស (កម្រិតខ្ពស់ Advanced)។`,
+                    fileName: "Sovannara_CV.docx",
+                    fileType: "DOCX",
+                    createdAt: "3/9/2026",
+                    isGraded: false,
+                    evaluation: null
+                },
+                {
+                    id: "STU-2026-002",
+                    name: "ស៊ិន សុខលីដា (Sin Soklyda)",
+                    major: "គ្រប់គ្រងពាណិជ្ជកម្ម (Business Admin)",
+                    contact: "lyda.sin@hotmail.com / 097 555 1234",
+                    bio: `ជីវប្រវត្តិរូប៖\nកញ្ញា ស៊ិន សុខលីដា បានបញ្ចប់ការសិក្សាថ្នាក់បរិញ្ញាបត្ររងផ្នែកគ្រប់គ្រង។ មានបទពិសោធន៍ធ្វើការងារផ្នែកទំនាក់ទំនងអតិថិជន (Customer Support) រយៈពេល ២ ឆ្នាំនៅក្រុមហ៊ុនឯកជន។ ចេះប្រើប្រាស់ Microsoft Word, Excel, PowerPoint បានយ៉ាងស្ទាត់ជំនាញ។ មានការតាំងចិត្តខ្ពស់ក្នុងការរៀនសូត្រ និងធ្វើការងារជាក្រុម។`,
+                    fileName: "Soklyda_Bio.pdf",
+                    fileType: "PDF",
+                    createdAt: "3/9/2026",
+                    isGraded: false,
+                    evaluation: null
+                }
+            ];
+
+            updateStats();
+            renderStudentList();
+            showToast("ទាញយកទិន្នន័យគំរូរួចរាល់!", "success");
+        }
+
+        // Initialize on load
+        window.onload = function() {
+            loadSampleData();
+        };
+    </script>
 </body>
 </html>
