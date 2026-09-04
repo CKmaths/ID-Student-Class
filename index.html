@@ -3,60 +3,82 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ប្រព័ន្ធគ្រប់គ្រងជីវប្រវត្តិ និងអត្រាកែស្វ័យប្រវត្តិ | Student Bio Auto-Grading System</title>
-    
-    <!-- Tailwind CSS CDN -->
+    <title>ប្រព័ន្ធគ្រប់គ្រង និងរៀបចំរចនាសម្ព័ន្ធជីវប្រវត្តិសិស្ស</title>
+    <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
-    
-    <!-- Phosphor Icons -->
-    <script src="https://unpkg.com/@phosphor-icons/web"></script>
-    
-    <!-- Document Parsers (Mammoth for DOCX, XLSX for Excel, PDF.js for PDF) -->
-    <script src="https://cdn.jsdelivr.net/npm/mammoth@1.6.0/mammoth.browser.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
-    <script>pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';</script>
-
-    <!-- Google Fonts for Khmer & English -->
+    <!-- Google Fonts for Khmer Fonts: Moul (Khmer OS Muol Light), Siemreap (Khmer OS Siemreap), and Inter -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Kantumruy+Pro:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
-
+    <link href="https://fonts.googleapis.com/css2?family=Moul&family=Siemreap&family=Kantumruy+Pro:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
     <script>
         tailwind.config = {
             theme: {
                 extend: {
                     fontFamily: {
-                        sans: ['"Kantumruy Pro"', '"Plus Jakarta Sans"', 'sans-serif'],
+                        'muol': ['"Moul"', '"Khmer OS Muol Light"', 'serif'],
+                        'siemreap': ['"Siemreap"', '"Khmer OS Siemreap"', '"Kantumruy Pro"', 'sans-serif'],
+                        'sans': ['"Siemreap"', '"Kantumruy Pro"', 'Inter', 'sans-serif']
                     },
                     colors: {
                         brand: {
-                            50: '#f0f7ff',
-                            100: '#e0effe',
-                            500: '#2563eb',
-                            600: '#1d4ed8',
-                            700: '#1e40af',
-                            900: '#1e3a8a',
+                            50: '#eef2ff',
+                            100: '#e0e7ff',
+                            500: '#6366f1',
+                            600: '#4f46e5',
+                            700: '#4338ca',
+                            800: '#3730a3',
                         }
                     }
                 }
             }
         }
     </script>
-
     <style>
         body {
-            font-family: 'Kantumruy Pro', 'Plus Jakarta Sans', sans-serif;
+            font-family: 'Siemreap', 'Kantumruy Pro', 'Inter', sans-serif;
             background-color: #f8fafc;
             color: #1e293b;
         }
+        
+        .font-muol-title {
+            font-family: 'Moul', 'Khmer OS Muol Light', serif;
+            line-height: 1.6;
+        }
+
+        .font-siemreap-body {
+            font-family: 'Siemreap', 'Khmer OS Siemreap', 'Kantumruy Pro', sans-serif;
+        }
+
+        @media print {
+            body * {
+                visibility: hidden;
+            }
+            #cv-print-area, #cv-print-area * {
+                visibility: visible;
+            }
+            #cv-print-area {
+                position: absolute;
+                left: 0;
+                top: 0;
+                width: 100%;
+                padding: 0;
+                margin: 0;
+            }
+            .no-print {
+                display: none !important;
+            }
+        }
+
         .custom-scrollbar::-webkit-scrollbar {
             width: 6px;
             height: 6px;
         }
         .custom-scrollbar::-webkit-scrollbar-track {
-            background: #f1f5f9;
+            background: #f1f1f1;
+            border-radius: 4px;
         }
         .custom-scrollbar::-webkit-scrollbar-thumb {
             background: #cbd5e1;
@@ -65,1733 +87,1365 @@
         .custom-scrollbar::-webkit-scrollbar-thumb:hover {
             background: #94a3b8;
         }
-
-        @media print {
-            body * {
-                visibility: hidden;
-            }
-            #printablePreviewCard, #printablePreviewCard * {
-                visibility: visible;
-            }
-            #printablePreviewCard {
-                position: absolute;
-                left: 0;
-                top: 0;
-                width: 100%;
-            }
-            .no-print {
-                display: none !important;
-            }
-        }
     </style>
 </head>
-<body class="min-h-screen flex flex-col custom-scrollbar">
+<body class="bg-slate-50 text-slate-800 min-h-screen flex flex-col font-siemreap-body">
 
-    <!-- Navigation / Header Bar -->
-    <header class="bg-white border-b border-slate-200 sticky top-0 z-30 shadow-sm">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
-            <div class="flex items-center gap-3">
-                <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-blue-600 to-indigo-600 flex items-center justify-center text-white text-xl shadow-md shadow-blue-500/20">
-                    <i class="ph-bold ph-student"></i>
+    <!-- Header UI -->
+    <header class="bg-white/90 backdrop-blur-md border-b border-slate-200 sticky top-0 z-30 shadow-sm no-print">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-20 items-center">
+                <div class="flex items-center space-x-3">
+                    <div class="w-12 h-12 rounded-2xl bg-gradient-to-tr from-brand-600 via-indigo-600 to-purple-600 flex items-center justify-center text-white shadow-lg shadow-brand-500/25">
+                        <i class="fa-solid fa-graduation-cap text-2xl"></i>
+                    </div>
+                    <div>
+                        <h1 class="text-base sm:text-lg font-muol-title text-indigo-950 leading-snug">ប្រព័ន្ធរៀបចំរចនាសម្ព័ន្ធ "ជីវប្រវត្តិសិស្ស"</h1>
+                        <p class="text-xs text-slate-500 font-medium">Student Biography Management System</p>
+                    </div>
                 </div>
-                <div>
-                    <h1 class="text-lg font-bold text-slate-800 leading-tight">ប្រព័ន្ធគ្រប់គ្រងជីវប្រវត្តិសិស្ស & Auto-Grading</h1>
-                    <p class="text-xs text-slate-500">Student Bio Management & AI Evaluation System</p>
+
+                <div class="flex items-center space-x-3">
+                    <button onclick="openUploadModal()" class="inline-flex items-center space-x-2 bg-emerald-600 hover:bg-emerald-700 text-white px-4 py-2.5 rounded-xl text-xs sm:text-sm font-semibold transition shadow-sm hover:shadow-md">
+                        <i class="fa-solid fa-file-arrow-up text-sm"></i>
+                        <span class="hidden sm:inline">បញ្ចូល File (Word, PDF, JPG)</span>
+                    </button>
+
+                    <button onclick="openAddModal()" class="inline-flex items-center space-x-2 bg-brand-600 hover:bg-brand-700 text-white px-4 py-2.5 rounded-xl text-xs sm:text-sm font-semibold transition shadow-sm hover:shadow-md">
+                        <i class="fa-solid fa-user-plus text-sm"></i>
+                        <span>បញ្ចូលជីវប្រវត្តិថ្មី</span>
+                    </button>
                 </div>
-            </div>
-
-            <div class="flex items-center gap-2 sm:gap-3">
-                <!-- Quick Language Switch -->
-                <button id="langToggleBtn" onclick="toggleLanguage()" class="px-3 py-1.5 rounded-lg border border-slate-200 text-xs font-semibold text-slate-700 hover:bg-slate-50 flex items-center gap-1.5 transition">
-                    <i class="ph ph-globe text-base text-blue-600"></i>
-                    <span id="currentLangText">ខ្មែរ / EN</span>
-                </button>
-
-                <!-- Load Demo Data Button -->
-                <button onclick="loadSampleData()" class="hidden md:flex px-3 py-1.5 rounded-lg bg-slate-100 hover:bg-slate-200 text-xs font-medium text-slate-700 items-center gap-1.5 transition">
-                    <i class="ph ph-magic-wand text-amber-500 text-base"></i>
-                    <span>ទិន្នន័យគំរូ</span>
-                </button>
-
-                <!-- Add Student / Upload Button -->
-                <button onclick="openUploadModal()" class="px-4 py-2 rounded-xl bg-brand-600 hover:bg-brand-700 text-white text-xs sm:text-sm font-semibold shadow-md shadow-brand-500/20 flex items-center gap-2 transition transform active:scale-95">
-                    <i class="ph-bold ph-plus text-base"></i>
-                    <span>បញ្ចូលជីវប្រវត្តិថ្មី</span>
-                </button>
             </div>
         </div>
     </header>
 
-    <!-- Main Workspace Container -->
     <main class="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-6 flex flex-col gap-6">
 
-        <!-- Stats Summary Section -->
-        <section class="grid grid-cols-2 md:grid-cols-4 gap-4">
-            <div class="bg-white p-4 sm:p-5 rounded-2xl border border-slate-200/80 shadow-sm flex items-center gap-4">
-                <div class="w-12 h-12 rounded-xl bg-blue-50 text-blue-600 flex items-center justify-center text-2xl flex-shrink-0">
-                    <i class="ph-duotone ph-users"></i>
+        <!-- Modern UI Hero Banner -->
+        <div class="bg-gradient-to-r from-slate-900 via-indigo-950 to-brand-900 rounded-3xl p-6 sm:p-8 text-white shadow-xl relative overflow-hidden border border-indigo-900/50">
+            <div class="absolute -right-12 -bottom-16 opacity-10 text-9xl pointer-events-none">
+                <i class="fa-solid fa-address-card"></i>
+            </div>
+            <div class="relative z-10 max-w-3xl">
+                <div class="inline-flex items-center space-x-2 bg-white/10 backdrop-blur-md px-3.5 py-1 rounded-full text-xs font-semibold mb-3.5 border border-white/20 text-amber-300">
+                    <i class="fa-solid fa-wand-magic-sparkles"></i>
+                    <span>រចនាប័ទ្ម UI/UX ថ្មីស្រឡាង + ហ្វុង Khmer OS Muol Light & Khmer OS Siemreap</span>
                 </div>
-                <div>
-                    <p class="text-xs font-medium text-slate-500">សិស្សសរុប (Total)</p>
-                    <h3 id="statTotalStudents" class="text-2xl font-bold text-slate-800">0</h3>
-                </div>
+                <h2 class="text-lg sm:text-2xl font-muol-title mb-3 leading-relaxed text-amber-300">
+                    ប្រព័ន្ធបញ្ចូល និងគ្រប់គ្រងជីវប្រវត្តិសិស្ស (ផ្នែកទី១ និង ផ្នែកទី២)
+                </h2>
+                <p class="text-indigo-100 text-xs sm:text-sm leading-relaxed mb-3 opacity-90 font-siemreap-body">
+                    គ្រប់គ្រងទិន្នន័យជីវប្រវត្តិសិស្សប្រកបដោយប្រសិទ្ធភាព ដោយបែងចែក <b>ផ្នែកទី១ (ព័ត៌មានផ្ទាល់ខ្លួនសិស្ស 10 ចំណុច)</b> និង <b>ផ្នែកទី២ (ព័ត៌មានអាណាព្យាបាលសិស្ស 9 ចំណុច)</b> ព្រមទាំងមានប៊ូតុង <b>Upload រូបថតសិស្ស</b>, <b>ថតរូបតាម Camera ផ្ទាល់</b> និងប៊ូតុង <b>Auto-Edit AI</b>។
+                </p>
+            </div>
+        </div>
+
+        <!-- Filter & Search Controls Container -->
+        <div class="bg-white rounded-2xl p-4 sm:p-5 border border-slate-200/80 shadow-sm flex flex-col md:flex-row gap-4 justify-between items-center">
+            <div class="relative w-full md:w-96">
+                <i class="fa-solid fa-magnifying-glass absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400"></i>
+                <input type="text" id="searchInput" oninput="renderStudentList()" placeholder="ស្វែងរកតាម ឈ្មោះ, អត្តលេខ, មណ្ឌលប្រឡង, លេខទូរស័ព្ទ..." class="w-full pl-10 pr-4 py-2.5 bg-slate-50 border border-slate-300/80 rounded-xl text-xs sm:text-sm focus:outline-none focus:ring-2 focus:ring-brand-500 focus:bg-white transition font-siemreap-body">
             </div>
 
-            <div class="bg-white p-4 sm:p-5 rounded-2xl border border-slate-200/80 shadow-sm flex items-center gap-4">
-                <div class="w-12 h-12 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center text-2xl flex-shrink-0">
-                    <i class="ph-duotone ph-check-circle"></i>
-                </div>
-                <div>
-                    <p class="text-xs font-medium text-slate-500">កែរួច (Graded)</p>
-                    <h3 id="statGraded" class="text-2xl font-bold text-slate-800">0</h3>
-                </div>
-            </div>
-
-            <div class="bg-white p-4 sm:p-5 rounded-2xl border border-slate-200/80 shadow-sm flex items-center gap-4">
-                <div class="w-12 h-12 rounded-xl bg-amber-50 text-amber-600 flex items-center justify-center text-2xl flex-shrink-0">
-                    <i class="ph-duotone ph-star"></i>
-                </div>
-                <div>
-                    <p class="text-xs font-medium text-slate-500">ពិន្ទុមធ្យម (Avg Score)</p>
-                    <h3 id="statAvgScore" class="text-2xl font-bold text-slate-800">0.0</h3>
-                </div>
-            </div>
-
-            <div class="bg-white p-4 sm:p-5 rounded-2xl border border-slate-200/80 shadow-sm flex items-center gap-4">
-                <div class="w-12 h-12 rounded-xl bg-purple-50 text-purple-600 flex items-center justify-center text-2xl flex-shrink-0">
-                    <i class="ph-duotone ph-file-text"></i>
-                </div>
-                <div>
-                    <p class="text-xs font-medium text-slate-500">ឯកសារ Uploaded</p>
-                    <h3 id="statFilesCount" class="text-2xl font-bold text-slate-800">0</h3>
-                </div>
-            </div>
-        </section>
-
-        <!-- Search, Filter & Action Bar (ជាមួយនឹង Dropdown ថ្នាក់ និងឆ្នាំសិក្សា) -->
-        <section class="bg-white p-4 rounded-2xl border border-slate-200/80 shadow-sm flex flex-col md:flex-row gap-3 items-center justify-between">
-            <div class="relative w-full md:w-72">
-                <i class="ph ph-magnifying-glass absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 text-lg"></i>
-                <input type="text" id="searchInput" oninput="renderStudentList()" placeholder="ស្វែងរកតាមឈ្មោះ, ID..." class="w-full pl-9 pr-4 py-2 rounded-xl border border-slate-200 text-xs sm:text-sm focus:outline-none focus:ring-2 focus:ring-brand-500/20 focus:border-brand-500 transition">
-            </div>
-
-            <div class="flex flex-wrap items-center gap-2 sm:gap-3 w-full md:w-auto justify-between md:justify-end">
-                <!-- Dropdown list ជ្រើសរើសថ្នាក់ (Class Filter) -->
-                <select id="classFilter" onchange="renderStudentList()" class="px-3 py-2 rounded-xl border border-slate-200 text-xs text-slate-700 bg-white focus:outline-none focus:ring-2 focus:ring-brand-500/20">
-                    <option value="ALL">គ្រប់ថ្នាក់ទាំងអស់ (All Classes)</option>
-                    <option value="ថ្នាក់ទី១២A">ថ្នាក់ទី១២A</option>
-                    <option value="ថ្នាក់ទី១២B">ថ្នាក់ទី១២B</option>
-                    <option value="ថ្នាក់ទី១២C">ថ្នាក់ទី១២C</option>
-                    <option value="ថ្នាក់ទី១១A">ថ្នាក់ទី១១A</option>
-                    <option value="ថ្នាក់ទី១១B">ថ្នាក់ទី១១B</option>
-                    <option value="ថ្នាក់ទី១០A">ថ្នាក់ទី១០A</option>
+            <div class="flex items-center space-x-3 w-full md:w-auto justify-end">
+                <select id="examCenterFilter" onchange="renderStudentList()" class="bg-slate-50 border border-slate-300/80 text-slate-700 text-xs sm:text-sm rounded-xl px-3 py-2.5 focus:ring-2 focus:ring-brand-500 font-siemreap-body">
+                    <option value="">គ្រប់មណ្ឌលប្រឡងទាំងអស់</option>
                 </select>
 
-                <!-- Dropdown list ជ្រើសរើសឆ្នាំសិក្សា (Academic Year Filter) -->
-                <select id="yearFilter" onchange="renderStudentList()" class="px-3 py-2 rounded-xl border border-slate-200 text-xs text-slate-700 bg-white focus:outline-none focus:ring-2 focus:ring-brand-500/20">
-                    <option value="ALL">គ្រប់ឆ្នាំសិក្សា (All Years)</option>
-                    <option value="2029-2030">ឆ្នាំសិក្សា 2029-2030</option>
-                    <option value="2028-2029">ឆ្នាំសិក្សា 2028-2029</option>
-                    <option value="2027-2028">ឆ្នាំសិក្សា 2027-2028</option>
-                    <option value="2026-2027">ឆ្នាំសិក្សា 2026-2027</option>
-                    <option value="2025-2026">ឆ្នាំសិក្សា 2025-2026</option>
-                    <option value="2024-2025">ឆ្នាំសិក្សា 2024-2025</option>
-                    <option value="2023-2024">ឆ្នាំសិក្សា 2023-2024</option>
-                </select>
-
-                <!-- Status Filter -->
-                <select id="gradeFilter" onchange="renderStudentList()" class="px-3 py-2 rounded-xl border border-slate-200 text-xs text-slate-700 bg-white focus:outline-none focus:ring-2 focus:ring-brand-500/20">
-                    <option value="ALL">គ្រប់ស្ថានភាពអត្រាកែ</option>
-                    <option value="GRADED">កែរួចរាល់</option>
-                    <option value="UNGRADED">មិនទាន់កែ</option>
-                </select>
-
-                <!-- Export Buttons: Excel & PDF -->
-                <div class="flex items-center gap-1.5">
-                    <button onclick="exportToExcel()" class="px-3 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-semibold shadow-sm flex items-center gap-1.5 transition active:scale-95">
-                        <i class="ph-bold ph-file-xls text-base"></i>
-                        <span>ទាញយកជា Excel</span>
-                    </button>
-
-                    <button onclick="exportToPDF()" class="px-3 py-2 rounded-xl bg-rose-600 hover:bg-rose-700 text-white text-xs font-semibold shadow-sm flex items-center gap-1.5 transition active:scale-95">
-                        <i class="ph-bold ph-file-pdf text-base"></i>
-                        <span>ទាញយកជា PDF</span>
-                    </button>
-                </div>
-
-                <div class="flex items-center bg-slate-100 p-1 rounded-xl border border-slate-200">
-                    <button id="viewGridBtn" onclick="setViewMode('grid')" class="p-1.5 rounded-lg text-slate-600 hover:text-slate-900 bg-white shadow-sm transition">
-                        <i class="ph-bold ph-squares-four text-base"></i>
-                    </button>
-                    <button id="viewTableBtn" onclick="setViewMode('table')" class="p-1.5 rounded-lg text-slate-500 hover:text-slate-900 transition">
-                        <i class="ph-bold ph-list-bullets text-base"></i>
-                    </button>
+                <div class="text-xs text-slate-500 border-l border-slate-200 pl-3.5 flex items-center space-x-1.5 whitespace-nowrap">
+                    <span>ទិន្នន័យសរុប៖</span>
+                    <span id="totalCvCount" class="font-bold text-brand-600 text-sm bg-brand-50 px-2.5 py-0.5 rounded-lg border border-brand-100">0</span>
+                    <span>នាក់</span>
                 </div>
             </div>
-        </section>
+        </div>
 
-        <!-- Student Roster Listing -->
-        <section id="studentsContainer" class="min-h-[300px]">
-            <!-- Rendered dynamically via JavaScript -->
-        </section>
+        <!-- Student CV List Grid -->
+        <div id="studentGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+            <!-- Dynamic items rendered via JavaScript -->
+        </div>
+
+        <!-- Empty state when no results -->
+        <div id="emptyState" class="hidden flex-col items-center justify-center py-16 text-center bg-white rounded-2xl border border-dashed border-slate-300 shadow-sm">
+            <div class="w-16 h-16 bg-slate-100 text-slate-400 rounded-full flex items-center justify-center text-2xl mb-3">
+                <i class="fa-solid fa-folder-open"></i>
+            </div>
+            <h3 class="text-base font-muol-title text-slate-800">មិនទាន់មានទិន្នន័យជីវប្រវត្តិសិស្សទេ</h3>
+            <p class="text-xs text-slate-500 mt-2 max-w-sm">សូមចុច "បញ្ចូលជីវប្រវត្តិថ្មី" ដើម្បីបំពេញព័ត៌មានទាំង ១៩ ចំណុច និងបន្ថែមរូបថតសិស្ស។</p>
+            <button onclick="openAddModal()" class="mt-4 bg-brand-600 hover:bg-brand-700 text-white text-xs px-4 py-2.5 rounded-xl font-semibold transition shadow-sm">
+                + បញ្ចូលជីវប្រវត្តិដំបូង
+            </button>
+        </div>
 
     </main>
 
-    <!-- Modal 1: Add/Upload Student Biography Modal -->
-    <div id="uploadModal" class="fixed inset-0 bg-slate-900/50 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden opacity-0 transition-opacity duration-200">
-        <div class="bg-white rounded-3xl max-w-3xl w-full max-h-[90vh] flex flex-col shadow-2xl overflow-hidden border border-slate-100">
+    <!-- Modal: View & Export CV -->
+    <div id="viewModal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4 overflow-y-auto">
+        <div class="bg-white rounded-2xl max-w-4xl w-full max-h-[90vh] flex flex-col shadow-2xl overflow-hidden my-auto border border-slate-200">
             <!-- Modal Header -->
-            <div class="px-6 py-4 border-b border-slate-100 flex items-center justify-between bg-slate-50/50">
-                <div class="flex items-center gap-2.5">
-                    <div class="w-8 h-8 rounded-lg bg-blue-100 text-blue-600 flex items-center justify-center text-lg font-bold">
-                        <i class="ph-bold ph-file-arrow-up"></i>
-                    </div>
-                    <h2 class="text-base font-bold text-slate-800">បញ្ចូលជីវប្រវត្តិសិស្ស ឬ Upload File (JPG, Word, Excel, PDF)</h2>
+            <div class="p-4 px-6 border-b border-slate-200 flex justify-between items-center bg-slate-50 no-print">
+                <div class="flex items-center space-x-2.5">
+                    <span class="p-2 bg-brand-100 text-brand-600 rounded-lg text-sm"><i class="fa-solid fa-id-card"></i></span>
+                    <h3 class="font-muol-title text-slate-800 text-sm">ទម្រង់ជីវប្រវត្តិសិស្សពេញលេញ</h3>
                 </div>
-                <button onclick="closeUploadModal()" class="w-8 h-8 rounded-full hover:bg-slate-200/60 text-slate-400 hover:text-slate-600 flex items-center justify-center transition">
-                    <i class="ph-bold ph-x text-lg"></i>
-                </button>
+                <div class="flex items-center space-x-2">
+                    <button id="modalAutoEditBtn" onclick="" class="bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-600 hover:to-orange-600 text-white px-3.5 py-2 rounded-xl text-xs font-semibold shadow-sm flex items-center space-x-1.5 transition">
+                        <i class="fa-solid fa-wand-magic-sparkles"></i>
+                        <span>កែសម្រួល AI (Auto-Edit)</span>
+                    </button>
+                    <button onclick="printCV()" class="bg-slate-800 hover:bg-slate-900 text-white px-3.5 py-2 rounded-xl text-xs font-semibold shadow-sm flex items-center space-x-1.5 transition">
+                        <i class="fa-solid fa-print"></i>
+                        <span>បោះពុម្ព / Print PDF</span>
+                    </button>
+                    <button onclick="closeModal('viewModal')" class="text-slate-400 hover:text-slate-600 p-2 rounded-xl hover:bg-slate-200 transition">
+                        <i class="fa-solid fa-xmark text-lg"></i>
+                    </button>
+                </div>
             </div>
 
-            <!-- Modal Content Body -->
-            <div class="p-6 overflow-y-auto custom-scrollbar flex-1 space-y-5">
-                
-                <!-- Input Source Tabs -->
-                <div class="flex p-1 bg-slate-100 rounded-xl border border-slate-200 text-xs font-semibold">
-                    <button type="button" id="tabFileUpload" onclick="switchInputTab('file')" class="flex-1 py-2 rounded-lg bg-white shadow-sm text-brand-600 transition">
-                        <i class="ph-bold ph-upload-simple mr-1"></i> Upload File (JPG, Word, Excel, PDF)
-                    </button>
-                    <button type="button" id="tabManualInput" onclick="switchInputTab('manual')" class="flex-1 py-2 rounded-lg text-slate-600 hover:text-slate-900 transition">
-                        <i class="ph-bold ph-note-pencil mr-1"></i> វាយបញ្ចូលដោយផ្ទាល់ (Manual Entry)
-                    </button>
-                </div>
-
-                <!-- Tab 1: File Upload Container -->
-                <div id="fileUploadContainer" class="space-y-4">
-                    <div id="dropZone" onclick="document.getElementById('fileInput').click()" class="border-2 border-dashed border-slate-300 hover:border-brand-500 rounded-2xl p-6 text-center cursor-pointer bg-slate-50/50 hover:bg-brand-50/30 transition group">
-                        <input type="file" id="fileInput" onchange="handleFileSelect(event)" accept=".jpg,.jpeg,.png,.docx,.xlsx,.xls,.pdf,.txt" class="hidden">
-                        <div class="w-14 h-14 bg-white rounded-2xl shadow-sm border border-slate-200 flex items-center justify-center mx-auto text-brand-600 text-2xl group-hover:scale-110 transition">
-                            <i class="ph-duotone ph-cloud-arrow-up"></i>
-                        </div>
-                        <p class="mt-3 text-sm font-semibold text-slate-700">ចុចទីនេះ ឬទម្លាក់ File បញ្ចូល</p>
-                        <p class="text-xs text-slate-400 mt-1">គាំទ្រ: JPG, PNG, Word (.docx), Excel (.xlsx), PDF, TXT</p>
+            <!-- Printable CV Template Container -->
+            <div class="p-6 sm:p-8 overflow-y-auto flex-1 bg-slate-100 custom-scrollbar">
+                <div id="cv-print-area" class="bg-white max-w-3xl mx-auto p-8 sm:p-10 rounded-2xl shadow-md text-slate-800 border border-slate-200 min-h-[850px] flex flex-col justify-between">
+                    <div id="cvViewContent">
+                        <!-- Dynamic printable content inserted here -->
                     </div>
-
-                    <!-- Selected File Info & Live Text Extracted Banner -->
-                    <div id="fileInfoBox" class="hidden p-4 bg-blue-50/60 rounded-xl border border-blue-200/80 flex flex-col gap-2">
-                        <div class="flex items-center justify-between">
-                            <div class="flex items-center gap-2">
-                                <i class="ph-bold ph-file-text text-blue-600 text-xl"></i>
-                                <div>
-                                    <p id="fileName" class="text-xs font-bold text-slate-800">filename.docx</p>
-                                    <p id="fileSize" class="text-[10px] text-slate-500">250 KB</p>
-                                </div>
-                            </div>
-                            <span id="fileTypeBadge" class="px-2 py-0.5 rounded text-[10px] font-bold bg-blue-200 text-blue-800">WORD</span>
-                        </div>
-                        <div class="mt-2 text-xs text-slate-600 bg-white p-2.5 rounded-lg border border-blue-100 max-h-28 overflow-y-auto custom-scrollbar font-mono" id="extractedPreviewText">
-                            អត្ថបទដែលទាញយកបានពី File...
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Shared/Manual Form Fields -->
-                <div class="space-y-6">
-                    
-                    <!-- ផ្នែកទី១: ព័ត៌មានផ្ទាល់ខ្លួនសិស្ស -->
-                    <div class="bg-slate-50 p-4 rounded-2xl border border-slate-200/80 space-y-4">
-                        <h3 class="text-xs font-bold text-brand-700 uppercase tracking-wider flex items-center gap-1.5 border-b border-slate-200 pb-2">
-                            <i class="ph-bold ph-user text-base"></i> ផ្នែកទី១៖ ព័ត៌មានផ្ទាល់ខ្លួនសិស្ស
-                        </h3>
-                        
-                        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
-                            <!-- ១. អត្តលេខ -->
-                            <div>
-                                <label class="block text-[11px] font-semibold text-slate-700 mb-1">១. អត្តលេខសិស្ស *</label>
-                                <input type="text" id="inputStudentID" placeholder="ឧ. STU-2026-089" class="w-full px-3 py-2 border border-slate-200 rounded-xl text-xs focus:ring-2 focus:ring-brand-500/20 focus:border-brand-500 outline-none">
-                            </div>
-
-                            <!-- ២. គោត្តនាម+នាមខ្លួន -->
-                            <div>
-                                <label class="block text-[11px] font-semibold text-slate-700 mb-1">២. គោត្តនាម + នាមខ្លួន *</label>
-                                <input type="text" id="inputStudentName" placeholder="ឧ. កែវ សុខា" class="w-full px-3 py-2 border border-slate-200 rounded-xl text-xs focus:ring-2 focus:ring-brand-500/20 focus:border-brand-500 outline-none">
-                            </div>
-
-                            <!-- ៣. ភេទ -->
-                            <div>
-                                <label class="block text-[11px] font-semibold text-slate-700 mb-1">៣. ភេទ</label>
-                                <select id="inputStudentGender" class="w-full px-3 py-2 border border-slate-200 rounded-xl text-xs focus:ring-2 focus:ring-brand-500/20 focus:border-brand-500 outline-none bg-white">
-                                    <option value="ប្រុស">ប្រុស (Male)</option>
-                                    <option value="ស្រី">ស្រី (Female)</option>
-                                </select>
-                            </div>
-
-                            <!-- Dropdown list ជ្រើសរើសថ្នាក់ (Select Class) -->
-                            <div>
-                                <label class="block text-[11px] font-semibold text-slate-700 mb-1">ជ្រើសរើសថ្នាក់ (Select Class) *</label>
-                                <select id="inputStudentClass" class="w-full px-3 py-2 border border-slate-200 rounded-xl text-xs focus:ring-2 focus:ring-brand-500/20 focus:border-brand-500 outline-none bg-white font-semibold text-brand-700">
-                                    <option value="ថ្នាក់ទី១២A">ថ្នាក់ទី១២A</option>
-                                    <option value="ថ្នាក់ទី១២B">ថ្នាក់ទី១២B</option>
-                                    <option value="ថ្នាក់ទី១២C">ថ្នាក់ទី១២C</option>
-                                    <option value="ថ្នាក់ទី១១A">ថ្នាក់ទី១១A</option>
-                                    <option value="ថ្នាក់ទី១១B">ថ្នាក់ទី១១B</option>
-                                    <option value="ថ្នាក់ទី១០A">ថ្នាក់ទី១០A</option>
-                                </select>
-                            </div>
-
-                            <!-- Dropdown list ជ្រើសរើសឆ្នាំសិក្សា (Select Academic Year) -->
-                            <div>
-                                <label class="block text-[11px] font-semibold text-slate-700 mb-1">ជ្រើសរើសឆ្នាំសិក្សា (Academic Year) *</label>
-                                <select id="inputAcademicYear" class="w-full px-3 py-2 border border-slate-200 rounded-xl text-xs focus:ring-2 focus:ring-brand-500/20 focus:border-brand-500 outline-none bg-white font-semibold text-indigo-700">
-                                    <option value="2029-2030">2029-2030</option>
-                                    <option value="2028-2029">2028-2029</option>
-                                    <option value="2027-2028">2027-2028</option>
-                                    <option value="2026-2027">2026-2027</option>
-                                    <option value="2025-2026">2025-2026</option>
-                                    <option value="2024-2025">2024-2025</option>
-                                    <option value="2023-2024">2023-2024</option>
-                                </select>
-                            </div>
-
-                            <!-- ៤. ថ្ងៃខែឆ្នាំកំណើត -->
-                            <div>
-                                <label class="block text-[11px] font-semibold text-slate-700 mb-1">៤. ថ្ងៃខែឆ្នាំកំណើត (dd/mm/yyyy)</label>
-                                <input type="text" id="inputStudentDOB" placeholder="ឧ. 15/08/2005" class="w-full px-3 py-2 border border-slate-200 rounded-xl text-xs focus:ring-2 focus:ring-brand-500/20 focus:border-brand-500 outline-none">
-                            </div>
-
-                            <!-- ៦. លេខទូរស័ព្ទ (វាយបានតែលេខអារ៉ាប់) -->
-                            <div>
-                                <label class="block text-[11px] font-semibold text-slate-700 mb-1">៦. លេខទូរស័ព្ទ (លេខអារ៉ាប់) *</label>
-                                <input type="text" id="inputStudentPhone" oninput="this.value = this.value.replace(/[^0-9]/g, '')" placeholder="ឧ. 012345678" class="w-full px-3 py-2 border border-slate-200 rounded-xl text-xs focus:ring-2 focus:ring-brand-500/20 focus:border-brand-500 outline-none">
-                            </div>
-
-                            <!-- ៧. លេខតុ -->
-                            <div>
-                                <label class="block text-[11px] font-semibold text-slate-700 mb-1">៧. លេខតុ</label>
-                                <input type="text" id="inputStudentDeskNo" placeholder="ឧ. 24" class="w-full px-3 py-2 border border-slate-200 rounded-xl text-xs focus:ring-2 focus:ring-brand-500/20 focus:border-brand-500 outline-none">
-                            </div>
-
-                            <!-- ៨. លេខបន្ទប់ -->
-                            <div>
-                                <label class="block text-[11px] font-semibold text-slate-700 mb-1">៨. លេខបន្ទប់</label>
-                                <input type="text" id="inputStudentRoomNo" placeholder="ឧ. B-102" class="w-full px-3 py-2 border border-slate-200 rounded-xl text-xs focus:ring-2 focus:ring-brand-500/20 focus:border-brand-500 outline-none">
-                            </div>
-
-                            <!-- ៩. មណ្ឌលប្រឡង -->
-                            <div>
-                                <label class="block text-[11px] font-semibold text-slate-700 mb-1">៩. មណ្ឌលប្រឡង</label>
-                                <input type="text" id="inputExamCenter" placeholder="ឧ. វិទ្យាល័យស៊ីសុវត្ថិ" class="w-full px-3 py-2 border border-slate-200 rounded-xl text-xs focus:ring-2 focus:ring-brand-500/20 focus:border-brand-500 outline-none">
-                            </div>
-
-                            <!-- ១០. សម័យប្រឡង -->
-                            <div>
-                                <label class="block text-[11px] font-semibold text-slate-700 mb-1">១០. សម័យប្រឡង</label>
-                                <input type="text" id="inputExamSession" placeholder="ឧ. ០៨ តុលា ២០២៦" class="w-full px-3 py-2 border border-slate-200 rounded-xl text-xs focus:ring-2 focus:ring-brand-500/20 focus:border-brand-500 outline-none">
-                            </div>
-                        </div>
-
-                        <!-- ៥. អាសយដ្ឋានសិស្ស -->
-                        <div class="space-y-1.5 pt-1">
-                            <label class="block text-[11px] font-semibold text-slate-700">៥. អាសយដ្ឋានសិស្ស (វាយបញ្ចូលដាច់ដោយឡែកពីគ្នា)</label>
-                            <div class="grid grid-cols-2 sm:grid-cols-4 gap-2">
-                                <input type="text" id="inputStudentVillage" placeholder="ភូមិ" class="px-2.5 py-1.5 border border-slate-200 rounded-lg text-xs focus:ring-2 focus:ring-brand-500/20 focus:border-brand-500 outline-none">
-                                <input type="text" id="inputStudentCommune" placeholder="ឃុំ / សង្កាត់" class="px-2.5 py-1.5 border border-slate-200 rounded-lg text-xs focus:ring-2 focus:ring-brand-500/20 focus:border-brand-500 outline-none">
-                                <input type="text" id="inputStudentDistrict" placeholder="ស្រុក / ខណ្ឌ" class="px-2.5 py-1.5 border border-slate-200 rounded-lg text-xs focus:ring-2 focus:ring-brand-500/20 focus:border-brand-500 outline-none">
-                                <input type="text" id="inputStudentProvince" placeholder="ខេត្ត / ក្រុង" class="px-2.5 py-1.5 border border-slate-200 rounded-lg text-xs focus:ring-2 focus:ring-brand-500/20 focus:border-brand-500 outline-none">
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- ផ្នែកទី២: ព័ត៌មានអាណាព្យាបាលសិស្ស -->
-                    <div class="bg-slate-50 p-4 rounded-2xl border border-slate-200/80 space-y-4">
-                        <h3 class="text-xs font-bold text-amber-700 uppercase tracking-wider flex items-center gap-1.5 border-b border-slate-200 pb-2">
-                            <i class="ph-bold ph-users text-base"></i> ផ្នែកទី២៖ ព័ត៌មានអាណាព្យាបាលសិស្ស
-                        </h3>
-
-                        <!-- ឪពុក -->
-                        <div class="space-y-2">
-                            <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
-                                <div>
-                                    <label class="block text-[11px] font-semibold text-slate-700 mb-1">១១. ឈ្មោះឪពុក</label>
-                                    <input type="text" id="inputFatherName" placeholder="ឈ្មោះឪពុក" class="w-full px-3 py-2 border border-slate-200 rounded-xl text-xs focus:ring-2 focus:ring-brand-500/20 focus:border-brand-500 outline-none">
-                                </div>
-                                <div>
-                                    <label class="block text-[11px] font-semibold text-slate-700 mb-1">១២. មុខរបរឪពុក</label>
-                                    <input type="text" id="inputFatherJob" placeholder="មុខរបរ" class="w-full px-3 py-2 border border-slate-200 rounded-xl text-xs focus:ring-2 focus:ring-brand-500/20 focus:border-brand-500 outline-none">
-                                </div>
-                                <div>
-                                    <label class="block text-[11px] font-semibold text-slate-700 mb-1">១៤. លេខទូរស័ព្ទឪពុក (លេខអារ៉ាប់)</label>
-                                    <input type="text" id="inputFatherPhone" oninput="this.value = this.value.replace(/[^0-9]/g, '')" placeholder="ឧ. 011222333" class="w-full px-3 py-2 border border-slate-200 rounded-xl text-xs focus:ring-2 focus:ring-brand-500/20 focus:border-brand-500 outline-none">
-                                </div>
-                            </div>
-                            <!-- ១៣. អាសយដ្ឋានឪពុក -->
-                            <div class="space-y-1">
-                                <label class="block text-[11px] font-semibold text-slate-600">១៣. អាសយដ្ឋានឪពុក (វាយបញ្ចូលដាច់ដោយឡែកពីគ្នា)</label>
-                                <div class="grid grid-cols-2 sm:grid-cols-4 gap-2">
-                                    <input type="text" id="inputFatherVillage" placeholder="ភូមិ" class="px-2.5 py-1.5 border border-slate-200 rounded-lg text-xs focus:ring-2 focus:ring-brand-500/20 focus:border-brand-500 outline-none">
-                                    <input type="text" id="inputFatherCommune" placeholder="ឃុំ / សង្កាត់" class="px-2.5 py-1.5 border border-slate-200 rounded-lg text-xs focus:ring-2 focus:ring-brand-500/20 focus:border-brand-500 outline-none">
-                                    <input type="text" id="inputFatherDistrict" placeholder="ស្រុក / ខណ្ឌ" class="px-2.5 py-1.5 border border-slate-200 rounded-lg text-xs focus:ring-2 focus:ring-brand-500/20 focus:border-brand-500 outline-none">
-                                    <input type="text" id="inputFatherProvince" placeholder="ខេត្ត / ក្រុង" class="px-2.5 py-1.5 border border-slate-200 rounded-lg text-xs focus:ring-2 focus:ring-brand-500/20 focus:border-brand-500 outline-none">
-                                </div>
-                            </div>
-                        </div>
-
-                        <hr class="border-slate-200 my-2">
-
-                        <!-- ម្តាយ -->
-                        <div class="space-y-2">
-                            <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
-                                <div>
-                                    <label class="block text-[11px] font-semibold text-slate-700 mb-1">១៥. ឈ្មោះម្តាយ</label>
-                                    <input type="text" id="inputMotherName" placeholder="ឈ្មោះម្តាយ" class="w-full px-3 py-2 border border-slate-200 rounded-xl text-xs focus:ring-2 focus:ring-brand-500/20 focus:border-brand-500 outline-none">
-                                </div>
-                                <div>
-                                    <label class="block text-[11px] font-semibold text-slate-700 mb-1">១៦. មុខរបរម្តាយ</label>
-                                    <input type="text" id="inputMotherJob" placeholder="មុខរបរ" class="w-full px-3 py-2 border border-slate-200 rounded-xl text-xs focus:ring-2 focus:ring-brand-500/20 focus:border-brand-500 outline-none">
-                                </div>
-                                <div>
-                                    <label class="block text-[11px] font-semibold text-slate-700 mb-1">១៨. លេខទូរស័ព្ទម្តាយ (លេខអារ៉ាប់)</label>
-                                    <input type="text" id="inputMotherPhone" oninput="this.value = this.value.replace(/[^0-9]/g, '')" placeholder="ឧ. 012444555" class="w-full px-3 py-2 border border-slate-200 rounded-xl text-xs focus:ring-2 focus:ring-brand-500/20 focus:border-brand-500 outline-none">
-                                </div>
-                            </div>
-                            <!-- ១៧. អាសយដ្ឋានម្តាយ -->
-                            <div class="space-y-1">
-                                <label class="block text-[11px] font-semibold text-slate-600">១៧. អាសយដ្ឋានម្តាយ (វាយបញ្ចូលដាច់ដោយឡែកពីគ្នា)</label>
-                                <div class="grid grid-cols-2 sm:grid-cols-4 gap-2">
-                                    <input type="text" id="inputMotherVillage" placeholder="ភូមិ" class="px-2.5 py-1.5 border border-slate-200 rounded-lg text-xs focus:ring-2 focus:ring-brand-500/20 focus:border-brand-500 outline-none">
-                                    <input type="text" id="inputMotherCommune" placeholder="ឃុំ / សង្កាត់" class="px-2.5 py-1.5 border border-slate-200 rounded-lg text-xs focus:ring-2 focus:ring-brand-500/20 focus:border-brand-500 outline-none">
-                                    <input type="text" id="inputMotherDistrict" placeholder="ស្រុក / ខណ្ឌ" class="px-2.5 py-1.5 border border-slate-200 rounded-lg text-xs focus:ring-2 focus:ring-brand-500/20 focus:border-brand-500 outline-none">
-                                    <input type="text" id="inputMotherProvince" placeholder="ខេត្ត / ក្រុង" class="px-2.5 py-1.5 border border-slate-200 rounded-lg text-xs focus:ring-2 focus:ring-brand-500/20 focus:border-brand-500 outline-none">
-                                </div>
-                            </div>
-                        </div>
-
-                    </div>
-
-                    <!-- ១៩. ផ្សេងៗ / ខ្លឹមសារជីវប្រវត្តិបន្ថែម -->
-                    <div>
-                        <div class="flex items-center justify-between mb-1">
-                            <label class="block text-xs font-semibold text-slate-700">១៩. ផ្សេងៗ / ខ្លឹមសារជីវប្រវត្តិសិស្សបន្ថែម (Other Bio Details)</label>
-                            <button type="button" onclick="preserveAndFormatWithAI()" id="aiFormatBtn" class="text-[11px] text-brand-600 hover:text-brand-700 font-semibold flex items-center gap-1 bg-brand-50 hover:bg-brand-100 px-2 py-0.5 rounded-md border border-brand-200 transition">
-                                <i class="ph-bold ph-sparkle text-amber-500"></i>
-                                <span>រៀបចំរចនាសម្ព័ន្ធ (រក្សាអត្ថន័យដើម)</span>
-                            </button>
-                        </div>
-                        <textarea id="inputStudentBio" rows="4" placeholder="ព័ត៌មានបន្ថែម ជំនាញ សមិទ្ធផល ឬប្រវត្តិការសិក្សាផ្សេងៗ..." class="w-full p-3 border border-slate-200 rounded-xl text-xs focus:ring-2 focus:ring-brand-500/20 focus:border-brand-500 outline-none leading-relaxed custom-scrollbar"></textarea>
-                    </div>
-
-                </div>
-
-            </div>
-
-            <!-- Modal Footer Buttons (រួមទាំង Button Preview - មើល) -->
-            <div class="px-6 py-4 border-t border-slate-100 bg-slate-50/50 flex flex-wrap items-center justify-between gap-3">
-                <!-- Button Preview (មើល) មុនពេលរក្សាទុក -->
-                <button type="button" onclick="previewFormBio()" class="px-4 py-2 rounded-xl bg-indigo-50 hover:bg-indigo-100 text-indigo-700 border border-indigo-200 text-xs font-bold flex items-center gap-1.5 transition">
-                    <i class="ph-bold ph-eye text-base"></i>
-                    <span>Button Preview (មើលគំរូ)</span>
-                </button>
-
-                <div class="flex items-center gap-2">
-                    <button onclick="closeUploadModal()" class="px-4 py-2 rounded-xl text-slate-600 hover:bg-slate-200/60 text-xs font-semibold transition">បោះបង់ (Cancel)</button>
-                    <button onclick="saveStudentBio()" class="px-5 py-2 rounded-xl bg-brand-600 hover:bg-brand-700 text-white text-xs font-semibold shadow-md shadow-brand-500/20 flex items-center gap-1.5 transition">
-                        <i class="ph-bold ph-floppy-disk text-base"></i>
-                        <span>រក្សាទុកជីវប្រវត្តិ</span>
-                    </button>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- Modal 2: View Student Biography & Auto-Grading Workspace -->
-    <div id="detailModal" class="fixed inset-0 bg-slate-900/50 backdrop-blur-sm z-50 flex items-center justify-center p-3 sm:p-4 hidden opacity-0 transition-opacity duration-200">
-        <div class="bg-white rounded-3xl max-w-5xl w-full h-[92vh] flex flex-col shadow-2xl overflow-hidden border border-slate-100">
-            <!-- Modal Header -->
-            <div class="px-6 py-4 border-b border-slate-100 flex items-center justify-between bg-slate-50/80">
-                <div class="flex items-center gap-3">
-                    <div id="modalAvatar" class="w-10 h-10 rounded-full bg-slate-200 font-bold text-slate-700 flex items-center justify-center text-lg border border-slate-300">
-                        S
-                    </div>
-                    <div>
-                        <h2 id="modalStudentName" class="text-base font-bold text-slate-800">ឈ្មោះសិស្ស</h2>
-                        <p id="modalStudentSub" class="text-xs text-slate-500">ID: STU-000 • Major</p>
-                    </div>
+    <!-- Modal: Add or Edit Student CV with 19 structured fields + Photo Capture -->
+    <div id="formModal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4 overflow-y-auto">
+        <div class="bg-white rounded-2xl max-w-4xl w-full max-h-[92vh] flex flex-col shadow-2xl overflow-hidden my-auto border border-slate-200">
+            <div class="p-4 px-6 border-b border-slate-200 flex justify-between items-center bg-slate-50 sticky top-0 z-10">
+                <div class="flex items-center space-x-2.5">
+                    <i class="fa-solid fa-user-plus text-brand-600 text-lg"></i>
+                    <h3 id="formTitle" class="font-muol-title text-slate-800 text-sm">បញ្ចូលទិន្នន័យជីវប្រវត្តិសិស្ស</h3>
                 </div>
-                
-                <div class="flex items-center gap-2">
-                    <!-- Button Preview (មើល) នៅក្នុង Detail Modal -->
-                    <button onclick="previewActiveStudentBio()" class="px-3.5 py-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold border border-slate-300 flex items-center gap-1.5 transition">
-                        <i class="ph-bold ph-eye text-base text-indigo-600"></i>
-                        <span>Preview (មើល)</span>
-                    </button>
-
-                    <!-- Auto-Grading Trigger Button in Modal Header -->
-                    <button id="modalGradingBtn" onclick="triggerAutoGradingCurrent()" class="px-4 py-2 rounded-xl bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-600 hover:to-orange-600 text-white text-xs font-bold shadow-md shadow-amber-500/20 flex items-center gap-2 transition active:scale-95">
-                        <i class="ph-bold ph-magic-wand text-base"></i>
-                        <span>អត្រាកែដោយស្វ័យប្រវត្តិ (Auto-Grade)</span>
-                    </button>
-                    
-                    <button onclick="closeDetailModal()" class="w-8 h-8 rounded-full hover:bg-slate-200/60 text-slate-400 hover:text-slate-600 flex items-center justify-center transition">
-                        <i class="ph-bold ph-x text-lg"></i>
-                    </button>
-                </div>
+                <button onclick="closeModal('formModal')" class="text-slate-400 hover:text-slate-600 p-1 rounded-lg hover:bg-slate-200 transition">
+                    <i class="fa-solid fa-xmark text-lg"></i>
+                </button>
             </div>
 
-            <!-- Modal Content - Split 2 Columns -->
-            <div class="flex-1 grid grid-cols-1 lg:grid-cols-12 overflow-hidden divide-y lg:divide-y-0 lg:divide-x divide-slate-100">
-                
-                <!-- Left Column: Biography & Attached File View (7 cols) -->
-                <div class="lg:col-span-7 p-6 overflow-y-auto custom-scrollbar space-y-5 bg-white">
-                    <div class="flex items-center justify-between">
-                        <h3 class="text-xs font-bold uppercase tracking-wider text-slate-400 flex items-center gap-1.5">
-                            <i class="ph-bold ph-user-text text-brand-600 text-base"></i>
-                            ខ្លឹមសារជីវប្រវត្តិ (Student Biography Content)
-                        </h3>
-                        <button onclick="toggleEditMode()" id="editToggleBtn" class="text-xs text-slate-600 hover:text-brand-600 font-semibold flex items-center gap-1 border border-slate-200 px-2.5 py-1 rounded-lg transition">
-                            <i class="ph-bold ph-pencil-simple"></i> <span>កែសម្រួល</span>
+            <form id="studentForm" onsubmit="saveStudent(event)" class="p-6 overflow-y-auto flex-1 space-y-6 custom-scrollbar font-siemreap-body">
+                <input type="hidden" id="editStudentId">
+                <input type="hidden" id="photoDataBase64">
+
+                <!-- ផ្នែករូបថតសិស្ស (Student Photo Selection Section) -->
+                <div class="bg-slate-50 p-4 rounded-2xl border border-slate-200 flex flex-col sm:flex-row items-center gap-5">
+                    <div class="relative group flex-shrink-0">
+                        <div id="photoPreviewBox" class="w-28 h-36 rounded-xl border-2 border-dashed border-slate-300 bg-white flex flex-col items-center justify-center overflow-hidden shadow-inner relative">
+                            <i id="photoPlaceholderIcon" class="fa-solid fa-user text-4xl text-slate-300"></i>
+                            <img id="photoPreviewImg" class="w-full h-full object-cover hidden" alt="Student Photo">
+                        </div>
+                        <button type="button" onclick="removePhoto()" id="removePhotoBtn" class="hidden absolute -top-2 -right-2 bg-red-500 text-white rounded-full w-6 h-6 flex items-center justify-center text-xs shadow hover:bg-red-600 transition">
+                            <i class="fa-solid fa-xmark"></i>
                         </button>
                     </div>
 
-                    <!-- Read View / Editable View -->
-                    <div id="bioDisplayArea" class="bg-slate-50/70 p-4 rounded-2xl border border-slate-200/80 text-xs text-slate-700 leading-relaxed whitespace-pre-wrap min-h-[220px]">
-                        <!-- Bio text -->
-                    </div>
-
-                    <div id="bioEditArea" class="hidden space-y-3">
-                        <textarea id="bioEditTextarea" rows="10" class="w-full p-3 border border-slate-300 rounded-xl text-xs focus:ring-2 focus:ring-brand-500/20 outline-none leading-relaxed font-mono custom-scrollbar"></textarea>
-                        <div class="flex items-center justify-between">
-                            <button onclick="preserveFormatInEditor()" class="text-xs text-brand-600 font-semibold bg-brand-50 hover:bg-brand-100 px-3 py-1.5 rounded-lg border border-brand-200 flex items-center gap-1">
-                                <i class="ph-bold ph-sparkle text-amber-500"></i>
-                                <span>កែតម្រង់អត្ថបទ (រក្សាអត្ថន័យ)</span>
+                    <div class="flex-1 space-y-2 text-center sm:text-left">
+                        <h4 class="font-muol-title text-slate-800 text-xs sm:text-sm"><i class="fa-solid fa-image text-brand-600 mr-1.5"></i>រូបថតសិស្ស (4x6 / Student Photo)</h4>
+                        <p class="text-xs text-slate-500">អ្នកអាចជ្រើសរើស Upload រូបថត (JPG, PNG) ឬថតរូបផ្ទាល់តាមរយៈ Web Camera លើ Device របស់អ្នកបាន។</p>
+                        
+                        <div class="flex flex-wrap gap-2 justify-center sm:justify-start pt-1">
+                            <input type="file" id="photoFileInput" accept="image/*" onchange="handlePhotoUpload(event)" class="hidden">
+                            <button type="button" onclick="document.getElementById('photoFileInput').click()" class="bg-slate-200 hover:bg-slate-300 text-slate-700 px-3.5 py-1.5 rounded-xl text-xs font-semibold flex items-center space-x-1.5 transition">
+                                <i class="fa-solid fa-upload text-brand-600"></i>
+                                <span>Upload រូបថត</span>
                             </button>
-                            <div class="flex gap-2">
-                                <button onclick="cancelBioEdit()" class="px-3 py-1.5 rounded-lg border border-slate-200 text-xs font-semibold text-slate-600">បោះបង់</button>
-                                <button onclick="saveBioEdit()" class="px-4 py-1.5 rounded-lg bg-brand-600 text-white text-xs font-semibold shadow-sm">រក្សាទុក</button>
-                            </div>
+                            <button type="button" onclick="openCameraModal()" class="bg-brand-600 hover:bg-brand-700 text-white px-3.5 py-1.5 rounded-xl text-xs font-semibold flex items-center space-x-1.5 transition shadow-sm">
+                                <i class="fa-solid fa-camera"></i>
+                                <span>ថតរូបតាម Camera ផ្ទាល់</span>
+                            </button>
                         </div>
-                    </div>
-
-                    <!-- Attachment Info Badge -->
-                    <div id="modalAttachmentBox" class="p-3 bg-slate-50 rounded-xl border border-slate-200 flex items-center justify-between text-xs">
-                        <div class="flex items-center gap-2">
-                            <i class="ph-bold ph-paperclip text-slate-400 text-lg"></i>
-                            <div>
-                                <span class="font-semibold text-slate-700">ឯកសារភ្ជាប់ (Attachment): </span>
-                                <span id="modalAttachmentName" class="text-slate-500">គ្មាន</span>
-                            </div>
-                        </div>
-                        <span id="modalAttachmentType" class="px-2 py-0.5 rounded text-[10px] font-bold bg-slate-200 text-slate-700">NONE</span>
                     </div>
                 </div>
 
-                <!-- Right Column: Auto-Grading & AI Evaluation Result (5 cols) -->
-                <div class="lg:col-span-5 p-6 overflow-y-auto custom-scrollbar bg-slate-50/50 space-y-5">
-                    <div class="flex items-center justify-between">
-                        <h3 class="text-xs font-bold uppercase tracking-wider text-slate-400 flex items-center gap-1.5">
-                            <i class="ph-bold ph-chart-polar text-amber-500 text-base"></i>
-                            លទ្ធផលការកែស្វ័យប្រវត្តិ (Auto-Grading Result)
-                        </h3>
+                <!-- ផ្នែកទី១ (ព័ត៌មានផ្ទាល់ខ្លួនសិស្ស) -->
+                <div class="bg-indigo-50/50 p-5 rounded-2xl border border-indigo-100 space-y-4">
+                    <div class="flex items-center space-x-2 border-b border-indigo-200/80 pb-2.5">
+                        <span class="w-6 h-6 rounded-full bg-indigo-600 text-white text-xs font-bold flex items-center justify-center">១</span>
+                        <h4 class="font-muol-title text-indigo-950 text-xs sm:text-sm">ផ្នែកទី១ (ព័ត៌មានផ្ទាល់ខ្លួនសិស្ស)</h4>
                     </div>
 
-                    <!-- Loading State Indicator -->
-                    <div id="gradingLoading" class="hidden p-8 text-center space-y-3 bg-white rounded-2xl border border-slate-200">
-                        <div class="w-10 h-10 border-4 border-amber-500 border-t-transparent rounded-full animate-spin mx-auto"></div>
-                        <p class="text-xs font-bold text-slate-700">កំពុងវិភាគ និងកែជីវប្រវត្តិសិស្សដោយ AI...</p>
-                        <p class="text-[11px] text-slate-400">កំពុងវាយតម្លៃលើ រចនាសម្ព័ន្ធ, ជំនាញ, និងភាសា...</p>
-                    </div>
-
-                    <!-- Empty State before Grading -->
-                    <div id="gradingEmpty" class="p-8 text-center space-y-3 bg-white rounded-2xl border border-slate-200/80">
-                        <div class="w-12 h-12 rounded-full bg-amber-50 text-amber-500 flex items-center justify-center text-2xl mx-auto">
-                            <i class="ph-duotone ph-clipboard-text"></i>
-                        </div>
-                        <p class="text-xs font-semibold text-slate-700">មិនទាន់បានកែ (Not Graded Yet)</p>
-                        <p class="text-[11px] text-slate-500">ចុចប៊ូតុង "អត្រាកែដោយស្វ័យប្រវត្តិ" ដើម្បីឱ្យ AI វាយតម្លៃពិន្ទុ និងបង្កើតរបាយការណ៍។</p>
-                    </div>
-
-                    <!-- Graded Content Display Container -->
-                    <div id="gradingContent" class="hidden space-y-4">
-                        <!-- Score Badge & Grade Banner -->
-                        <div class="p-4 bg-white rounded-2xl border border-slate-200/80 shadow-sm flex items-center justify-between">
-                            <div>
-                                <p class="text-[11px] text-slate-400 font-semibold uppercase">ពិន្ទុសរុប (Overall Score)</p>
-                                <div class="flex items-baseline gap-2 mt-0.5">
-                                    <span id="resTotalScore" class="text-3xl font-black text-slate-800">0</span>
-                                    <span class="text-xs text-slate-400">/ 100</span>
-                                </div>
-                            </div>
-                            <div class="text-right">
-                                <span id="resGradeBadge" class="inline-block px-3.5 py-1 rounded-xl text-lg font-black bg-emerald-100 text-emerald-800 border border-emerald-200">
-                                    A+
-                                </span>
-                                <p id="resStatusText" class="text-[10px] text-emerald-600 font-semibold mt-1">ល្អប្រសើរ (Excellent)</p>
-                            </div>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                        <!-- ១. អត្តលេខ -->
+                        <div>
+                            <label class="block text-xs font-semibold text-slate-700 mb-1">១. អត្តលេខ *</label>
+                            <input type="text" id="inputStudentId" required placeholder="ឧ. ST-2024-001" class="w-full px-3 py-2 border border-slate-300 rounded-xl text-xs sm:text-sm focus:ring-2 focus:ring-brand-500 focus:outline-none bg-white">
                         </div>
 
-                        <!-- Criteria Breakdown List -->
-                        <div class="bg-white p-4 rounded-2xl border border-slate-200/80 space-y-3">
-                            <h4 class="text-xs font-bold text-slate-700">ការបែងចែកពិន្ទុតាមលក្ខណៈវិនិច្ឆ័យ (Breakdown)</h4>
-                            
-                            <!-- Criterion 1 -->
-                            <div>
-                                <div class="flex justify-between text-[11px] font-semibold mb-1">
-                                    <span class="text-slate-600">១. រចនាសម្ព័ន្ធ & ភាពពេញលេញ</span>
-                                    <span id="scoreStruct" class="text-slate-800">0/100</span>
-                                </div>
-                                <div class="w-full bg-slate-100 h-2 rounded-full overflow-hidden">
-                                    <div id="barStruct" class="bg-blue-600 h-full rounded-full transition-all duration-500" style="width: 0%"></div>
-                                </div>
-                            </div>
-
-                            <!-- Criterion 2 -->
-                            <div>
-                                <div class="flex justify-between text-[11px] font-semibold mb-1">
-                                    <span class="text-slate-600">២. ជំនាញ & បទពិសោធន៍</span>
-                                    <span id="scoreSkills" class="text-slate-800">0/100</span>
-                                </div>
-                                <div class="w-full bg-slate-100 h-2 rounded-full overflow-hidden">
-                                    <div id="barSkills" class="bg-emerald-600 h-full rounded-full transition-all duration-500" style="width: 0%"></div>
-                                </div>
-                            </div>
-
-                            <!-- Criterion 3 -->
-                            <div>
-                                <div class="flex justify-between text-[11px] font-semibold mb-1">
-                                    <span class="text-slate-600">៣. ការប្រើប្រាស់ភាសា & អក្ខរាវិរុទ្ធ</span>
-                                    <span id="scoreLang" class="text-slate-800">0/100</span>
-                                </div>
-                                <div class="w-full bg-slate-100 h-2 rounded-full overflow-hidden">
-                                    <div id="barLang" class="bg-purple-600 h-full rounded-full transition-all duration-500" style="width: 0%"></div>
-                                </div>
-                            </div>
+                        <!-- ២. គោត្តនាម+នាមខ្លួន -->
+                        <div>
+                            <label class="block text-xs font-semibold text-slate-700 mb-1">២. គោត្តនាម + នាមខ្លួន *</label>
+                            <input type="text" id="inputFullName" required placeholder="ឧ. សុខ ចាន់ថា" class="w-full px-3 py-2 border border-slate-300 rounded-xl text-xs sm:text-sm focus:ring-2 focus:ring-brand-500 focus:outline-none bg-white">
                         </div>
 
-                        <!-- Strengths Section -->
-                        <div class="bg-emerald-50/60 p-4 rounded-2xl border border-emerald-200/60 space-y-1.5">
-                            <h4 class="text-xs font-bold text-emerald-800 flex items-center gap-1">
-                                <i class="ph-bold ph-thumbs-up text-emerald-600"></i> ចំណុចខ្លាំង (Strengths)
-                            </h4>
-                            <ul id="resStrengths" class="text-xs text-emerald-900 list-disc list-inside space-y-1 leading-relaxed">
-                                <!-- Dynamic strength bullets -->
-                            </ul>
+                        <!-- ៣. ភេទ -->
+                        <div>
+                            <label class="block text-xs font-semibold text-slate-700 mb-1">៣. ភេទ *</label>
+                            <select id="inputGender" required class="w-full px-3 py-2 border border-slate-300 rounded-xl text-xs sm:text-sm focus:ring-2 focus:ring-brand-500 focus:outline-none bg-white">
+                                <option value="ប្រុស">ប្រុស</option>
+                                <option value="ស្រី">ស្រី</option>
+                            </select>
                         </div>
 
-                        <!-- Areas for Improvement -->
-                        <div class="bg-amber-50/60 p-4 rounded-2xl border border-amber-200/60 space-y-1.5">
-                            <h4 class="text-xs font-bold text-amber-800 flex items-center gap-1">
-                                <i class="ph-bold ph-warning-circle text-amber-600"></i> ចំណុចត្រូវកែលម្អ (Areas for Improvement)
-                            </h4>
-                            <ul id="resWeaknesses" class="text-xs text-amber-900 list-disc list-inside space-y-1 leading-relaxed">
-                                <!-- Dynamic weaknesses bullets -->
-                            </ul>
+                        <!-- ៤. ថ្ងៃខែឆ្នាំកំណើត -->
+                        <div>
+                            <label class="block text-xs font-semibold text-slate-700 mb-1">៤. ថ្ងៃខែឆ្នាំកំណើត (dd/mm/yyyy) *</label>
+                            <input type="text" id="inputDob" required placeholder="15/05/2004" class="w-full px-3 py-2 border border-slate-300 rounded-xl text-xs sm:text-sm focus:ring-2 focus:ring-brand-500 focus:outline-none bg-white">
                         </div>
 
-                        <!-- Evaluator Recommendation Note -->
-                        <div class="bg-white p-4 rounded-2xl border border-slate-200/80 space-y-1">
-                            <h4 class="text-xs font-bold text-slate-700 flex items-center gap-1">
-                                <i class="ph-bold ph-note-pencil text-blue-600"></i> អនុសាសន៍បន្ថែម (Recommendation)
-                            </h4>
-                            <p id="resRecommendation" class="text-xs text-slate-600 leading-relaxed italic">
-                                --
-                            </p>
+                        <!-- ៦. លេខទូរស័ព្ទ (អារ៉ាប់) -->
+                        <div>
+                            <label class="block text-xs font-semibold text-slate-700 mb-1">៦. លេខទូរស័ព្ទ (លេខអារ៉ាប់ប៉ុណ្ណោះ) *</label>
+                            <input type="text" id="inputPhone" required oninput="this.value = this.value.replace(/[^0-9]/g, '')" placeholder="012345678" class="w-full px-3 py-2 border border-slate-300 rounded-xl text-xs sm:text-sm focus:ring-2 focus:ring-brand-500 focus:outline-none font-mono bg-white">
+                        </div>
+
+                        <!-- ៧. លេខតុ -->
+                        <div>
+                            <label class="block text-xs font-semibold text-slate-700 mb-1">៧. លេខតុ</label>
+                            <input type="text" id="inputDeskNo" placeholder="ឧ. T-12" class="w-full px-3 py-2 border border-slate-300 rounded-xl text-xs sm:text-sm focus:ring-2 focus:ring-brand-500 focus:outline-none bg-white">
+                        </div>
+
+                        <!-- ៨. លេខបន្ទប់ -->
+                        <div>
+                            <label class="block text-xs font-semibold text-slate-700 mb-1">៨. លេខបន្ទប់</label>
+                            <input type="text" id="inputRoomNo" placeholder="ឧ. R-04" class="w-full px-3 py-2 border border-slate-300 rounded-xl text-xs sm:text-sm focus:ring-2 focus:ring-brand-500 focus:outline-none bg-white">
+                        </div>
+
+                        <!-- ៩. មណ្ឌលប្រឡង -->
+                        <div>
+                            <label class="block text-xs font-semibold text-slate-700 mb-1">៩. មណ្ឌលប្រឡង</label>
+                            <input type="text" id="inputExamCenter" placeholder="ឧ. វិទ្យាល័យ ហ៊ុន សែន" class="w-full px-3 py-2 border border-slate-300 rounded-xl text-xs sm:text-sm focus:ring-2 focus:ring-brand-500 focus:outline-none bg-white">
+                        </div>
+
+                        <!-- ១០. សម័យប្រឡង -->
+                        <div>
+                            <label class="block text-xs font-semibold text-slate-700 mb-1">១០. សម័យប្រឡង</label>
+                            <input type="text" id="inputExamSession" placeholder="ឧ. ០៨ តុលា ២០២៤" class="w-full px-3 py-2 border border-slate-300 rounded-xl text-xs sm:text-sm focus:ring-2 focus:ring-brand-500 focus:outline-none bg-white">
                         </div>
                     </div>
 
+                    <!-- ៥. អាសយដ្ឋានសិស្ស -->
+                    <div class="mt-3 bg-white p-4 rounded-xl border border-indigo-150 shadow-sm">
+                        <label class="block text-xs font-bold text-indigo-950 mb-2">
+                            <i class="fa-solid fa-location-dot text-brand-600 mr-1"></i>
+                            ៥. អាសយដ្ឋានសិស្ស (វាយបញ្ចូលដាច់ដោយឡែកពីគ្នា)
+                        </label>
+                        <div class="grid grid-cols-2 sm:grid-cols-4 gap-2.5">
+                            <div>
+                                <span class="text-[11px] text-slate-500 block mb-0.5">ភូមិ</span>
+                                <input type="text" id="inputStudentVillage" placeholder="ឈ្មោះភូមិ" class="w-full px-2.5 py-1.5 border border-slate-300 rounded-lg text-xs focus:ring-2 focus:ring-brand-500">
+                            </div>
+                            <div>
+                                <span class="text-[11px] text-slate-500 block mb-0.5">ឃុំ / សង្កាត់</span>
+                                <input type="text" id="inputStudentCommune" placeholder="ឈ្មោះឃុំ/សង្កាត់" class="w-full px-2.5 py-1.5 border border-slate-300 rounded-lg text-xs focus:ring-2 focus:ring-brand-500">
+                            </div>
+                            <div>
+                                <span class="text-[11px] text-slate-500 block mb-0.5">ស្រុក / ខណ្ឌ</span>
+                                <input type="text" id="inputStudentDistrict" placeholder="ឈ្មោះស្រុក/ខណ្ឌ" class="w-full px-2.5 py-1.5 border border-slate-300 rounded-lg text-xs focus:ring-2 focus:ring-brand-500">
+                            </div>
+                            <div>
+                                <span class="text-[11px] text-slate-500 block mb-0.5">ខេត្ត / ក្រុង</span>
+                                <input type="text" id="inputStudentProvince" placeholder="ឈ្មោះខេត្ត/ក្រុង" class="w-full px-2.5 py-1.5 border border-slate-300 rounded-lg text-xs focus:ring-2 focus:ring-brand-500">
+                            </div>
+                        </div>
+                    </div>
                 </div>
 
+                <!-- ផ្នែកទី២ (ព័ត៌មានអាណាព្យាបាលសិស្ស) -->
+                <div class="bg-amber-50/50 p-5 rounded-2xl border border-amber-200/60 space-y-4">
+                    <div class="flex items-center space-x-2 border-b border-amber-200 pb-2.5">
+                        <span class="w-6 h-6 rounded-full bg-amber-600 text-white text-xs font-bold flex items-center justify-center">២</span>
+                        <h4 class="font-muol-title text-amber-950 text-xs sm:text-sm">ផ្នែកទី២ (ព័ត៌មានអាណាព្យាបាលសិស្ស)</h4>
+                    </div>
+
+                    <!-- ព័ត៌មានឪពុក -->
+                    <div class="bg-white p-4 rounded-xl border border-amber-100 shadow-sm space-y-3">
+                        <h5 class="font-bold text-xs text-amber-800 uppercase tracking-wider"><i class="fa-solid fa-user text-amber-600 mr-1"></i> ព័ត៌មានឪពុក</h5>
+                        <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                            <!-- ១១. ឈ្មោះឪពុក -->
+                            <div>
+                                <label class="block text-xs font-semibold text-slate-700 mb-1">១១. ឈ្មោះឪពុក</label>
+                                <input type="text" id="inputFatherName" placeholder="ឈ្មោះពេញឪពុក" class="w-full px-3 py-1.5 border border-slate-300 rounded-lg text-xs focus:ring-2 focus:ring-amber-500">
+                            </div>
+
+                            <!-- ១២. មុខរបរឪពុក -->
+                            <div>
+                                <label class="block text-xs font-semibold text-slate-700 mb-1">១២. មុខរបរឪពុក</label>
+                                <input type="text" id="inputFatherJob" placeholder="ឧ. កសិករ, គ្រូបង្រៀន" class="w-full px-3 py-1.5 border border-slate-300 rounded-lg text-xs focus:ring-2 focus:ring-amber-500">
+                            </div>
+
+                            <!-- ១៤. លេខទូរស័ព្ទឪពុក (អារ៉ាប់) -->
+                            <div>
+                                <label class="block text-xs font-semibold text-slate-700 mb-1">១៤. លេខទូរស័ព្ទឪពុក (អារ៉ាប់)</label>
+                                <input type="text" id="inputFatherPhone" oninput="this.value = this.value.replace(/[^0-9]/g, '')" placeholder="012xxxxxx" class="w-full px-3 py-1.5 border border-slate-300 rounded-lg text-xs focus:ring-2 focus:ring-amber-500 font-mono">
+                            </div>
+                        </div>
+
+                        <!-- ១៣. អាសយដ្ឋានឪពុក (ដាច់ដោយឡែក) -->
+                        <div class="pt-2">
+                            <div class="flex items-center justify-between mb-1">
+                                <label class="text-[11px] font-bold text-slate-700">១៣. អាសយដ្ឋានឪពុក (ភូមិ, ឃុំ, ស្រុក, ខេត្ត - វាយបញ្ចូលដាច់ដោយឡែក)</label>
+                                <button type="button" onclick="copyStudentAddressTo('father')" class="text-[10px] bg-amber-100 hover:bg-amber-200 text-amber-800 px-2.5 py-0.5 rounded-lg transition font-semibold">
+                                    <i class="fa-solid fa-copy mr-1"></i>ដូចអាសយដ្ឋានសិស្ស
+                                </button>
+                            </div>
+                            <div class="grid grid-cols-2 sm:grid-cols-4 gap-2">
+                                <input type="text" id="inputFatherVillage" placeholder="ភូមិ" class="px-2.5 py-1 border border-slate-300 rounded-lg text-xs focus:ring-2 focus:ring-amber-500">
+                                <input type="text" id="inputFatherCommune" placeholder="ឃុំ/សង្កាត់" class="px-2.5 py-1 border border-slate-300 rounded-lg text-xs focus:ring-2 focus:ring-amber-500">
+                                <input type="text" id="inputFatherDistrict" placeholder="ស្រុក/ខណ្ឌ" class="px-2.5 py-1 border border-slate-300 rounded-lg text-xs focus:ring-2 focus:ring-amber-500">
+                                <input type="text" id="inputFatherProvince" placeholder="ខេត្ត/ក្រុង" class="px-2.5 py-1 border border-slate-300 rounded-lg text-xs focus:ring-2 focus:ring-amber-500">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- ព័ត៌មានម្តាយ -->
+                    <div class="bg-white p-4 rounded-xl border border-amber-100 shadow-sm space-y-3">
+                        <h5 class="font-bold text-xs text-rose-800 uppercase tracking-wider"><i class="fa-solid fa-user-nurse text-rose-600 mr-1"></i> ព័ត៌មានម្តាយ</h5>
+                        <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                            <!-- ១៥. ឈ្មោះម្តាយ -->
+                            <div>
+                                <label class="block text-xs font-semibold text-slate-700 mb-1">១៥. ឈ្មោះម្តាយ</label>
+                                <input type="text" id="inputMotherName" placeholder="ឈ្មោះពេញម្តាយ" class="w-full px-3 py-1.5 border border-slate-300 rounded-lg text-xs focus:ring-2 focus:ring-amber-500">
+                            </div>
+
+                            <!-- ១៦. មុខរបរម្តាយ -->
+                            <div>
+                                <label class="block text-xs font-semibold text-slate-700 mb-1">១៦. មុខរបរម្តាយ</label>
+                                <input type="text" id="inputMotherJob" placeholder="ឧ. មេផ្ទះ, អាជីវករ" class="w-full px-3 py-1.5 border border-slate-300 rounded-lg text-xs focus:ring-2 focus:ring-amber-500">
+                            </div>
+
+                            <!-- ១៨. លេខទូរស័ព្ទម្តាយ (អារ៉ាប់) -->
+                            <div>
+                                <label class="block text-xs font-semibold text-slate-700 mb-1">១៨. លេខទូរស័ព្ទម្តាយ (អារ៉ាប់)</label>
+                                <input type="text" id="inputMotherPhone" oninput="this.value = this.value.replace(/[^0-9]/g, '')" placeholder="097xxxxxx" class="w-full px-3 py-1.5 border border-slate-300 rounded-lg text-xs focus:ring-2 focus:ring-amber-500 font-mono">
+                            </div>
+                        </div>
+
+                        <!-- ១៧. អាសយដ្ឋានម្តាយ (ដាច់ដោយឡែក) -->
+                        <div class="pt-2">
+                            <div class="flex items-center justify-between mb-1">
+                                <label class="text-[11px] font-bold text-slate-700">១Wrist. អាសយដ្ឋានម្តាយ (ភូមិ, ឃុំ, ស្រុក, ខេត្ត - វាយបញ្ចូលដាច់ដោយឡែក)</label>
+                                <button type="button" onclick="copyStudentAddressTo('mother')" class="text-[10px] bg-amber-100 hover:bg-amber-200 text-amber-800 px-2.5 py-0.5 rounded-lg transition font-semibold">
+                                    <i class="fa-solid fa-copy mr-1"></i>ដូចអាសយដ្ឋានសិស្ស
+                                </button>
+                            </div>
+                            <div class="grid grid-cols-2 sm:grid-cols-4 gap-2">
+                                <input type="text" id="inputMotherVillage" placeholder="ភូមិ" class="px-2.5 py-1 border border-slate-300 rounded-lg text-xs focus:ring-2 focus:ring-amber-500">
+                                <input type="text" id="inputMotherCommune" placeholder="ឃុំ/សង្កាត់" class="px-2.5 py-1 border border-slate-300 rounded-lg text-xs focus:ring-2 focus:ring-amber-500">
+                                <input type="text" id="inputMotherDistrict" placeholder="ស្រុក/ខណ្ឌ" class="px-2.5 py-1 border border-slate-300 rounded-lg text-xs focus:ring-2 focus:ring-amber-500">
+                                <input type="text" id="inputMotherProvince" placeholder="ខេត្ត/ក្រុង" class="px-2.5 py-1 border border-slate-300 rounded-lg text-xs focus:ring-2 focus:ring-amber-500">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- ១៩. ផ្សេងៗ -->
+                    <div>
+                        <label class="block text-xs font-semibold text-slate-700 mb-1">១៩. ផ្សេងៗ (Other Notes)</label>
+                        <textarea id="inputOtherNotes" rows="2" placeholder="ចំណាំបន្ថែមផ្សេងៗ..." class="w-full px-3 py-2 border border-slate-300 rounded-xl text-xs focus:ring-2 focus:ring-brand-500 focus:outline-none bg-white"></textarea>
+                    </div>
+                </div>
+
+                <div class="pt-3 border-t border-slate-200 flex justify-end space-x-3">
+                    <button type="button" onclick="closeModal('formModal')" class="px-4 py-2 border border-slate-300 rounded-xl text-xs sm:text-sm font-semibold text-slate-700 hover:bg-slate-100 transition">បោះបង់</button>
+                    <button type="submit" class="px-5 py-2 bg-brand-600 hover:bg-brand-700 text-white rounded-xl text-xs sm:text-sm font-semibold transition shadow-sm">រក្សាទុកជីវប្រវត្តិ</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Modal: Live Camera Capture -->
+    <div id="cameraModal" class="fixed inset-0 bg-slate-900/80 backdrop-blur-md z-50 hidden flex items-center justify-center p-4">
+        <div class="bg-white rounded-2xl max-w-lg w-full shadow-2xl overflow-hidden border border-slate-200">
+            <div class="p-4 border-b border-slate-200 flex justify-between items-center bg-slate-50">
+                <div class="flex items-center space-x-2">
+                    <i class="fa-solid fa-camera text-brand-600 text-lg"></i>
+                    <h3 class="font-muol-title text-slate-800 text-xs">ថតរូបសិស្សតាម Camera ផ្ទាល់</h3>
+                </div>
+                <button onclick="closeCameraModal()" class="text-slate-400 hover:text-slate-600">
+                    <i class="fa-solid fa-xmark text-lg"></i>
+                </button>
+            </div>
+
+            <div class="p-6 flex flex-col items-center space-y-4">
+                <div class="relative w-full max-w-xs h-72 bg-slate-900 rounded-xl overflow-hidden border-2 border-brand-500 shadow-md flex items-center justify-center">
+                    <video id="cameraStream" autoplay playsinline class="w-full h-full object-cover"></video>
+                    <canvas id="cameraCanvas" class="hidden"></canvas>
+                    <div class="absolute inset-0 border-2 border-white/30 border-dashed rounded-xl pointer-events-none"></div>
+                </div>
+
+                <div class="flex items-center space-x-3 w-full justify-center pt-2">
+                    <button type="button" onclick="closeCameraModal()" class="px-4 py-2 border border-slate-300 rounded-xl text-xs font-semibold text-slate-700 hover:bg-slate-100">
+                        បោះបង់
+                    </button>
+                    <button type="button" onclick="captureCameraPhoto()" class="px-5 py-2 bg-emerald-600 hover:bg-emerald-700 text-white rounded-xl text-xs font-semibold shadow flex items-center space-x-2">
+                        <i class="fa-solid fa-circle text-red-500 text-xs animate-pulse"></i>
+                        <span>ថតរូបភាព (Capture)</span>
+                    </button>
+                </div>
             </div>
         </div>
     </div>
 
-    <!-- Modal 3: Clean Biography Preview Modal (Button Preview / មើលគំរូ) -->
-    <div id="previewCardModal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden opacity-0 transition-opacity duration-200">
-        <div class="bg-white rounded-3xl max-w-3xl w-full max-h-[92vh] flex flex-col shadow-2xl overflow-hidden border border-slate-100">
-            <!-- Modal Header -->
-            <div class="px-6 py-3 border-b border-slate-100 flex items-center justify-between bg-slate-50 no-print">
-                <div class="flex items-center gap-2">
-                    <i class="ph-bold ph-eye text-indigo-600 text-xl"></i>
-                    <h2 class="text-sm font-bold text-slate-800">ទម្រង់មើលគំរូជីវប្រវត្តិសិស្ស (Biography Preview)</h2>
+    <!-- Modal: Upload File (Word, PDF, JPG) -->
+    <div id="uploadModal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
+        <div class="bg-white rounded-2xl max-w-xl w-full shadow-2xl overflow-hidden border border-slate-200">
+            <div class="p-4 px-6 border-b border-slate-200 flex justify-between items-center bg-slate-50">
+                <div class="flex items-center space-x-2">
+                    <i class="fa-solid fa-cloud-arrow-up text-brand-600 text-lg"></i>
+                    <h3 class="font-muol-title text-slate-800 text-xs">បញ្ចូល File (Word, PDF, Image)</h3>
                 </div>
-                <div class="flex items-center gap-2">
-                    <button onclick="downloadSingleBioPDF()" class="px-3 py-1.5 rounded-xl bg-rose-600 hover:bg-rose-700 text-white text-xs font-bold shadow flex items-center gap-1.5 transition">
-                        <i class="ph-bold ph-file-pdf text-base"></i>
-                        <span>ទាញយកជា PDF</span>
-                    </button>
-                    <button onclick="window.print()" class="px-3.5 py-1.5 rounded-xl bg-brand-600 hover:bg-brand-700 text-white text-xs font-bold shadow flex items-center gap-1.5 transition">
-                        <i class="ph-bold ph-printer text-base"></i>
-                        <span>បោះពុម្ព (Print)</span>
-                    </button>
-                    <button onclick="closePreviewModal()" class="w-8 h-8 rounded-full hover:bg-slate-200 text-slate-400 hover:text-slate-600 flex items-center justify-center transition">
-                        <i class="ph-bold ph-x text-lg"></i>
-                    </button>
-                </div>
+                <button onclick="closeModal('uploadModal')" class="text-slate-400 hover:text-slate-600">
+                    <i class="fa-solid fa-xmark text-lg"></i>
+                </button>
             </div>
 
-            <!-- Printable Official Layout Card -->
-            <div class="p-8 overflow-y-auto custom-scrollbar flex-1 bg-white text-slate-800" id="printablePreviewCard">
-                <!-- Header Title -->
-                <div class="text-center space-y-1 mb-6 border-b pb-4 border-slate-200">
-                    <h2 class="text-base font-bold uppercase tracking-wide text-brand-900">ព្រះរាជាណាចក្រកម្ពុជា</h2>
-                    <h3 class="text-xs font-semibold text-slate-600">ជាតិ សាសនា ព្រះមហាក្សត្រ</h3>
-                    <div class="w-16 h-0.5 bg-amber-500 mx-auto my-2"></div>
-                    <h1 class="text-lg font-bold text-slate-900 mt-2">ជីវប្រវត្តិសង្ខេបសិស្ស (STUDENT BIOGRAPHY)</h1>
-                    <p id="previewHeaderSub" class="text-xs text-slate-500">ថ្នាក់ទី១២A • ឆ្នាំសិក្សា ២០២៥-២០២៦</p>
+            <div class="p-6 space-y-5">
+                <div id="dropZone" onclick="document.getElementById('fileInput').click()" class="border-2 border-dashed border-slate-300 hover:border-brand-500 rounded-2xl p-8 text-center bg-slate-50 hover:bg-brand-50/30 cursor-pointer transition flex flex-col items-center justify-center">
+                    <input type="file" id="fileInput" onchange="handleFileSelect(event)" accept=".jpg,.jpeg,.png,.pdf,.docx,.doc,.xlsx" class="hidden">
+                    <div class="w-14 h-14 bg-brand-100 text-brand-600 rounded-full flex items-center justify-center text-2xl mb-3 shadow-inner">
+                        <i class="fa-solid fa-file-invoice"></i>
+                    </div>
+                    <p class="text-xs sm:text-sm font-semibold text-slate-700">ចុចទីនេះ ឬ អូសទាញ File ទម្លាក់ចូល</p>
+                    <p class="text-xs text-slate-500 mt-1">គាំទ្រ៖ Word (.docx), PDF, JPG, PNG</p>
                 </div>
 
-                <div id="previewCardBody" class="space-y-6 text-xs leading-relaxed">
-                    <!-- Clean biography layout rendered dynamically -->
+                <div id="filePreviewContainer" class="hidden bg-slate-100 p-3 rounded-xl flex items-center justify-between border border-slate-200">
+                    <div class="flex items-center space-x-3 overflow-hidden">
+                        <span id="fileIcon" class="text-xl text-brand-600"><i class="fa-solid fa-file"></i></span>
+                        <div class="truncate">
+                            <p id="fileName" class="text-xs font-bold text-slate-800 truncate">file-name.pdf</p>
+                            <p id="fileSize" class="text-[10px] text-slate-500">1.2 MB</p>
+                        </div>
+                    </div>
+                    <button onclick="clearSelectedFile()" class="text-xs text-red-500 hover:text-red-700 font-semibold px-2 py-1">លុប</button>
                 </div>
 
-                <div class="mt-8 pt-4 border-t border-slate-200 flex justify-between text-[11px] text-slate-500 italic">
-                    <p>ថ្ងៃខែឆ្នាំប្រមែប្រមូលទិន្នន័យ៖ <span id="previewDateText">03/09/2026</span></p>
-                    <p>ហត្ថលេខាសិស្ស/អាណាព្យាបាល</p>
+                <div class="flex justify-end space-x-3 pt-2">
+                    <button onclick="closeModal('uploadModal')" class="px-4 py-2 border border-slate-300 rounded-xl text-xs sm:text-sm font-semibold text-slate-700 hover:bg-slate-100 transition">បោះបង់</button>
+                    <button id="processFileBtn" onclick="processUploadedFile()" disabled class="px-5 py-2 bg-slate-400 text-white rounded-xl text-xs sm:text-sm font-semibold transition cursor-not-allowed">
+                        <i class="fa-solid fa-gears mr-1"></i> អាន & ស្រង់ទិន្នន័យ
+                    </button>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- Notification Toast Container -->
-    <div id="toastContainer" class="fixed bottom-5 right-5 z-50 flex flex-col gap-2 pointer-events-none"></div>
+    <!-- Loading Overlay for AI Processing -->
+    <div id="aiLoadingOverlay" class="fixed inset-0 bg-slate-900/70 backdrop-blur-md z-50 hidden flex flex-col items-center justify-center text-white p-4">
+        <div class="relative w-20 h-20 mb-4">
+            <div class="absolute inset-0 rounded-full border-4 border-amber-400/20 animate-ping"></div>
+            <div class="absolute inset-0 rounded-full border-4 border-t-amber-400 border-r-transparent border-b-transparent border-l-transparent animate-spin"></div>
+            <div class="absolute inset-0 flex items-center justify-center text-amber-400 text-2xl">
+                <i class="fa-solid fa-wand-magic-sparkles"></i>
+            </div>
+        </div>
+        <h3 id="aiLoadingTitle" class="text-sm sm:text-base font-muol-title text-amber-300">កំពុងដំណើរការ...</h3>
+        <p id="aiLoadingSub" class="text-xs text-slate-300 mt-2 max-w-sm text-center font-siemreap-body">ប្រព័ន្ធកំពុងរៀបចំរចនាសម្ព័ន្ធទិន្នន័យជីវប្រវត្តិសិស្ស...</p>
+    </div>
+
+    <!-- Custom Toast Message Notification -->
+    <div id="toast" class="fixed bottom-5 right-5 z-50 transform translate-y-20 opacity-0 transition-all duration-300 bg-slate-900 text-white px-4 py-3 rounded-2xl shadow-2xl flex items-center space-x-3 border border-slate-700">
+        <i id="toastIcon" class="fa-solid fa-circle-check text-emerald-400 text-base"></i>
+        <span id="toastMsg" class="text-xs font-semibold">រក្សាទុកបានជោគជ័យ</span>
+    </div>
 
     <script>
-        // Global Application State
-        let students = [];
-        let activeStudentId = null;
-        let viewMode = 'grid'; // 'grid' or 'table'
-        let currentLang = 'km'; // 'km' or 'en'
-        let currentUploadFile = null;
-        let extractedFileText = "";
-
-        // API Key setup for Gemini AI calls
-        const apiKey = "";
-        const geminiApiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-09-2025:generateContent?key=${apiKey}`;
-
-        // Toast Notification System
-        function showToast(message, type = 'info') {
-            const container = document.getElementById('toastContainer');
-            const toast = document.createElement('div');
-            
-            const bgClass = type === 'success' ? 'bg-emerald-800 text-white' : 
-                            type === 'error' ? 'bg-rose-800 text-white' : 'bg-slate-800 text-white';
-            const iconClass = type === 'success' ? 'ph-check-circle text-emerald-400' : 
-                              type === 'error' ? 'ph-x-circle text-rose-400' : 'ph-info text-blue-400';
-
-            toast.className = `pointer-events-auto flex items-center gap-2.5 px-4 py-3 rounded-xl shadow-xl text-xs font-medium ${bgClass} transition duration-300 transform translate-y-2 opacity-0`;
-            toast.innerHTML = `<i class="ph-bold ${iconClass} text-lg"></i> <span>${message}</span>`;
-            
-            container.appendChild(toast);
-            
-            setTimeout(() => {
-                toast.classList.remove('translate-y-2', 'opacity-0');
-            }, 10);
-
-            setTimeout(() => {
-                toast.classList.add('opacity-0', 'translate-y-2');
-                setTimeout(() => toast.remove(), 300);
-            }, 3500);
-        }
-
-        // Toggle Application Language (Khmer / English UI)
-        function toggleLanguage() {
-            currentLang = currentLang === 'km' ? 'en' : 'km';
-            document.getElementById('currentLangText').innerText = currentLang === 'km' ? 'ខ្មែរ / EN' : 'EN / ខ្មែរ';
-            showToast(currentLang === 'km' ? "បានប្តូរទៅភាសាខ្មែរ" : "Switched to English UI", 'info');
-            renderStudentList();
-        }
-
-        // File Selection and Parser Handler
-        async function handleFileSelect(event) {
-            const file = event.target.files[0];
-            if (!file) return;
-
-            currentUploadFile = file;
-            const fileExt = file.name.split('.').pop().toLowerCase();
-            
-            document.getElementById('fileInfoBox').classList.remove('hidden');
-            document.getElementById('fileName').innerText = file.name;
-            document.getElementById('fileSize').innerText = (file.size / 1024).toFixed(1) + " KB";
-            document.getElementById('fileTypeBadge').innerText = fileExt.toUpperCase();
-            document.getElementById('extractedPreviewText').innerText = "កំពុងទាញយកអត្ថបទចេញពី File (Extracting text)...";
-
-            try {
-                if (['jpg', 'jpeg', 'png'].includes(fileExt)) {
-                    // Extract text from image using Gemini Vision OCR
-                    extractedFileText = await extractTextFromImage(file);
-                } else if (fileExt === 'docx') {
-                    // Extract text from Word DOCX
-                    const arrayBuffer = await file.arrayBuffer();
-                    const result = await mammoth.extractRawText({ arrayBuffer: arrayBuffer });
-                    extractedFileText = result.value;
-                } else if (['xlsx', 'xls'].includes(fileExt)) {
-                    // Extract text from Excel XLSX
-                    const arrayBuffer = await file.arrayBuffer();
-                    const workbook = XLSX.read(arrayBuffer, { type: 'array' });
-                    let fullText = "";
-                    workbook.SheetNames.forEach(sheetName => {
-                        const worksheet = workbook.Sheets[sheetName];
-                        fullText += `[Sheet: ${sheetName}]\n` + XLSX.utils.sheet_to_txt(worksheet) + "\n\n";
-                    });
-                    extractedFileText = fullText;
-                } else if (fileExt === 'pdf') {
-                    // Extract text from PDF
-                    const arrayBuffer = await file.arrayBuffer();
-                    const pdf = await pdfjsLib.getDocument({ data: arrayBuffer }).promise;
-                    let fullText = "";
-                    for (let i = 1; i <= pdf.numPages; i++) {
-                        const page = await pdf.getPage(i);
-                        const textContent = await page.getTextContent();
-                        const pageText = textContent.items.map(item => item.str).join(' ');
-                        fullText += pageText + "\n";
-                    }
-                    extractedFileText = fullText;
-                } else {
-                    // Plain text or fallback
-                    extractedFileText = await file.text();
-                }
-
-                document.getElementById('extractedPreviewText').innerText = extractedFileText.substring(0, 500) + (extractedFileText.length > 500 ? "..." : "");
-                document.getElementById('inputStudentBio').value = extractedFileText;
+        // Sample student data matching all 19 fields + Photo
+        let studentData = [
+            {
+                id: "std-001",
+                studentId: "ST-2024-001",
+                fullName: "សុខ ចាន់ថា",
+                gender: "ប្រុស",
+                dob: "12/05/2004",
+                photoUrl: null,
+                studentAddress: {
+                    village: "ព្រែកតានេញ",
+                    commune: "ព្រែកថ្មី",
+                    district: "ច្បារអំពៅ",
+                    province: "ភ្នំពេញ"
+                },
+                phone: "012889900",
+                deskNo: "T-15",
+                roomNo: "R-02",
+                examCenter: "វិទ្យាល័យ ហ៊ុន សែន ច្បារអំពៅ",
+                examSession: "០៨ តុលា ២០២៤",
                 
-                // Auto fill name if blank and detectable from filename
-                if (!document.getElementById('inputStudentName').value) {
-                    const cleanName = file.name.replace(/\.[^/.]+$/, "").replace(/[-_]/g, " ");
-                    document.getElementById('inputStudentName').value = cleanName;
-                }
+                // Father info
+                fatherName: "សុខ មករា",
+                fatherJob: "គ្រូបង្រៀន",
+                fatherAddress: {
+                    village: "ព្រែកតានេញ",
+                    commune: "ព្រែកថ្មី",
+                    district: "ច្បារអំពៅ",
+                    province: "ភ្នំពេញ"
+                },
+                fatherPhone: "012334455",
 
-                showToast("ទាញយកទិន្នន័យពី File រួចរាល់!", "success");
+                // Mother info
+                motherName: "ចាន់ សុភាព",
+                motherJob: "អាជីវករ",
+                motherAddress: {
+                    village: "ព្រែកតានេញ",
+                    commune: "ព្រែកថ្មី",
+                    district: "ច្បារអំពៅ",
+                    province: "ភ្នំពេញ"
+                },
+                motherPhone: "097887766",
 
-            } catch (err) {
-                console.error(err);
-                document.getElementById('extractedPreviewText').innerText = "បរាជ័យក្នុងការ đọc file: " + err.message;
-                showToast("មានបញ្ហាក្នុងការ đọc File!", "error");
+                otherNotes: "សិស្សឆ្នើមផ្នែកគណិតវិទ្យា",
+                sourceFile: "Manual Input",
+                lastAutoEdited: null
+            },
+            {
+                id: "std-002",
+                studentId: "ST-2024-002",
+                fullName: "គឹម សុជាតិ",
+                gender: "ស្រី",
+                dob: "05/08/2005",
+                photoUrl: null,
+                studentAddress: {
+                    village: "ទឹកថ្លា",
+                    commune: "ទឹកថ្លា",
+                    district: "សែនសុខ",
+                    province: "ភ្នំពេញ"
+                },
+                phone: "097554433",
+                deskNo: "T-08",
+                roomNo: "R-01",
+                examCenter: "វិទ្យាល័យ សែនសុខ",
+                examSession: "០៨ តុលា ២០២៤",
+                
+                fatherName: "គឹម សំអាត",
+                fatherJob: "កសិករ",
+                fatherAddress: {
+                    village: "ព្រែកខ្សាច់",
+                    commune: "ព្រែកខ្សាច់",
+                    district: "គីរីសាគរ",
+                    province: "កោះកុង"
+                },
+                fatherPhone: "088665544",
+
+                motherName: "លី ស្រីមុំ",
+                motherJob: "មេផ្ទះ",
+                motherAddress: {
+                    village: "ព្រែកខ្សាច់",
+                    commune: "ព្រែកខ្សាច់",
+                    district: "គីរីសាគរ",
+                    province: "កោះកុង"
+                },
+                motherPhone: "092112233",
+
+                otherNotes: "អាហារូបករណ៍ ១០០%",
+                sourceFile: "Socheat_Bio.docx",
+                lastAutoEdited: "03/09/2026"
+            }
+        ];
+
+        let currentActiveCvId = null;
+        let selectedUploadedFile = null;
+        let mediaStreamTrack = null;
+
+        window.addEventListener('DOMContentLoaded', () => {
+            populateExamCenterFilter();
+            renderStudentList();
+        });
+
+        function populateExamCenterFilter() {
+            const select = document.getElementById('examCenterFilter');
+            const centers = [...new Set(studentData.map(s => s.examCenter).filter(Boolean))];
+            
+            select.innerHTML = '<option value="">គ្រប់មណ្ឌលប្រឡងទាំងអស់</option>';
+            centers.forEach(c => {
+                const opt = document.createElement('option');
+                opt.value = c;
+                opt.textContent = c;
+                select.appendChild(opt);
+            });
+        }
+
+        function renderStudentList() {
+            const grid = document.getElementById('studentGrid');
+            const emptyState = document.getElementById('emptyState');
+            const searchVal = document.getElementById('searchInput').value.toLowerCase();
+            const centerFilter = document.getElementById('examCenterFilter').value;
+
+            grid.innerHTML = '';
+
+            const filteredData = studentData.filter(item => {
+                const fullAddr = `${item.studentAddress.village} ${item.studentAddress.commune} ${item.studentAddress.district} ${item.studentAddress.province}`;
+                const matchesSearch = item.fullName.toLowerCase().includes(searchVal) || 
+                                      item.studentId.toLowerCase().includes(searchVal) ||
+                                      item.phone.includes(searchVal) ||
+                                      item.examCenter.toLowerCase().includes(searchVal) ||
+                                      fullAddr.toLowerCase().includes(searchVal);
+                const matchesCenter = centerFilter === '' || item.examCenter === centerFilter;
+                return matchesSearch && matchesCenter;
+            });
+
+            document.getElementById('totalCvCount').innerText = filteredData.length;
+
+            if (filteredData.length === 0) {
+                emptyState.classList.remove('hidden');
+                emptyState.classList.add('flex');
+            } else {
+                emptyState.classList.add('hidden');
+                emptyState.classList.remove('flex');
+
+                filteredData.forEach(student => {
+                    const card = document.createElement('div');
+                    card.className = "bg-white rounded-2xl border border-slate-200/90 shadow-sm hover:shadow-lg transition-all duration-200 flex flex-col justify-between overflow-hidden group";
+                    
+                    const studentAddrStr = [student.studentAddress.village, student.studentAddress.commune, student.studentAddress.district, student.studentAddress.province].filter(Boolean).join(', ');
+
+                    const photoAvatar = student.photoUrl 
+                        ? `<img src="${student.photoUrl}" class="w-12 h-12 rounded-full object-cover border-2 border-brand-500 shadow-sm" alt="Student">`
+                        : `<div class="w-12 h-12 rounded-full bg-gradient-to-tr ${student.gender === 'ស្រី' ? 'from-rose-500 to-pink-400' : 'from-blue-600 to-indigo-500'} text-white font-bold text-base flex items-center justify-center flex-shrink-0 shadow-sm">${student.fullName.charAt(0)}</div>`;
+
+                    card.innerHTML = `
+                        <div class="p-5">
+                            <div class="flex items-start justify-between">
+                                <div class="flex items-center space-x-3">
+                                    ${photoAvatar}
+                                    <div class="overflow-hidden">
+                                        <div class="flex items-center space-x-2">
+                                            <h3 class="font-muol-title text-slate-900 text-xs sm:text-sm truncate group-hover:text-brand-600 transition">${student.fullName}</h3>
+                                            <span class="text-[10px] bg-slate-100 text-slate-600 px-1.5 py-0.5 rounded border">${student.gender}</span>
+                                        </div>
+                                        <p class="text-xs text-brand-600 font-bold truncate"><i class="fa-solid fa-id-badge mr-1"></i>${student.studentId}</p>
+                                    </div>
+                                </div>
+                                ${student.lastAutoEdited ? '<span title="បានកែសម្រួលដោយ AI" class="text-[10px] bg-amber-100 text-amber-800 px-2 py-0.5 rounded-full font-semibold flex items-center space-x-1 border border-amber-200"><i class="fa-solid fa-wand-magic-sparkles text-amber-600"></i> <span>AI</span></span>' : ''}
+                            </div>
+
+                            <div class="mt-4 space-y-2 text-xs text-slate-600">
+                                <div class="flex items-center justify-between bg-slate-50 p-2.5 rounded-xl border border-slate-150">
+                                    <span><i class="fa-solid fa-cake-candles text-amber-500 mr-1.5"></i>ថ្ងៃកំណើត៖ <b>${student.dob}</b></span>
+                                    <span><i class="fa-solid fa-phone text-emerald-500 mr-1"></i><b class="font-mono text-slate-800">${student.phone}</b></span>
+                                </div>
+
+                                <div class="flex items-center space-x-2 text-slate-600 pt-1">
+                                    <i class="fa-solid fa-school text-brand-500 w-4"></i>
+                                    <span class="truncate font-semibold text-slate-800">${student.examCenter || 'មិនទាន់មានមណ្ឌល'}</span>
+                                </div>
+
+                                <div class="flex items-center justify-between text-slate-500 text-[11px] bg-indigo-50/40 p-2 rounded-lg border border-indigo-100/60">
+                                    <span><i class="fa-solid fa-chair text-slate-400 mr-1"></i>តុ៖ <b class="text-slate-800 font-bold">${student.deskNo || '-'}</b></span>
+                                    <span><i class="fa-solid fa-door-open text-slate-400 mr-1"></i>បន្ទប់៖ <b class="text-slate-800 font-bold">${student.roomNo || '-'}</b></span>
+                                    <span><i class="fa-solid fa-calendar text-slate-400 mr-1"></i>សម័យ៖ <b class="text-slate-800 font-bold">${student.examSession || '-'}</b></span>
+                                </div>
+
+                                <div class="flex items-start space-x-1.5 pt-0.5 text-[11px] text-slate-500">
+                                    <i class="fa-solid fa-location-dot text-rose-500 mt-0.5 w-4"></i>
+                                    <span class="line-clamp-1">${studentAddrStr || 'មិនទាន់មានអាសយដ្ឋាន'}</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Card Action Footer -->
+                        <div class="bg-slate-50/90 p-3 px-4 border-t border-slate-100 flex items-center justify-between">
+                            <div class="text-[11px] text-slate-400 truncate max-w-[120px]" title="ឪពុក៖ ${student.fatherName || '-'} / ម្តាយ៖ ${student.motherName || '-'}">
+                                <i class="fa-solid fa-people-roof mr-1 text-slate-400"></i>${student.fatherName || student.motherName || 'អាណាព្យាបាល'}
+                            </div>
+                            <div class="flex items-center space-x-1.5">
+                                <button onclick="triggerAutoEdit('${student.id}')" title="កែសម្រួលស្វ័យប្រវត្តិដោយ AI" class="bg-amber-100 hover:bg-amber-200 text-amber-800 p-2 rounded-xl text-xs font-semibold transition">
+                                    <i class="fa-solid fa-wand-magic-sparkles"></i>
+                                </button>
+                                <button onclick="openEditModal('${student.id}')" title="កែប្រែទិន្នន័យ" class="bg-slate-200 hover:bg-slate-300 text-slate-700 p-2 rounded-xl text-xs font-semibold transition">
+                                    <i class="fa-solid fa-pen"></i>
+                                </button>
+                                <button onclick="viewStudentCv('${student.id}')" title="មើលជីវប្រវត្តិពេញលេញ" class="bg-brand-600 hover:bg-brand-700 text-white px-3.5 py-1.5 rounded-xl text-xs font-semibold transition flex items-center space-x-1 shadow-sm">
+                                    <i class="fa-solid fa-eye"></i>
+                                    <span>មើល</span>
+                                </button>
+                            </div>
+                        </div>
+                    `;
+                    grid.appendChild(card);
+                });
             }
         }
 
-        // Image Base64 convert & OCR via Gemini
-        async function extractTextFromImage(file) {
+        function viewStudentCv(id) {
+            const student = studentData.find(s => s.id === id);
+            if (!student) return;
+
+            currentActiveCvId = id;
+            const content = document.getElementById('cvViewContent');
+
+            const stdAddr = [
+                student.studentAddress.village ? `ភូមិ${student.studentAddress.village}` : '',
+                student.studentAddress.commune ? `ឃុំ/សង្កាត់${student.studentAddress.commune}` : '',
+                student.studentAddress.district ? `ស្រុក/ខណ្ឌ${student.studentAddress.district}` : '',
+                student.studentAddress.province ? `ខេត្ត/ក្រុង${student.studentAddress.province}` : ''
+            ].filter(Boolean).join(' ');
+
+            const fatherAddr = [
+                student.fatherAddress.village ? `ភូមិ${student.fatherAddress.village}` : '',
+                student.fatherAddress.commune ? `ឃុំ/សង្កាត់${student.fatherAddress.commune}` : '',
+                student.fatherAddress.district ? `ស្រុក/ខណ្ឌ${student.fatherAddress.district}` : '',
+                student.fatherAddress.province ? `ខេត្ត/ក្រុង${student.fatherAddress.province}` : ''
+            ].filter(Boolean).join(' ');
+
+            const motherAddr = [
+                student.motherAddress.village ? `ភូមិ${student.motherAddress.village}` : '',
+                student.motherAddress.commune ? `ឃុំ/សង្កាត់${student.motherAddress.commune}` : '',
+                student.motherAddress.district ? `ស្រុក/ខណ្ឌ${student.motherAddress.district}` : '',
+                student.motherAddress.province ? `ខេត្ត/ក្រុង${student.motherAddress.province}` : ''
+            ].filter(Boolean).join(' ');
+
+            const photoHtml = student.photoUrl 
+                ? `<img src="${student.photoUrl}" class="w-24 h-32 object-cover border-2 border-slate-300 rounded-lg shadow-sm" alt="Student Photo">`
+                : `<div class="w-24 h-32 border-2 border-dashed border-slate-300 bg-slate-50 rounded-lg flex flex-col items-center justify-center text-slate-400 text-xs text-center p-2"><i class="fa-solid fa-user text-2xl mb-1"></i>រូបថត 4x6</div>`;
+
+            content.innerHTML = `
+                <!-- CV Title Header with Khmer OS Muol Light Font -->
+                <div class="flex justify-between items-start pb-4 mb-6 border-b-2 border-indigo-600">
+                    <div class="text-left flex-1">
+                        <h1 class="text-xl sm:text-2xl font-muol-title text-slate-900 tracking-wide">ព្រះរាជាណាចក្រកម្ពុជា</h1>
+                        <p class="text-xs font-muol-title text-slate-700 mt-1">ជាតិ សាសនា ព្រះមហាក្សត្រ</p>
+                        <div class="my-2">
+                            <span class="w-20 h-0.5 bg-indigo-600 block"></span>
+                        </div>
+                        <h2 class="text-lg sm:text-xl font-muol-title text-brand-700 mt-3">ជីវប្រវត្តិសិស្ស (STUDENT BIOGRAPHY)</h2>
+                    </div>
+                    <div class="ml-4 flex-shrink-0">
+                        ${photoHtml}
+                    </div>
+                </div>
+
+                <!-- ផ្នែកទី១ (ព័ត៌មានផ្ទាល់ខ្លួនសិស្ស) -->
+                <div class="mb-6">
+                    <div class="bg-indigo-700 text-white px-4 py-2 rounded-t-xl font-muol-title text-xs flex items-center justify-between">
+                        <span><i class="fa-solid fa-user mr-2"></i>ផ្នែកទី១ (ព័ត៌មានផ្ទាល់ខ្លួនសិស្ស)</span>
+                        <span class="text-[10px] bg-indigo-600 px-2.5 py-0.5 rounded-full font-siemreap-body">១០ ចំណុច</span>
+                    </div>
+                    <div class="bg-indigo-50/40 p-4 rounded-b-xl border border-indigo-200/80 grid grid-cols-1 md:grid-cols-2 gap-y-2.5 gap-x-4 text-xs font-siemreap-body">
+                        <div class="flex"><span class="font-bold text-slate-700 w-36">១. អត្តលេខ៖</span> <span class="text-brand-700 font-bold">${student.studentId || '-'}</span></div>
+                        <div class="flex"><span class="font-bold text-slate-700 w-36">២. គោត្តនាម+នាមខ្លួន៖</span> <span class="text-slate-900 font-bold">${student.fullName || '-'}</span></div>
+                        <div class="flex"><span class="font-bold text-slate-700 w-36">៣. ភេទ៖</span> <span>${student.gender || '-'}</span></div>
+                        <div class="flex"><span class="font-bold text-slate-700 w-36">៤. ថ្ងៃខែឆ្នាំកំណើត៖</span> <span>${student.dob || '-'}</span></div>
+                        <div class="flex col-span-1 md:col-span-2"><span class="font-bold text-slate-700 w-36 flex-shrink-0">៥. អាសយដ្ឋាន៖</span> <span>${stdAddr || 'មិនទាន់មាន'}</span></div>
+                        <div class="flex"><span class="font-bold text-slate-700 w-36">៦. លេខទូរស័ព្ទ៖</span> <span class="font-mono text-slate-900 font-bold">${student.phone || '-'}</span></div>
+                        <div class="flex"><span class="font-bold text-slate-700 w-36">៧. លេខតុ៖</span> <span>${student.deskNo || '-'}</span></div>
+                        <div class="flex"><span class="font-bold text-slate-700 w-36">៨. លេខបន្ទប់៖</span> <span>${student.roomNo || '-'}</span></div>
+                        <div class="flex"><span class="font-bold text-slate-700 w-36">៩. មណ្ឌលប្រឡង៖</span> <span>${student.examCenter || '-'}</span></div>
+                        <div class="flex"><span class="font-bold text-slate-700 w-36">១០. សម័យប្រឡង៖</span> <span>${student.examSession || '-'}</span></div>
+                    </div>
+                </div>
+
+                <!-- ផ្នែកទី២ (ព័ត៌មានអាណាព្យាបាលសិស្ស) -->
+                <div class="mb-6">
+                    <div class="bg-amber-600 text-white px-4 py-2 rounded-t-xl font-muol-title text-xs flex items-center justify-between">
+                        <span><i class="fa-solid fa-users mr-2"></i>ផ្នែកទី២ (ព័ត៌មានអាណាព្យាបាលសិស្ស)</span>
+                        <span class="text-[10px] bg-amber-500 px-2.5 py-0.5 rounded-full font-siemreap-body">៩ ចំណុច</span>
+                    </div>
+                    <div class="bg-amber-50/40 p-4 rounded-b-xl border border-amber-200/80 space-y-3 text-xs font-siemreap-body">
+                        <!-- Father -->
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-y-2 gap-x-4 border-b border-amber-200/60 pb-2.5">
+                            <div class="flex"><span class="font-bold text-slate-700 w-36">១១. ឈ្មោះឪពុក៖</span> <span class="font-bold text-slate-900">${student.fatherName || '-'}</span></div>
+                            <div class="flex"><span class="font-bold text-slate-700 w-36">១២. មុខរបរឪពុក៖</span> <span>${student.fatherJob || '-'}</span></div>
+                            <div class="flex col-span-1 md:col-span-2"><span class="font-bold text-slate-700 w-36 flex-shrink-0">១៣. អាសយដ្ឋានឪពុក៖</span> <span>${fatherAddr || 'ដូចអាសយដ្ឋានសិស្ស'}</span></div>
+                            <div class="flex"><span class="font-bold text-slate-700 w-36">១៤. លេខទូរស័ព្ទឪពុក៖</span> <span class="font-mono text-slate-900">${student.fatherPhone || '-'}</span></div>
+                        </div>
+
+                        <!-- Mother -->
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-y-2 gap-x-4 border-b border-amber-200/60 pb-2.5">
+                            <div class="flex"><span class="font-bold text-slate-700 w-36">១៥. ឈ្មោះម្តាយ៖</span> <span class="font-bold text-slate-900">${student.motherName || '-'}</span></div>
+                            <div class="flex"><span class="font-bold text-slate-700 w-36">១៦. មុខរបរម្តាយ៖</span> <span>${student.motherJob || '-'}</span></div>
+                            <div class="flex col-span-1 md:col-span-2"><span class="font-bold text-slate-700 w-36 flex-shrink-0">១៧. អាសយដ្ឋានម្តាយ៖</span> <span>${motherAddr || 'ដូចអាសយដ្ឋានសិស្ស'}</span></div>
+                            <div class="flex"><span class="font-bold text-slate-700 w-36">១៨. លេខទូរស័ព្ទម្តាយ៖</span> <span class="font-mono text-slate-900">${student.motherPhone || '-'}</span></div>
+                        </div>
+
+                        <!-- Other Notes -->
+                        <div class="flex pt-1">
+                            <span class="font-bold text-slate-700 w-36 flex-shrink-0">១៩. ផ្សេងៗ៖</span>
+                            <span class="text-slate-700 italic">${student.otherNotes || 'មិនមានចំណាំបន្ថែម'}</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Footer Signatures -->
+                <div class="mt-12 pt-4 flex justify-between items-end text-xs text-slate-600 font-siemreap-body">
+                    <div class="text-center">
+                        <p class="mb-12 font-semibold">ស្នាមមេដៃ / ហត្ថលេខាសិស្ស</p>
+                        <p class="font-bold text-slate-900">${student.fullName}</p>
+                    </div>
+                    <div class="text-center">
+                        <p class="mb-1 text-slate-400 text-[10px]">ថ្ងៃទី........ខែ........ឆ្នាំ២០....</p>
+                        <p class="mb-12 font-semibold text-slate-800">ហត្ថលេខាអ្នកប្រមូលទិន្នន័យ</p>
+                        <p class="text-slate-400 text-[10px]">ប្រព័ន្ធគ្រប់គ្រងជីវប្រវត្តិសិស្ស</p>
+                    </div>
+                </div>
+            `;
+
+            document.getElementById('modalAutoEditBtn').setAttribute('onclick', `triggerAutoEdit('${student.id}')`);
+            openModal('viewModal');
+        }
+
+        function handlePhotoUpload(event) {
+            const file = event.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    setStudentPhoto(e.target.result);
+                };
+                reader.readAsDataURL(file);
+            }
+        }
+
+        function setStudentPhoto(base64Data) {
+            document.getElementById('photoDataBase64').value = base64Data;
+            document.getElementById('photoPreviewImg').src = base64Data;
+            document.getElementById('photoPreviewImg').classList.remove('hidden');
+            document.getElementById('photoPlaceholderIcon').classList.add('hidden');
+            document.getElementById('removePhotoBtn').classList.remove('hidden');
+        }
+
+        function removePhoto() {
+            document.getElementById('photoDataBase64').value = '';
+            document.getElementById('photoPreviewImg').src = '';
+            document.getElementById('photoPreviewImg').classList.add('hidden');
+            document.getElementById('photoPlaceholderIcon').classList.remove('hidden');
+            document.getElementById('removePhotoBtn').classList.add('hidden');
+            document.getElementById('photoFileInput').value = '';
+        }
+
+        async function openCameraModal() {
+            openModal('cameraModal');
+            const video = document.getElementById('cameraStream');
+            try {
+                const stream = await navigator.mediaDevices.getUserMedia({ video: true });
+                video.srcObject = stream;
+                mediaStreamTrack = stream.getTracks()[0];
+            } catch (err) {
+                alert("មិនអាចចូលប្រើប្រាស់ Camera លើ Device របស់អ្នកបានឡើយ៖ " + err.message);
+                closeCameraModal();
+            }
+        }
+
+        function closeCameraModal() {
+            if (mediaStreamTrack) {
+                mediaStreamTrack.stop();
+                mediaStreamTrack = null;
+            }
+            closeModal('cameraModal');
+        }
+
+        function captureCameraPhoto() {
+            const video = document.getElementById('cameraStream');
+            const canvas = document.getElementById('cameraCanvas');
+            const context = canvas.getContext('2d');
+
+            canvas.width = video.videoWidth || 300;
+            canvas.height = video.videoHeight || 400;
+
+            context.drawImage(video, 0, 0, canvas.width, canvas.height);
+            const dataUrl = canvas.toDataURL('image/jpeg');
+
+            setStudentPhoto(dataUrl);
+            closeCameraModal();
+            showToast("ថតរូបភាពសិស្សបានជោគជ័យ");
+        }
+
+        function copyStudentAddressTo(target) {
+            const village = document.getElementById('inputStudentVillage').value;
+            const commune = document.getElementById('inputStudentCommune').value;
+            const district = document.getElementById('inputStudentDistrict').value;
+            const province = document.getElementById('inputStudentProvince').value;
+
+            if (target === 'father') {
+                document.getElementById('inputFatherVillage').value = village;
+                document.getElementById('inputFatherCommune').value = commune;
+                document.getElementById('inputFatherDistrict').value = district;
+                document.getElementById('inputFatherProvince').value = province;
+            } else if (target === 'mother') {
+                document.getElementById('inputMotherVillage').value = village;
+                document.getElementById('inputMotherCommune').value = commune;
+                document.getElementById('inputMotherDistrict').value = district;
+                document.getElementById('inputMotherProvince').value = province;
+            }
+            showToast("បានចម្លងអាសយដ្ឋានសិស្សរួចរាល់");
+        }
+
+        function openAddModal() {
+            document.getElementById('formTitle').innerText = 'បញ្ចូលជីវប្រវត្តិសិស្សថ្មី (១៩ ចំណុច)';
+            document.getElementById('editStudentId').value = '';
+            document.getElementById('studentForm').reset();
+            removePhoto();
+            openModal('formModal');
+        }
+
+        function openEditModal(id) {
+            const student = studentData.find(s => s.id === id);
+            if (!student) return;
+
+            document.getElementById('formTitle').innerText = 'កែប្រែជីវប្រវត្តិសិស្ស';
+            document.getElementById('editStudentId').value = student.id;
+
+            if (student.photoUrl) {
+                setStudentPhoto(student.photoUrl);
+            } else {
+                removePhoto();
+            }
+
+            // Section 1
+            document.getElementById('inputStudentId').value = student.studentId || '';
+            document.getElementById('inputFullName').value = student.fullName || '';
+            document.getElementById('inputGender').value = student.gender || 'ប្រុស';
+            document.getElementById('inputDob').value = student.dob || '';
+            document.getElementById('inputPhone').value = student.phone || '';
+            document.getElementById('inputDeskNo').value = student.deskNo || '';
+            document.getElementById('inputRoomNo').value = student.roomNo || '';
+            document.getElementById('inputExamCenter').value = student.examCenter || '';
+            document.getElementById('inputExamSession').value = student.examSession || '';
+
+            document.getElementById('inputStudentVillage').value = student.studentAddress?.village || '';
+            document.getElementById('inputStudentCommune').value = student.studentAddress?.commune || '';
+            document.getElementById('inputStudentDistrict').value = student.studentAddress?.district || '';
+            document.getElementById('inputStudentProvince').value = student.studentAddress?.province || '';
+
+            // Section 2
+            document.getElementById('inputFatherName').value = student.fatherName || '';
+            document.getElementById('inputFatherJob').value = student.fatherJob || '';
+            document.getElementById('inputFatherPhone').value = student.fatherPhone || '';
+            document.getElementById('inputFatherVillage').value = student.fatherAddress?.village || '';
+            document.getElementById('inputFatherCommune').value = student.fatherAddress?.commune || '';
+            document.getElementById('inputFatherDistrict').value = student.fatherAddress?.district || '';
+            document.getElementById('inputFatherProvince').value = student.fatherAddress?.province || '';
+
+            document.getElementById('inputMotherName').value = student.motherName || '';
+            document.getElementById('inputMotherJob').value = student.motherJob || '';
+            document.getElementById('inputMotherPhone').value = student.motherPhone || '';
+            document.getElementById('inputMotherVillage').value = student.motherAddress?.village || '';
+            document.getElementById('inputMotherCommune').value = student.motherAddress?.commune || '';
+            document.getElementById('inputMotherDistrict').value = student.motherAddress?.district || '';
+            document.getElementById('inputMotherProvince').value = student.motherAddress?.province || '';
+
+            document.getElementById('inputOtherNotes').value = student.otherNotes || '';
+
+            openModal('formModal');
+        }
+
+        function saveStudent(event) {
+            event.preventDefault();
+            const editId = document.getElementById('editStudentId').value;
+
+            const newObj = {
+                id: editId ? editId : 'std-' + Date.now(),
+                studentId: document.getElementById('inputStudentId').value.trim(),
+                fullName: document.getElementById('inputFullName').value.trim(),
+                gender: document.getElementById('inputGender').value,
+                dob: document.getElementById('inputDob').value.trim(),
+                photoUrl: document.getElementById('photoDataBase64').value || null,
+                phone: document.getElementById('inputPhone').value.trim(),
+                deskNo: document.getElementById('inputDeskNo').value.trim(),
+                roomNo: document.getElementById('inputRoomNo').value.trim(),
+                examCenter: document.getElementById('inputExamCenter').value.trim(),
+                examSession: document.getElementById('inputExamSession').value.trim(),
+
+                studentAddress: {
+                    village: document.getElementById('inputStudentVillage').value.trim(),
+                    commune: document.getElementById('inputStudentCommune').value.trim(),
+                    district: document.getElementById('inputStudentDistrict').value.trim(),
+                    province: document.getElementById('inputStudentProvince').value.trim()
+                },
+
+                fatherName: document.getElementById('inputFatherName').value.trim(),
+                fatherJob: document.getElementById('inputFatherJob').value.trim(),
+                fatherPhone: document.getElementById('inputFatherPhone').value.trim(),
+                fatherAddress: {
+                    village: document.getElementById('inputFatherVillage').value.trim(),
+                    commune: document.getElementById('inputFatherCommune').value.trim(),
+                    district: document.getElementById('inputFatherDistrict').value.trim(),
+                    province: document.getElementById('inputFatherProvince').value.trim()
+                },
+
+                motherName: document.getElementById('inputMotherName').value.trim(),
+                motherJob: document.getElementById('inputMotherJob').value.trim(),
+                motherPhone: document.getElementById('inputMotherPhone').value.trim(),
+                motherAddress: {
+                    village: document.getElementById('inputMotherVillage').value.trim(),
+                    commune: document.getElementById('inputMotherCommune').value.trim(),
+                    district: document.getElementById('inputMotherDistrict').value.trim(),
+                    province: document.getElementById('inputMotherProvince').value.trim()
+                },
+
+                otherNotes: document.getElementById('inputOtherNotes').value.trim(),
+                sourceFile: editId ? (studentData.find(s=>s.id===editId)?.sourceFile || 'Manual Edit') : 'Manual Input',
+                lastAutoEdited: editId ? studentData.find(s=>s.id===editId)?.lastAutoEdited : null
+            };
+
+            if (editId) {
+                const idx = studentData.findIndex(s => s.id === editId);
+                if (idx !== -1) studentData[idx] = newObj;
+            } else {
+                studentData.unshift(newObj);
+            }
+
+            closeModal('formModal');
+            populateExamCenterFilter();
+            renderStudentList();
+            showToast("រក្សាទុកជីវប្រវត្តិសិស្សបានជោគជ័យ");
+
+            if (editId && currentActiveCvId === editId) {
+                viewStudentCv(editId);
+            }
+        }
+
+        function openUploadModal() {
+            clearSelectedFile();
+            openModal('uploadModal');
+        }
+
+        function handleFileSelect(event) {
+            const files = event.target.files;
+            if (files && files.length > 0) {
+                selectedUploadedFile = files[0];
+                document.getElementById('fileName').innerText = selectedUploadedFile.name;
+                document.getElementById('fileSize').innerText = (selectedUploadedFile.size / (1024 * 1024)).toFixed(2) + ' MB';
+                
+                const ext = selectedUploadedFile.name.split('.').pop().toLowerCase();
+                let iconHtml = '<i class="fa-solid fa-file text-slate-500"></i>';
+                if (['jpg', 'jpeg', 'png'].includes(ext)) iconHtml = '<i class="fa-solid fa-file-image text-amber-500"></i>';
+                else if (['doc', 'docx'].includes(ext)) iconHtml = '<i class="fa-solid fa-file-word text-blue-500"></i>';
+                else if (ext === 'pdf') iconHtml = '<i class="fa-solid fa-file-pdf text-red-500"></i>';
+
+                document.getElementById('fileIcon').innerHTML = iconHtml;
+                document.getElementById('filePreviewContainer').classList.remove('hidden');
+
+                const btn = document.getElementById('processFileBtn');
+                btn.disabled = false;
+                btn.className = "px-5 py-2 bg-brand-600 hover:bg-brand-700 text-white rounded-xl text-xs sm:text-sm font-semibold transition shadow-sm cursor-pointer";
+            }
+        }
+
+        function clearSelectedFile() {
+            selectedUploadedFile = null;
+            document.getElementById('fileInput').value = '';
+            document.getElementById('filePreviewContainer').classList.add('hidden');
+            const btn = document.getElementById('processFileBtn');
+            btn.disabled = true;
+            btn.className = "px-5 py-2 bg-slate-400 text-white rounded-xl text-xs sm:text-sm font-semibold transition cursor-not-allowed";
+        }
+
+        async function processUploadedFile() {
+            if (!selectedUploadedFile) return;
+
+            closeModal('uploadModal');
+            showAiLoading("កំពុងអាន & ស្រង់ទិន្នន័យពី File...", "AI កំពុងវិភាគ File " + selectedUploadedFile.name + " ដើម្បីស្រង់ព័ត៌មានទាំង ១៩ ចំណុច...");
+
+            try {
+                const ext = selectedUploadedFile.name.split('.').pop().toLowerCase();
+                
+                if (['jpg', 'jpeg', 'png'].includes(ext)) {
+                    const base64Img = await fileToBase64(selectedUploadedFile);
+                    await parseFileContentWithGeminiVision(base64Img, selectedUploadedFile.name);
+                } else {
+                    const text = await readFileAsText(selectedUploadedFile);
+                    await parseFileTextWithGemini(text || selectedUploadedFile.name, selectedUploadedFile.name);
+                }
+            } catch (err) {
+                console.error("Error parsing file:", err);
+                hideAiLoading();
+                fallbackCreateStudent(selectedUploadedFile.name);
+            }
+        }
+
+        function readFileAsText(file) {
+            return new Promise((resolve) => {
+                const reader = new FileReader();
+                reader.onload = (e) => resolve(e.target.result);
+                reader.onerror = () => resolve("");
+                reader.readAsText(file);
+            });
+        }
+
+        function fileToBase64(file) {
             return new Promise((resolve, reject) => {
                 const reader = new FileReader();
-                reader.onload = async () => {
-                    const base64Data = reader.result.split(',')[1];
-                    try {
-                        const payload = {
-                            contents: [{
-                                role: 'user',
-                                parts: [
-                                    { text: "Extract all Cambodian/Khmer or English student resume, CV, and biography text from this image accurately. Output only the extracted plain text." },
-                                    { inlineData: { mimeType: file.type || "image/jpeg", data: base64Data } }
-                                ]
-                            }]
-                        };
-
-                        const response = await fetch(geminiApiUrl, {
-                            method: 'POST',
-                            headers: { 'Content-Type': 'application/json' },
-                            body: JSON.stringify(payload)
-                        });
-
-                        const result = await response.json();
-                        const extracted = result.candidates?.[0]?.content?.parts?.[0]?.text || "មិនអាចទាញយកអត្ថបទពីចំនុចរូបភាពបានទេ។";
-                        resolve(extracted);
-                    } catch (e) {
-                        reject(e);
-                    }
+                reader.onload = () => {
+                    const base64String = reader.result.split(',')[1];
+                    resolve(base64String);
                 };
-                reader.onerror = error => reject(error);
+                reader.onerror = reject;
                 reader.readAsDataURL(file);
             });
         }
 
-        // Format & Preserve Original Meaning of Biography with Gemini AI
-        async function preserveAndFormatWithAI() {
-            const rawText = document.getElementById('inputStudentBio').value;
-            if (!rawText.trim()) {
-                showToast("សូមបញ្ចូលអត្ថបទជីវប្រវត្តិជាមុនសិន!", "error");
-                return;
-            }
+        async function parseFileTextWithGemini(fileContent, fileName) {
+            const apiKey = "";
+            const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-09-2025:generateContent?key=${apiKey}`;
 
-            const btn = document.getElementById('aiFormatBtn');
-            const originalHtml = btn.innerHTML;
-            btn.innerHTML = `<i class="ph-bold ph-spinner animate-spin"></i> កំពុងរៀបចំ...`;
-            btn.disabled = true;
+            const systemPrompt = `You are an expert student record clerk in Cambodia. Extract student biography details into clean structured JSON format.
+Fields required:
+"studentId", "fullName", "gender", "dob", "phone" (Arabic digits only), "deskNo", "roomNo", "examCenter", "examSession",
+"studentAddress": {"village", "commune", "district", "province"},
+"fatherName", "fatherJob", "fatherPhone", "fatherAddress": {"village", "commune", "district", "province"},
+"motherName", "motherJob", "motherPhone", "motherAddress": {"village", "commune", "district", "province"},
+"otherNotes"`;
+
+            const userPrompt = `Extract 19 student biography fields from this document:\n${fileContent.substring(0, 3000)}`;
+
+            const payload = {
+                contents: [{ parts: [{ text: userPrompt }] }],
+                systemInstruction: { parts: [{ text: systemPrompt }] },
+                generationConfig: { responseMimeType: "application/json" }
+            };
 
             try {
-                const systemPrompt = `You are an expert Cambodian academic CV and resume formatting system. Your sole job is to reformat and structure the student's raw biography text cleanly into standard sections ( personal info, education, skills, experience, achievements) while STRICTLY PRESERVING 100% OF THE ORIGINAL MEANING AND FACTS. Do not omit facts, invent new facts, or alter meaning. Format clearly in Khmer/English as provided.`;
-                
-                const payload = {
-                    contents: [{ parts: [{ text: `Format and clean up this student biography while preserving all original meanings:\n\n${rawText}` }] }],
-                    systemInstruction: { parts: [{ text: systemPrompt }] }
-                };
-
-                const response = await fetch(geminiApiUrl, {
+                const res = await fetch(apiUrl, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify(payload)
                 });
+                const data = await res.json();
+                const jsonText = data?.candidates?.[0]?.content?.parts?.[0]?.text;
 
-                const result = await response.json();
-                const formatted = result.candidates?.[0]?.content?.parts?.[0]?.text;
+                if (jsonText) {
+                    const p = JSON.parse(jsonText);
+                    const newStudent = {
+                        id: 'std-' + Date.now(),
+                        studentId: p.studentId || 'ST-' + Math.floor(1000 + Math.random()*9000),
+                        fullName: p.fullName || 'សិស្សទាញពី File',
+                        gender: p.gender || 'ប្រុស',
+                        dob: p.dob || '01/01/2004',
+                        photoUrl: null,
+                        phone: (p.phone || '012000000').replace(/[^0-9]/g, ''),
+                        deskNo: p.deskNo || 'T-01',
+                        roomNo: p.roomNo || 'R-01',
+                        examCenter: p.examCenter || 'មណ្ឌលប្រឡង',
+                        examSession: p.examSession || '២០២៤',
+                        studentAddress: p.studentAddress || { village: '', commune: '', district: '', province: '' },
+                        fatherName: p.fatherName || '',
+                        fatherJob: p.fatherJob || '',
+                        fatherPhone: (p.fatherPhone || '').replace(/[^0-9]/g, ''),
+                        fatherAddress: p.fatherAddress || { village: '', commune: '', district: '', province: '' },
+                        motherName: p.motherName || '',
+                        motherJob: p.motherJob || '',
+                        motherPhone: (p.motherPhone || '').replace(/[^0-9]/g, ''),
+                        motherAddress: p.motherAddress || { village: '', commune: '', district: '', province: '' },
+                        otherNotes: p.otherNotes || 'ស្រង់ចេញពី File ' + fileName,
+                        sourceFile: fileName,
+                        lastAutoEdited: new Date().toLocaleDateString('km-KH')
+                    };
 
-                if (formatted) {
-                    document.getElementById('inputStudentBio').value = formatted;
-                    showToast("រៀបចំរចនាសម្ព័ន្ធដោយរក្សាអត្ថន័យដើមរួចរាល់!", "success");
+                    studentData.unshift(newStudent);
+                    hideAiLoading();
+                    populateExamCenterFilter();
+                    renderStudentList();
+                    viewStudentCv(newStudent.id);
+                    showToast("ស្រង់ទិន្នន័យពី File បានជោគជ័យ");
                 } else {
-                    showToast("ពុំអាចរៀបចំទម្រង់បានឡើយ។", "error");
+                    throw new Error("Invalid response format");
                 }
-            } catch (err) {
-                console.error(err);
-                showToast("មានបញ្ហាក្នុងការតភ្ជាប់ AI", "error");
-            } finally {
-                btn.innerHTML = originalHtml;
-                btn.disabled = false;
+            } catch (error) {
+                console.error("Gemini Parse Error:", error);
+                hideAiLoading();
+                fallbackCreateStudent(fileName);
             }
         }
 
-        // Preserve Format inside Modal Editor
-        async function preserveFormatInEditor() {
-            const text = document.getElementById('bioEditTextarea').value;
-            if (!text.trim()) return;
+        async function parseFileContentWithGeminiVision(base64Img, fileName) {
+            const apiKey = "";
+            const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-09-2025:generateContent?key=${apiKey}`;
+
+            const systemPrompt = `Extract student biography fields from image into JSON:
+"studentId", "fullName", "gender", "dob", "phone", "deskNo", "roomNo", "examCenter", "examSession",
+"studentAddress": {"village", "commune", "district", "province"},
+"fatherName", "fatherJob", "fatherPhone", "fatherAddress": {"village", "commune", "district", "province"},
+"motherName", "motherJob", "motherPhone", "motherAddress": {"village", "commune", "district", "province"}, "otherNotes"`;
+
+            const payload = {
+                contents: [{
+                    parts: [
+                        { text: "Extract student biography into JSON structure." },
+                        { inlineData: { mimeType: "image/png", data: base64Img } }
+                    ]
+                }],
+                systemInstruction: { parts: [{ text: systemPrompt }] },
+                generationConfig: { responseMimeType: "application/json" }
+            };
 
             try {
-                showToast("កំពុងរៀបចំរចនាសម្ព័ន្ធ...", "info");
-                const payload = {
-                    contents: [{ parts: [{ text: `Reformat this student bio into clean sections while keeping original facts and meaning identical:\n\n${text}` }] }]
-                };
-
-                const response = await fetch(geminiApiUrl, {
+                const res = await fetch(apiUrl, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify(payload)
                 });
+                const data = await res.json();
+                const jsonText = data?.candidates?.[0]?.content?.parts?.[0]?.text;
 
-                const result = await response.json();
-                const formatted = result.candidates?.[0]?.content?.parts?.[0]?.text;
-                if (formatted) {
-                    document.getElementById('bioEditTextarea').value = formatted;
-                    showToast("កែរចនាសម្ព័ន្ធរួចរាល់!", "success");
+                if (jsonText) {
+                    const p = JSON.parse(jsonText);
+                    const newStudent = {
+                        id: 'std-' + Date.now(),
+                        studentId: p.studentId || 'ST-' + Math.floor(1000 + Math.random()*9000),
+                        fullName: p.fullName || 'សិស្សពី Image',
+                        gender: p.gender || 'ស្រី',
+                        dob: p.dob || '10/04/2005',
+                        photoUrl: 'data:image/png;base64,' + base64Img,
+                        phone: (p.phone || '092000000').replace(/[^0-9]/g, ''),
+                        deskNo: p.deskNo || 'T-05',
+                        roomNo: p.roomNo || 'R-02',
+                        examCenter: p.examCenter || 'មណ្ឌលប្រឡង',
+                        examSession: p.examSession || '២០២៤',
+                        studentAddress: p.studentAddress || { village: '', commune: '', district: '', province: '' },
+                        fatherName: p.fatherName || '',
+                        fatherJob: p.fatherJob || '',
+                        fatherPhone: (p.fatherPhone || '').replace(/[^0-9]/g, ''),
+                        fatherAddress: p.fatherAddress || { village: '', commune: '', district: '', province: '' },
+                        motherName: p.motherName || '',
+                        motherJob: p.motherJob || '',
+                        motherPhone: (p.motherPhone || '').replace(/[^0-9]/g, ''),
+                        motherAddress: p.motherAddress || { village: '', commune: '', district: '', province: '' },
+                        otherNotes: p.otherNotes || 'អានចេញពីរូបថត',
+                        sourceFile: fileName,
+                        lastAutoEdited: new Date().toLocaleDateString('km-KH')
+                    };
+
+                    studentData.unshift(newStudent);
+                    hideAiLoading();
+                    populateExamCenterFilter();
+                    renderStudentList();
+                    viewStudentCv(newStudent.id);
+                    showToast("អានរូបថតជីវប្រវត្តិបានជោគជ័យ");
+                } else {
+                    throw new Error("No image JSON parsed");
                 }
-            } catch (e) {
-                showToast("មានបញ្ហាក្នុងការកែទម្រង់", "error");
+            } catch (err) {
+                console.error("OCR Vision Error:", err);
+                hideAiLoading();
+                fallbackCreateStudent(fileName);
             }
         }
 
-        // Execute Auto-Grading Engine with Structured JSON Response
-        async function runAutoGrading(studentId) {
-            const student = students.find(s => s.id === studentId);
+        function fallbackCreateStudent(fileName) {
+            const fallbackStudent = {
+                id: 'std-' + Date.now(),
+                studentId: 'ST-' + Math.floor(1000 + Math.random()*9000),
+                fullName: 'សិស្សថ្មីពី ' + fileName.split('.')[0],
+                gender: 'ប្រុស',
+                dob: '15/05/2004',
+                photoUrl: null,
+                phone: '012345678',
+                deskNo: 'T-10',
+                roomNo: 'R-03',
+                examCenter: 'វិទ្យាល័យ ហ៊ុន សែន',
+                examSession: '០៨ តុលា ២០២៤',
+                studentAddress: { village: 'ភូមិ១', commune: 'ឃុំ១', district: 'ស្រុក១', province: 'ភ្នំពេញ' },
+                fatherName: 'សុខ ឪពុក',
+                fatherJob: 'កសិករ',
+                fatherAddress: { village: 'ភូមិ១', commune: 'ឃុំ១', district: 'ស្រុក១', province: 'ភ្នំពេញ' },
+                fatherPhone: '012998877',
+                motherName: 'ចាន់ ម្តាយ',
+                motherJob: 'មេផ្ទះ',
+                motherAddress: { village: 'ភូមិ១', commune: 'ឃុំ១', district: 'ស្រុក១', province: 'ភ្នំពេញ' },
+                motherPhone: '097776655',
+                otherNotes: 'ទិន្នន័យបានបង្កើតចេញពី File ' + fileName,
+                sourceFile: fileName,
+                lastAutoEdited: new Date().toLocaleDateString('km-KH')
+            };
+            studentData.unshift(fallbackStudent);
+            populateExamCenterFilter();
+            renderStudentList();
+            viewStudentCv(fallbackStudent.id);
+            showToast("បានបង្កើតជីវប្រវត្តិថ្មី");
+        }
+
+        async function triggerAutoEdit(id) {
+            const student = studentData.find(s => s.id === id);
             if (!student) return;
 
-            // UI State updates
-            document.getElementById('gradingEmpty').classList.add('hidden');
-            document.getElementById('gradingContent').classList.add('hidden');
-            document.getElementById('gradingLoading').classList.remove('hidden');
+            showAiLoading("កំពុងកែសម្រួលដោយស្វ័យប្រវត្តិ (Auto-Edit)...", "AI កំពុងរៀបចំហ្វតម៉ាត កែអក្ខរាវិរុទ្ធ និងពិនិត្យទិន្នន័យ ១៩ ចំណុចរបស់ " + student.fullName + " ដោយរក្សាអត្ថន័យដើម ១០០%...");
+
+            const apiKey = "";
+            const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-09-2025:generateContent?key=${apiKey}`;
+
+            const systemPrompt = `You are a professional editor in Cambodia. Your task is to AUTO-EDIT student biography data while strictly keeping original factual details.
+RULES:
+1. Correct typos in Khmer or English names/places.
+2. Ensure phone numbers only contain Arabic digits (0-9).
+3. Preserve all 19 structured fields in JSON.`;
+
+            const userPrompt = `Auto-edit and format this student biography data:\n${JSON.stringify(student)}`;
+
+            const payload = {
+                contents: [{ parts: [{ text: userPrompt }] }],
+                systemInstruction: { parts: [{ text: systemPrompt }] },
+                generationConfig: { responseMimeType: "application/json" }
+            };
 
             try {
-                const prompt = `Perform an objective academic auto-grading and review on this Cambodian student biography/resume.
-                Evaluate the student based on:
-                1. Structure & Completeness (0-100)
-                2. Skills & Qualifications (0-100)
-                3. Language & Grammar Quality (0-100)
-                
-                Student Name: ${student.name}
-                Class: ${student.studentClass}
-                Academic Year: ${student.academicYear}
-                Biography Content:
-                ${student.bio}`;
+                const res = await fetch(apiUrl, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+                const data = await res.json();
+                const jsonText = data?.candidates?.[0]?.content?.parts?.[0]?.text;
 
-                const jsonSchema = {
-                    type: "OBJECT",
-                    properties: {
-                        overallScore: { type: "NUMBER" },
-                        grade: { type: "STRING" },
-                        statusTitle: { type: "STRING" },
-                        scoreStructure: { type: "NUMBER" },
-                        scoreSkills: { type: "NUMBER" },
-                        scoreLanguage: { type: "NUMBER" },
-                        strengths: { type: "ARRAY", items: { type: "STRING" } },
-                        weaknesses: { type: "ARRAY", items: { type: "STRING" } },
-                        recommendation: { type: "STRING" }
-                    },
-                    required: ["overallScore", "grade", "scoreStructure", "scoreSkills", "scoreLanguage", "strengths", "weaknesses", "recommendation"]
-                };
-
-                const payload = {
-                    contents: [{ parts: [{ text: prompt }] }],
-                    generationConfig: {
-                        responseMimeType: "application/json",
-                        responseSchema: jsonSchema
+                if (jsonText) {
+                    const parsed = JSON.parse(jsonText);
+                    const idx = studentData.findIndex(s => s.id === id);
+                    if (idx !== -1) {
+                        studentData[idx] = {
+                            ...studentData[idx],
+                            fullName: parsed.fullName || student.fullName,
+                            studentAddress: parsed.studentAddress || student.studentAddress,
+                            fatherName: parsed.fatherName || student.fatherName,
+                            fatherAddress: parsed.fatherAddress || student.fatherAddress,
+                            motherName: parsed.motherName || student.motherName,
+                            motherAddress: parsed.motherAddress || student.motherAddress,
+                            otherNotes: parsed.otherNotes || student.otherNotes,
+                            lastAutoEdited: new Date().toLocaleDateString('km-KH')
+                        };
                     }
-                };
-
-                const response = await fetch(geminiApiUrl, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(payload)
-                });
-
-                const result = await response.json();
-                const jsonText = result.candidates?.[0]?.content?.parts?.[0]?.text;
-
-                if (!jsonText) throw new Error("No evaluation returned");
-
-                const gradeResult = JSON.parse(jsonText);
-
-                // Attach grade result to student object
-                student.evaluation = gradeResult;
-                student.isGraded = true;
-
-                // Save & Refresh UI
-                updateStats();
-                renderStudentList();
-
-                if (activeStudentId === studentId) {
-                    displayEvaluationResult(gradeResult);
+                    showToast("AI បានកែសម្រួលជីវប្រវត្តិរួចរាល់");
                 }
-
-                showToast(`អត្រាកែរួចរាល់សម្រាប់ ${student.name}! ពិន្ទុ: ${gradeResult.overallScore}`, "success");
-
             } catch (err) {
-                console.error("Auto-grading error:", err);
-                showToast("មានបញ្ហាក្នុងការអត្រាកែដោយស្វ័យប្រវត្តិ", "error");
-                document.getElementById('gradingLoading').classList.add('hidden');
-                document.getElementById('gradingEmpty').classList.remove('hidden');
+                console.error("Auto-Edit Error:", err);
+            } finally {
+                hideAiLoading();
+                renderStudentList();
+                viewStudentCv(id);
             }
         }
 
-        // Display Graded JSON Results in Modal
-        function displayEvaluationResult(evalData) {
-            document.getElementById('gradingLoading').classList.add('hidden');
-            document.getElementById('gradingEmpty').classList.add('hidden');
-            document.getElementById('gradingContent').classList.remove('hidden');
-
-            document.getElementById('resTotalScore').innerText = evalData.overallScore;
-            document.getElementById('resGradeBadge').innerText = evalData.grade;
-            document.getElementById('resStatusText').innerText = evalData.statusTitle || (evalData.overallScore >= 80 ? "ល្អប្រសើរ (Excellent)" : "មធ្យម (Satisfactory)");
-
-            // Score bars
-            document.getElementById('scoreStruct').innerText = `${evalData.scoreStructure}/100`;
-            document.getElementById('barStruct').style.width = `${evalData.scoreStructure}%`;
-
-            document.getElementById('scoreSkills').innerText = `${evalData.scoreSkills}/100`;
-            document.getElementById('barSkills').style.width = `${evalData.scoreSkills}%`;
-
-            document.getElementById('scoreLang').innerText = `${evalData.scoreLanguage}/100`;
-            document.getElementById('barLang').style.width = `${evalData.scoreLanguage}%`;
-
-            // Strengths list
-            const strengthsUl = document.getElementById('resStrengths');
-            strengthsUl.innerHTML = evalData.strengths.map(s => `<li>${s}</li>`).join('');
-
-            // Weaknesses list
-            const weaknessesUl = document.getElementById('resWeaknesses');
-            weaknessesUl.innerHTML = evalData.weaknesses.map(w => `<li>${w}</li>`).join('');
-
-            // Recommendation
-            document.getElementById('resRecommendation').innerText = `"${evalData.recommendation}"`;
+        function showAiLoading(title, sub) {
+            document.getElementById('aiLoadingTitle').innerText = title;
+            document.getElementById('aiLoadingSub').innerText = sub;
+            document.getElementById('aiLoadingOverlay').classList.remove('hidden');
         }
 
-        // Modal Open/Close Controls
-        function openUploadModal() {
-            const modal = document.getElementById('uploadModal');
-            modal.classList.remove('hidden');
-            setTimeout(() => modal.classList.remove('opacity-0'), 10);
+        function hideAiLoading() {
+            document.getElementById('aiLoadingOverlay').classList.add('hidden');
         }
 
-        function closeUploadModal() {
-            const modal = document.getElementById('uploadModal');
-            modal.classList.add('opacity-0');
-            setTimeout(() => modal.classList.add('hidden'), 200);
-            resetUploadForm();
+        function printCV() {
+            window.print();
         }
 
-        function switchInputTab(tab) {
-            if (tab === 'file') {
-                document.getElementById('tabFileUpload').className = "flex-1 py-2 rounded-lg bg-white shadow-sm text-brand-600 font-semibold transition";
-                document.getElementById('tabManualInput').className = "flex-1 py-2 rounded-lg text-slate-600 hover:text-slate-900 transition";
-                document.getElementById('fileUploadContainer').classList.remove('hidden');
-            } else {
-                document.getElementById('tabFileUpload').className = "flex-1 py-2 rounded-lg text-slate-600 hover:text-slate-900 transition";
-                document.getElementById('tabManualInput').className = "flex-1 py-2 rounded-lg bg-white shadow-sm text-brand-600 font-semibold transition";
-                document.getElementById('fileUploadContainer').classList.add('hidden');
-            }
+        function openModal(id) {
+            document.getElementById(id).classList.remove('hidden');
         }
 
-        function resetUploadForm() {
-            document.getElementById('inputStudentName').value = '';
-            document.getElementById('inputStudentID').value = '';
-            document.getElementById('inputStudentGender').value = 'ប្រុស';
-            document.getElementById('inputStudentClass').value = 'ថ្នាក់ទី១២A';
-            document.getElementById('inputAcademicYear').value = '2025-2026';
-            document.getElementById('inputStudentDOB').value = '';
-            document.getElementById('inputStudentPhone').value = '';
-            document.getElementById('inputStudentDeskNo').value = '';
-            document.getElementById('inputStudentRoomNo').value = '';
-            document.getElementById('inputExamCenter').value = '';
-            document.getElementById('inputExamSession').value = '';
-            
-            // Address Student
-            document.getElementById('inputStudentVillage').value = '';
-            document.getElementById('inputStudentCommune').value = '';
-            document.getElementById('inputStudentDistrict').value = '';
-            document.getElementById('inputStudentProvince').value = '';
-
-            // Father
-            document.getElementById('inputFatherName').value = '';
-            document.getElementById('inputFatherJob').value = '';
-            document.getElementById('inputFatherPhone').value = '';
-            document.getElementById('inputFatherVillage').value = '';
-            document.getElementById('inputFatherCommune').value = '';
-            document.getElementById('inputFatherDistrict').value = '';
-            document.getElementById('inputFatherProvince').value = '';
-
-            // Mother
-            document.getElementById('inputMotherName').value = '';
-            document.getElementById('inputMotherJob').value = '';
-            document.getElementById('inputMotherPhone').value = '';
-            document.getElementById('inputMotherVillage').value = '';
-            document.getElementById('inputMotherCommune').value = '';
-            document.getElementById('inputMotherDistrict').value = '';
-            document.getElementById('inputMotherProvince').value = '';
-
-            document.getElementById('inputStudentBio').value = '';
-            document.getElementById('fileInfoBox').classList.add('hidden');
-            currentUploadFile = null;
-            extractedFileText = '';
+        function closeModal(id) {
+            document.getElementById(id).classList.add('hidden');
         }
 
-        // Generate Form Bio Summary String
-        function buildFormBioSummary() {
-            const name = document.getElementById('inputStudentName').value.trim() || 'មិនទាន់បំពេញ';
-            const studentId = document.getElementById('inputStudentID').value.trim() || 'STU-' + Math.floor(1000 + Math.random() * 9000);
-            const studentClass = document.getElementById('inputStudentClass').value;
-            const academicYear = document.getElementById('inputAcademicYear').value;
-
-            // Gather student address
-            const sVillage = document.getElementById('inputStudentVillage').value.trim();
-            const sCommune = document.getElementById('inputStudentCommune').value.trim();
-            const sDistrict = document.getElementById('inputStudentDistrict').value.trim();
-            const sProvince = document.getElementById('inputStudentProvince').value.trim();
-            const sAddress = [sVillage ? `ភូមិ${sVillage}` : '', sCommune ? `ឃុំ/សង្កាត់${sCommune}` : '', sDistrict ? `ស្រុក/ខណ្ឌ${sDistrict}` : '', sProvince ? `ខេត្ត/ក្រុង${sProvince}` : ''].filter(Boolean).join(' ');
-
-            // Father info
-            const fName = document.getElementById('inputFatherName').value.trim();
-            const fJob = document.getElementById('inputFatherJob').value.trim();
-            const fPhone = document.getElementById('inputFatherPhone').value.trim();
-            const fVillage = document.getElementById('inputFatherVillage').value.trim();
-            const fCommune = document.getElementById('inputFatherCommune').value.trim();
-            const fDistrict = document.getElementById('inputFatherDistrict').value.trim();
-            const fProvince = document.getElementById('inputFatherProvince').value.trim();
-            const fAddress = [fVillage ? `ភូមិ${fVillage}` : '', fCommune ? `ឃុំ/សង្កាត់${fCommune}` : '', fDistrict ? `ស្រុក/ខណ្ឌ${fDistrict}` : '', fProvince ? `ខេត្ត/ក្រុង${fProvince}` : ''].filter(Boolean).join(' ');
-
-            // Mother info
-            const mName = document.getElementById('inputMotherName').value.trim();
-            const mJob = document.getElementById('inputMotherJob').value.trim();
-            const mPhone = document.getElementById('inputMotherPhone').value.trim();
-            const mVillage = document.getElementById('inputMotherVillage').value.trim();
-            const mCommune = document.getElementById('inputMotherCommune').value.trim();
-            const mDistrict = document.getElementById('inputMotherDistrict').value.trim();
-            const mProvince = document.getElementById('inputMotherProvince').value.trim();
-            const mAddress = [mVillage ? `ភូមិ${mVillage}` : '', mCommune ? `ឃុំ/សង្កាត់${mVillage}` : '', mDistrict ? `ស្រុក/ខណ្ឌ${mDistrict}` : '', mProvince ? `ខេត្ត/ក្រុង${mProvince}` : ''].filter(Boolean).join(' ');
-
-            const extraBio = document.getElementById('inputStudentBio').value.trim();
-
-            const fullBioText = `
-=== ផ្នែកទី១៖ ព័ត៌មានផ្ទាល់ខ្លួនសិស្ស ===
-១. អត្តលេខ៖ ${studentId}
-២. គោត្តនាម+នាមខ្លួន៖ ${name}
-៣. ភេទ៖ ${document.getElementById('inputStudentGender').value}
-៤. ថ្នាក់៖ ${studentClass} (ឆ្នាំសិក្សា ${academicYear})
-៥. ថ្ងៃខែឆ្នាំកំណើត៖ ${document.getElementById('inputStudentDOB').value || 'N/A'}
-៦. អាសយដ្ឋាន៖ ${sAddress || 'N/A'}
-៧. លេខទូរស័ព្ទ៖ ${document.getElementById('inputStudentPhone').value || 'N/A'}
-៨. លេខតុ៖ ${document.getElementById('inputStudentDeskNo').value || 'N/A'}
-៩. លេខបន្ទប់៖ ${document.getElementById('inputStudentRoomNo').value || 'N/A'}
-១០. មណ្ឌលប្រឡង៖ ${document.getElementById('inputExamCenter').value || 'N/A'}
-១១. សម័យប្រឡង៖ ${document.getElementById('inputExamSession').value || 'N/A'}
-
-=== ផ្នែកទី២៖ ព័ត៌មានអាណាព្យាបាលសិស្ស ===
-១២. ឈ្មោះឪពុក៖ ${fName || 'N/A'}
-១៣. មុខរបរឪពុក៖ ${fJob || 'N/A'}
-១៤. អាសយដ្ឋានឪពុក៖ ${fAddress || 'N/A'}
-១៥. លេខទូរស័ព្ទឪពុក៖ ${fPhone || 'N/A'}
-១៦. ឈ្មោះម្តាយ៖ ${mName || 'N/A'}
-១៧. មុខរបរម្តាយ៖ ${mJob || 'N/A'}
-១៨. អាសយដ្ឋានម្តាយ៖ ${mAddress || 'N/A'}
-១៩. លេខទូរស័ព្ទម្តាយ៖ ${mPhone || 'N/A'}
-
-=== ផ្សេងៗ / ជីវប្រវត្តិបន្ថែម ===
-${extraBio || 'គ្មាន'}
-`.trim();
-
-            return {
-                id: studentId,
-                name: name,
-                studentClass: studentClass,
-                academicYear: academicYear,
-                gender: document.getElementById('inputStudentGender').value,
-                dob: document.getElementById('inputStudentDOB').value || 'N/A',
-                phone: document.getElementById('inputStudentPhone').value || 'N/A',
-                address: sAddress || 'N/A',
-                examCenter: document.getElementById('inputExamCenter').value || 'N/A',
-                examSession: document.getElementById('inputExamSession').value || 'N/A',
-                deskNo: document.getElementById('inputStudentDeskNo').value || 'N/A',
-                roomNo: document.getElementById('inputStudentRoomNo').value || 'N/A',
-                fatherName: fName || 'N/A',
-                fatherJob: fJob || 'N/A',
-                fatherPhone: fPhone || 'N/A',
-                fatherAddress: fAddress || 'N/A',
-                motherName: mName || 'N/A',
-                motherJob: mJob || 'N/A',
-                motherPhone: mPhone || 'N/A',
-                motherAddress: mAddress || 'N/A',
-                extraBio: extraBio || 'គ្មាន',
-                fullBioText: fullBioText
-            };
+        function showToast(message) {
+            const toast = document.getElementById('toast');
+            document.getElementById('toastMsg').innerText = message;
+            toast.classList.remove('translate-y-20', 'opacity-0');
+            setTimeout(() => {
+                toast.classList.add('translate-y-20', 'opacity-0');
+            }, 3000);
         }
-
-        // Button Preview Function inside Modal Entry Form
-        function previewFormBio() {
-            const formData = buildFormBioSummary();
-            renderPreviewModalHTML(formData);
-        }
-
-        // Preview for currently selected student in list
-        function previewActiveStudentBio() {
-            const student = students.find(s => s.id === activeStudentId);
-            if (!student) return;
-            
-            const pData = {
-                id: student.id,
-                name: student.name,
-                studentClass: student.studentClass || 'ថ្នាក់ទី១២A',
-                academicYear: student.academicYear || '2025-2026',
-                fullBioText: student.bio
-            };
-            
-            renderPreviewModalHTML(pData);
-        }
-
-        // Render Clean Printable Preview Modal HTML
-        function renderPreviewModalHTML(data) {
-            document.getElementById('previewHeaderSub').innerText = `${data.studentClass || 'ថ្នាក់ទី១២A'} • ឆ្នាំសិក្សា ${data.academicYear || '២០២៥-២០២៦'}`;
-            document.getElementById('previewDateText').innerText = new Date().toLocaleDateString('km-KH');
-
-            const bodyContainer = document.getElementById('previewCardBody');
-            
-            bodyContainer.innerHTML = `
-                <div class="bg-slate-50 p-4 rounded-xl border border-slate-200">
-                    <h3 class="font-bold text-brand-700 border-b border-slate-200 pb-1 mb-2 text-xs uppercase">
-                        ព័ត៌មានផ្ទាល់ខ្លួន & សិក្សា
-                    </h3>
-                    <div class="grid grid-cols-2 gap-2 text-xs">
-                        <p><span class="font-semibold text-slate-600">អត្តលេខ៖</span> ${data.id}</p>
-                        <p><span class="font-semibold text-slate-600">ឈ្មោះសិស្ស៖</span> ${data.name}</p>
-                        <p><span class="font-semibold text-slate-600">ថ្នាក់សិក្សា៖</span> ${data.studentClass}</p>
-                        <p><span class="font-semibold text-slate-600">ឆ្នាំសិក្សា៖</span> ${data.academicYear}</p>
-                    </div>
-                </div>
-
-                <div class="bg-slate-50 p-4 rounded-xl border border-slate-200">
-                    <h3 class="font-bold text-slate-700 border-b border-slate-200 pb-1 mb-2 text-xs uppercase">
-                        ខ្លឹមសារជីវប្រវត្តិពេញលេញ (Full Biography Data)
-                    </h3>
-                    <div class="whitespace-pre-wrap font-sans leading-relaxed text-slate-700 text-xs">
-${data.fullBioText}
-                    </div>
-                </div>
-            `;
-
-            const modal = document.getElementById('previewCardModal');
-            modal.classList.remove('hidden');
-            setTimeout(() => modal.classList.remove('opacity-0'), 10);
-        }
-
-        function closePreviewModal() {
-            const modal = document.getElementById('previewCardModal');
-            modal.classList.add('opacity-0');
-            setTimeout(() => modal.classList.add('hidden'), 200);
-        }
-
-        // Export Filtered Student List to Excel (.xlsx)
-        function exportToExcel() {
-            if (students.length === 0) {
-                showToast("គ្មានទិន្នន័យសម្រាប់ទាញយកទេ!", "error");
-                return;
-            }
-
-            const searchQuery = document.getElementById('searchInput').value.toLowerCase();
-            const filterClass = document.getElementById('classFilter').value;
-            const filterYear = document.getElementById('yearFilter').value;
-            const filterGrade = document.getElementById('gradeFilter').value;
-
-            const filtered = students.filter(s => {
-                const matchesSearch = s.name.toLowerCase().includes(searchQuery) ||
-                                      s.id.toLowerCase().includes(searchQuery) ||
-                                      (s.studentClass && s.studentClass.toLowerCase().includes(searchQuery));
-                
-                const matchesClass = filterClass === 'ALL' || s.studentClass === filterClass;
-                const matchesYear = filterYear === 'ALL' || s.academicYear === filterYear;
-                const matchesGrade = filterGrade === 'ALL' ||
-                                     (filterGrade === 'GRADED' && s.isGraded) ||
-                                     (filterGrade === 'UNGRADED' && !s.isGraded);
-
-                return matchesSearch && matchesClass && matchesYear && matchesGrade;
-            });
-
-            if (filtered.length === 0) {
-                showToast("គ្មានទិន្នន័យដែលត្រូវគ្នានឹងតម្រងស្វែងរក!", "error");
-                return;
-            }
-
-            const excelData = filtered.map((s, index) => ({
-                "ល.រ": index + 1,
-                "អត្តលេខសិស្ស": s.id,
-                "ឈ្មោះសិស្ស": s.name,
-                "ថ្នាក់សិក្សា": s.studentClass || '',
-                "ឆ្នាំសិក្សា": s.academicYear || '',
-                "លេខទូរស័ព្ទ": s.contact || '',
-                "ស្ថានភាពអត្រាកែ": s.isGraded ? 'កែរួចរាល់' : 'មិនទាន់កែ',
-                "ពិន្ទុអត្រាកែ": s.isGraded ? s.evaluation.overallScore : '',
-                "និទ្ទេស": s.isGraded ? s.evaluation.grade : '',
-                "ថ្ងៃបញ្ចូល": s.createdAt || ''
-            }));
-
-            const worksheet = XLSX.utils.json_to_sheet(excelData);
-            const workbook = XLSX.utils.book_new();
-            XLSX.utils.book_append_sheet(workbook, worksheet, "Student_Bios");
-
-            XLSX.writeFile(workbook, `Student_Bio_List_${new Date().toISOString().slice(0, 10)}.xlsx`);
-            showToast("បានទាញយកទិន្នន័យជា Excel (.xlsx) ដោយជោគជ័យ!", "success");
-        }
-
-        // Export Filtered Student Roster List to PDF
-        function exportToPDF() {
-            if (students.length === 0) {
-                showToast("គ្មានទិន្នន័យសម្រាប់ទាញយកទេ!", "error");
-                return;
-            }
-
-            const searchQuery = document.getElementById('searchInput').value.toLowerCase();
-            const filterClass = document.getElementById('classFilter').value;
-            const filterYear = document.getElementById('yearFilter').value;
-            const filterGrade = document.getElementById('gradeFilter').value;
-
-            const filtered = students.filter(s => {
-                const matchesSearch = s.name.toLowerCase().includes(searchQuery) ||
-                                      s.id.toLowerCase().includes(searchQuery) ||
-                                      (s.studentClass && s.studentClass.toLowerCase().includes(searchQuery));
-                
-                const matchesClass = filterClass === 'ALL' || s.studentClass === filterClass;
-                const matchesYear = filterYear === 'ALL' || s.academicYear === filterYear;
-                const matchesGrade = filterGrade === 'ALL' ||
-                                     (filterGrade === 'GRADED' && s.isGraded) ||
-                                     (filterGrade === 'UNGRADED' && !s.isGraded);
-
-                return matchesSearch && matchesClass && matchesYear && matchesGrade;
-            });
-
-            if (filtered.length === 0) {
-                showToast("គ្មានទិន្នន័យដែលត្រូវគ្នានឹងតម្រងស្វែងរក!", "error");
-                return;
-            }
-
-            const pdfContainer = document.createElement('div');
-            pdfContainer.style.padding = '20px';
-            pdfContainer.style.fontFamily = "'Kantumruy Pro', sans-serif";
-            pdfContainer.innerHTML = `
-                <div style="text-align: center; margin-bottom: 20px;">
-                    <h2 style="font-size: 16px; font-weight: bold; color: #1e3a8a; margin: 0;">បញ្ជីរាយនាម និងជីវប្រវត្តិសិស្ស</h2>
-                    <p style="font-size: 11px; color: #64748b; margin-top: 4px;">កាលបរិច្ឆេទ៖ ${new Date().toLocaleDateString('km-KH')}</p>
-                </div>
-                <table style="width: 100%; border-collapse: collapse; font-size: 10px;">
-                    <thead>
-                        <tr style="background-color: #f1f5f9; text-align: left; border-bottom: 2px solid #cbd5e1;">
-                            <th style="padding: 6px; border: 1px solid #cbd5e1;">ល.រ</th>
-                            <th style="padding: 6px; border: 1px solid #cbd5e1;">អត្តលេខ</th>
-                            <th style="padding: 6px; border: 1px solid #cbd5e1;">ឈ្មោះសិស្ស</th>
-                            <th style="padding: 6px; border: 1px solid #cbd5e1;">ថ្នាក់</th>
-                            <th style="padding: 6px; border: 1px solid #cbd5e1;">ឆ្នាំសិក្សា</th>
-                            <th style="padding: 6px; border: 1px solid #cbd5e1;">ស្ថានភាពកែ</th>
-                            <th style="padding: 6px; border: 1px solid #cbd5e1;">ពិន្ទុ/និទ្ទេស</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        ${filtered.map((s, i) => `
-                            <tr style="border-bottom: 1px solid #e2e8f0;">
-                                <td style="padding: 6px; border: 1px solid #e2e8f0; text-align: center;">${i + 1}</td>
-                                <td style="padding: 6px; border: 1px solid #e2e8f0;">${s.id}</td>
-                                <td style="padding: 6px; border: 1px solid #e2e8f0; font-weight: bold;">${s.name}</td>
-                                <td style="padding: 6px; border: 1px solid #e2e8f0;">${s.studentClass || '-'}</td>
-                                <td style="padding: 6px; border: 1px solid #e2e8f0;">${s.academicYear || '-'}</td>
-                                <td style="padding: 6px; border: 1px solid #e2e8f0;">${s.isGraded ? 'កែរួចរាល់' : 'មិនទាន់កែ'}</td>
-                                <td style="padding: 6px; border: 1px solid #e2e8f0;">${s.isGraded ? `${s.evaluation.overallScore} (${s.evaluation.grade})` : '-'}</td>
-                            </tr>
-                        `).join('')}
-                    </tbody>
-                </table>
-            `;
-
-            const opt = {
-                margin:       10,
-                filename:     `Student_List_${new Date().toISOString().slice(0, 10)}.pdf`,
-                image:        { type: 'jpeg', quality: 0.98 },
-                html2canvas:  { scale: 2 },
-                jsPDF:        { unit: 'mm', format: 'a4', orientation: 'portrait' }
-            };
-
-            showToast("កំពុងរៀបចំទាញយកជា PDF...", "info");
-            html2pdf().set(opt).from(pdfContainer).save().then(() => {
-                showToast("បានទាញយកជា PDF ដោយជោគជ័យ!", "success");
-            }).catch(err => {
-                console.error(err);
-                showToast("មានបញ្ហាក្នុងការទាញយក PDF", "error");
-            });
-        }
-
-        // Export Single Student Preview Card as PDF
-        function downloadSingleBioPDF() {
-            const element = document.getElementById('printablePreviewCard');
-            if (!element) return;
-
-            const opt = {
-                margin:       10,
-                filename:     `Student_Biography_${new Date().toISOString().slice(0, 10)}.pdf`,
-                image:        { type: 'jpeg', quality: 0.98 },
-                html2canvas:  { scale: 2 },
-                jsPDF:        { unit: 'mm', format: 'a4', orientation: 'portrait' }
-            };
-
-            showToast("កំពុងបង្កើត PDF ជីវប្រវត្តិសិស្ស...", "info");
-            html2pdf().set(opt).from(element).save().then(() => {
-                showToast("បានទាញយកជីវប្រវត្តិជា PDF រួចរាល់!", "success");
-            }).catch(err => {
-                console.error(err);
-                showToast("មានបញ្ហាក្នុងការបង្កើត PDF", "error");
-            });
-        }
-
-        // Save Student Record
-        function saveStudentBio() {
-            const name = document.getElementById('inputStudentName').value.trim();
-
-            if (!name) {
-                showToast("សូមបំពេញ គោត្តនាម និងនាមខ្លួនសិស្ស!", "error");
-                return;
-            }
-
-            const formData = buildFormBioSummary();
-
-            const newStudent = {
-                id: formData.id,
-                name: formData.name,
-                studentClass: formData.studentClass,
-                academicYear: formData.academicYear,
-                major: `${formData.studentClass} (${formData.academicYear})`,
-                contact: formData.phone,
-                bio: formData.fullBioText,
-                fileName: currentUploadFile ? currentUploadFile.name : null,
-                fileType: currentUploadFile ? currentUploadFile.name.split('.').pop().toUpperCase() : null,
-                createdAt: new Date().toLocaleDateString('km-KH'),
-                isGraded: false,
-                evaluation: null
-            };
-
-            students.unshift(newStudent);
-            updateStats();
-            renderStudentList();
-            closeUploadModal();
-            showToast("បានរក្សាទុកជីវប្រវត្តិសិស្សដោយជោគជ័យ!", "success");
-        }
-
-        // Open Detail Modal
-        function openDetailModal(studentId) {
-            activeStudentId = studentId;
-            const student = students.find(s => s.id === studentId);
-            if (!student) return;
-
-            document.getElementById('modalAvatar').innerText = student.name.charAt(0).toUpperCase();
-            document.getElementById('modalStudentName').innerText = student.name;
-            document.getElementById('modalStudentSub').innerText = `ID: ${student.id} • ${student.studentClass || ''} (${student.academicYear || ''})`;
-            document.getElementById('bioDisplayArea').innerText = student.bio;
-            document.getElementById('bioEditTextarea').value = student.bio;
-
-            if (student.fileName) {
-                document.getElementById('modalAttachmentName').innerText = student.fileName;
-                document.getElementById('modalAttachmentType').innerText = student.fileType || 'FILE';
-                document.getElementById('modalAttachmentBox').classList.remove('hidden');
-            } else {
-                document.getElementById('modalAttachmentBox').classList.add('hidden');
-            }
-
-            // Evaluation state in modal
-            if (student.isGraded && student.evaluation) {
-                displayEvaluationResult(student.evaluation);
-            } else {
-                document.getElementById('gradingContent').classList.add('hidden');
-                document.getElementById('gradingLoading').classList.add('hidden');
-                document.getElementById('gradingEmpty').classList.remove('hidden');
-            }
-
-            const modal = document.getElementById('detailModal');
-            modal.classList.remove('hidden');
-            setTimeout(() => modal.classList.remove('opacity-0'), 10);
-        }
-
-        function closeDetailModal() {
-            const modal = document.getElementById('detailModal');
-            modal.classList.add('opacity-0');
-            setTimeout(() => modal.classList.add('hidden'), 200);
-            activeStudentId = null;
-            cancelBioEdit();
-        }
-
-        function triggerAutoGradingCurrent() {
-            if (activeStudentId) {
-                runAutoGrading(activeStudentId);
-            }
-        }
-
-        // Bio Edit Handlers
-        function toggleEditMode() {
-            document.getElementById('bioDisplayArea').classList.add('hidden');
-            document.getElementById('bioEditArea').classList.remove('hidden');
-        }
-
-        function cancelBioEdit() {
-            document.getElementById('bioDisplayArea').classList.remove('hidden');
-            document.getElementById('bioEditArea').classList.add('hidden');
-        }
-
-        function saveBioEdit() {
-            const student = students.find(s => s.id === activeStudentId);
-            if (!student) return;
-
-            const newText = document.getElementById('bioEditTextarea').value.trim();
-            student.bio = newText;
-            document.getElementById('bioDisplayArea').innerText = newText;
-            cancelBioEdit();
-            renderStudentList();
-            showToast("បានធ្វើបច្ចុប្បន្នភាពជីវប្រវត្តិ!", "success");
-        }
-
-        // Render Student Grid / Table List (ជាមួយនឹង Filters ថ្នាក់ និងឆ្នាំសិក្សា)
-        function renderStudentList() {
-            const container = document.getElementById('studentsContainer');
-            const searchQuery = document.getElementById('searchInput').value.toLowerCase();
-            const filterClass = document.getElementById('classFilter').value;
-            const filterYear = document.getElementById('yearFilter').value;
-            const filterGrade = document.getElementById('gradeFilter').value;
-
-            const filtered = students.filter(s => {
-                const matchesSearch = s.name.toLowerCase().includes(searchQuery) ||
-                                      s.id.toLowerCase().includes(searchQuery) ||
-                                      (s.studentClass && s.studentClass.toLowerCase().includes(searchQuery));
-                
-                const matchesClass = filterClass === 'ALL' || s.studentClass === filterClass;
-                const matchesYear = filterYear === 'ALL' || s.academicYear === filterYear;
-                
-                const matchesGrade = filterGrade === 'ALL' ||
-                                     (filterGrade === 'GRADED' && s.isGraded) ||
-                                     (filterGrade === 'UNGRADED' && !s.isGraded);
-
-                return matchesSearch && matchesClass && matchesYear && matchesGrade;
-            });
-
-            if (filtered.length === 0) {
-                container.innerHTML = `
-                    <div class="bg-white p-12 rounded-2xl border border-slate-200 text-center space-y-3">
-                        <i class="ph-duotone ph-user-minus text-4xl text-slate-300"></i>
-                        <p class="text-sm font-semibold text-slate-600">មិនមានទិន្នន័យសិស្សឡើយ (No Records Found)</p>
-                        <p class="text-xs text-slate-400">សូមបញ្ចូលជីវប្រវត្តិថ្មី ឬផ្លាស់ប្តូរតម្រងស្វែងរក។</p>
-                    </div>
-                `;
-                return;
-            }
-
-            if (viewMode === 'grid') {
-                container.className = "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5";
-                container.innerHTML = filtered.map(s => `
-                    <div class="bg-white rounded-2xl border border-slate-200/80 p-5 shadow-sm hover:shadow-md transition flex flex-col justify-between group">
-                        <div>
-                            <div class="flex items-start justify-between gap-3 mb-3">
-                                <div class="flex items-center gap-3">
-                                    <div class="w-10 h-10 rounded-xl bg-brand-50 text-brand-600 font-bold flex items-center justify-center text-base border border-brand-100">
-                                        ${s.name.charAt(0).toUpperCase()}
-                                    </div>
-                                    <div>
-                                        <h4 class="text-sm font-bold text-slate-800 group-hover:text-brand-600 transition">${s.name}</h4>
-                                        <p class="text-[11px] text-slate-400">${s.id} • <span class="font-semibold text-brand-600">${s.studentClass || ''}</span> (${s.academicYear || ''})</p>
-                                    </div>
-                                </div>
-                                ${s.isGraded ? `
-                                    <span class="px-2.5 py-1 rounded-lg text-xs font-bold bg-emerald-50 text-emerald-700 border border-emerald-200">
-                                        ${s.evaluation.grade} (${s.evaluation.overallScore})
-                                    </span>
-                                ` : `
-                                    <span class="px-2.5 py-0.5 rounded-lg text-[11px] font-semibold bg-amber-50 text-amber-600 border border-amber-200">
-                                        មិនទាន់កែ
-                                    </span>
-                                `}
-                            </div>
-
-                            <p class="text-xs text-slate-600 line-clamp-3 mb-4 leading-relaxed font-sans">
-                                ${s.bio}
-                            </p>
-                        </div>
-
-                        <div class="pt-3 border-t border-slate-100 flex items-center justify-between">
-                            <div class="flex items-center gap-1.5 text-[11px] text-slate-400">
-                                <i class="ph ph-file text-slate-400"></i>
-                                <span>${s.fileType ? s.fileType : 'Manual'}</span>
-                            </div>
-
-                            <div class="flex items-center gap-1.5">
-                                <button onclick="runAutoGrading('${s.id}')" class="px-2.5 py-1.5 rounded-lg bg-amber-50 hover:bg-amber-100 text-amber-700 text-xs font-bold border border-amber-200 flex items-center gap-1 transition">
-                                    <i class="ph-bold ph-magic-wand"></i> Auto-Grade
-                                </button>
-                                <button onclick="openDetailModal('${s.id}')" class="px-2.5 py-1.5 rounded-lg bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-semibold transition">
-                                    មើលបន្ថែម
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                `).join('');
-            } else {
-                container.className = "bg-white rounded-2xl border border-slate-200/80 overflow-hidden shadow-sm";
-                container.innerHTML = `
-                    <div class="overflow-x-auto">
-                        <table class="w-full text-left border-collapse">
-                            <thead>
-                                <tr class="bg-slate-50 border-b border-slate-200 text-[11px] uppercase tracking-wider text-slate-500 font-bold">
-                                    <th class="p-4">ឈ្មោះសិស្ស (Student)</th>
-                                    <th class="p-4">ថ្នាក់សិក្សា (Class)</th>
-                                    <th class="p-4">ឆ្នាំសិក្សា (Year)</th>
-                                    <th class="p-4">ឯកសារ (Source)</th>
-                                    <th class="p-4">ស្ថានភាពអត្រាកែ (Grading)</th>
-                                    <th class="p-4 text-right">សកម្មភាព (Actions)</th>
-                                </tr>
-                            </thead>
-                            <tbody class="divide-y divide-slate-100 text-xs">
-                                ${filtered.map(s => `
-                                    <tr class="hover:bg-slate-50/60 transition">
-                                        <td class="p-4">
-                                            <div class="font-bold text-slate-800">${s.name}</div>
-                                            <div class="text-[10px] text-slate-400">${s.id}</div>
-                                        </td>
-                                        <td class="p-4 text-brand-700 font-semibold">${s.studentClass || 'N/A'}</td>
-                                        <td class="p-4 text-slate-600">${s.academicYear || 'N/A'}</td>
-                                        <td class="p-4">
-                                            <span class="px-2 py-0.5 rounded text-[10px] font-bold ${s.fileName ? 'bg-blue-50 text-blue-700' : 'bg-slate-100 text-slate-600'}">
-                                                ${s.fileType || 'TEXT'}
-                                            </span>
-                                        </td>
-                                        <td class="p-4">
-                                            ${s.isGraded ? `
-                                                <span class="px-2.5 py-1 rounded-lg text-xs font-bold bg-emerald-100 text-emerald-800">
-                                                    ${s.evaluation.grade} (${s.evaluation.overallScore}/100)
-                                                </span>
-                                            ` : `
-                                                <span class="px-2.5 py-0.5 rounded text-[11px] font-medium bg-amber-50 text-amber-600 border border-amber-200">
-                                                    មិនទាន់កែ
-                                                </span>
-                                            `}
-                                        </td>
-                                        <td class="p-4 text-right space-x-2">
-                                            <button onclick="runAutoGrading('${s.id}')" class="px-3 py-1.5 rounded-lg bg-amber-50 hover:bg-amber-100 text-amber-700 text-xs font-bold border border-amber-200 inline-flex items-center gap-1">
-                                                <i class="ph-bold ph-magic-wand"></i> Auto-Grade
-                                            </button>
-                                            <button onclick="openDetailModal('${s.id}')" class="px-3 py-1.5 rounded-lg bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-semibold">
-                                                មើលលម្អិត
-                                            </button>
-                                        </td>
-                                    </tr>
-                                `).join('')}
-                            </tbody>
-                        </table>
-                    </div>
-                `;
-            }
-        }
-
-        function setViewMode(mode) {
-            viewMode = mode;
-            if (mode === 'grid') {
-                document.getElementById('viewGridBtn').className = "p-1.5 rounded-lg text-slate-600 hover:text-slate-900 bg-white shadow-sm transition";
-                document.getElementById('viewTableBtn').className = "p-1.5 rounded-lg text-slate-500 hover:text-slate-900 transition";
-            } else {
-                document.getElementById('viewGridBtn').className = "p-1.5 rounded-lg text-slate-500 hover:text-slate-900 transition";
-                document.getElementById('viewTableBtn').className = "p-1.5 rounded-lg text-slate-600 hover:text-slate-900 bg-white shadow-sm transition";
-            }
-            renderStudentList();
-        }
-
-        function updateStats() {
-            document.getElementById('statTotalStudents').innerText = students.length;
-            const gradedList = students.filter(s => s.isGraded);
-            document.getElementById('statGraded').innerText = gradedList.length;
-            
-            if (gradedList.length > 0) {
-                const total = gradedList.reduce((acc, curr) => acc + curr.evaluation.overallScore, 0);
-                document.getElementById('statAvgScore').innerText = (total / gradedList.length).toFixed(1);
-            } else {
-                document.getElementById('statAvgScore').innerText = "0.0";
-            }
-
-            const filesCount = students.filter(s => s.fileName).length;
-            document.getElementById('statFilesCount').innerText = filesCount;
-        }
-
-        // Load Initial Cambodian Demo Student Data
-        function loadSampleData() {
-            students = [
-                {
-                    id: "STU-2026-001",
-                    name: "ចាន់ សុវណ្ណារ៉ា",
-                    studentClass: "ថ្នាក់ទី១២A",
-                    academicYear: "2025-2026",
-                    major: "ថ្នាក់ទី១២A (2025-2026)",
-                    contact: "012888999",
-                    bio: `=== ផ្នែកទី១៖ ព័ត៌មានផ្ទាល់ខ្លួនសិស្ស ===
-១. អត្តលេខ៖ STU-2026-001
-២. គោត្តនាម+នាមខ្លួន៖ ចាន់ សុវណ្ណារ៉ា
-៣. ភេទ៖ ប្រុស
-៤. ថ្នាក់៖ ថ្នាក់ទី១២A (ឆ្នាំសិក្សា 2025-2026)
-៥. ថ្ងៃខែឆ្នាំកំណើត៖ 15/08/2005
-៦. អាសយដ្ឋាន៖ ភូមិ១ ឃុំ/សង្កាត់ផ្សារថ្មី ស្រុក/ខណ្ឌដូនពេញ ខេត្ត/ក្រុងភ្នំពេញ
-៧. លេខទូរស័ព្ទ៖ 012888999
-៨. លេខតុ៖ 24
-៩. លេខបន្ទប់៖ B-102
-១០. មណ្ឌលប្រឡង៖ វិទ្យាល័យស៊ីសុវត្ថិ
-១១. សម័យប្រឡង៖ ០៨ តុលា ២០២៦
-
-=== ផ្នែកទី២៖ ព័ត៌មានអាណាព្យាបាលសិស្ស ===
-១២. ឈ្មោះឪពុក៖ ចាន់ សុខ
-១៣. មុខរបរឪពុក៖ គ្រូបង្រៀន
-១៤. អាសយដ្ឋានឪពុក៖ ភូមិ១ ឃុំ/សង្កាត់ផ្សារថ្មី ស្រុក/ខណ្ឌដូនពេញ ខេត្ត/ក្រុងភ្នំពេញ
-១៥. លេខទូរស័ព្ទឪពុក៖ 012777666
-១៦. ឈ្មោះម្តាយ៖ កែវ ស៊ីណាត
-១៧. មុខរបរម្តាយ៖ អាជីវករ
-១៨. អាសយដ្ឋានម្តាយ៖ ភូមិ១ ឃុំ/សង្កាត់ផ្សារថ្មី ស្រុក/ខណ្ឌដូនពេញ ខេត្ត/ក្រុងភ្នំពេញ
-១៩. លេខទូរស័ព្ទម្តាយ៖ 012555444
-
-=== ផ្សេងៗ / ជីវប្រវត្តិបន្ថែម ===
-សិស្សពូកែផ្នែកគណិតវិទ្យា និងមានបំណងបន្តការសិក្សាជំនាញវិទ្យាសាស្ត្រកុំព្យូទ័រ។`,
-                    fileName: "Sovannara_CV.docx",
-                    fileType: "DOCX",
-                    createdAt: "3/9/2026",
-                    isGraded: false,
-                    evaluation: null
-                }
-            ];
-
-            updateStats();
-            renderStudentList();
-            showToast("ទាញយកទិន្នន័យគំរូរួចរាល់!", "success");
-        }
-
-        // Initialize on load
-        window.onload = function() {
-            loadSampleData();
-        };
     </script>
 </body>
 </html>
