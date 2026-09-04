@@ -142,16 +142,57 @@
         </div>
 
         <!-- Filter & Search Controls Container -->
-        <div class="bg-white rounded-2xl p-4 sm:p-5 border border-slate-200/80 shadow-sm flex flex-col md:flex-row gap-4 justify-between items-center">
-            <div class="relative w-full md:w-96">
+        <div class="bg-white rounded-2xl p-4 sm:p-5 border border-slate-200/80 shadow-sm flex flex-col xl:flex-row gap-4 justify-between items-center">
+            <div class="relative w-full xl:w-72">
                 <i class="fa-solid fa-magnifying-glass absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400"></i>
                 <input type="text" id="searchInput" oninput="renderStudentList()" placeholder="ស្វែងរកតាម ឈ្មោះ, អត្តលេខ, មណ្ឌលប្រឡង, លេខទូរស័ព្ទ..." class="w-full pl-10 pr-4 py-2.5 bg-slate-50 border border-slate-300/80 rounded-xl text-xs sm:text-sm focus:outline-none focus:ring-2 focus:ring-brand-500 focus:bg-white transition font-siemreap-body">
             </div>
 
-            <div class="flex items-center space-x-3 w-full md:w-auto justify-end">
+            <div class="flex flex-wrap items-center gap-2.5 w-full xl:w-auto justify-start xl:justify-end">
+                <!-- Dropdown ជ្រើសរើសថ្នាក់ (7 ដល់ 12) -->
+                <select id="gradeFilter" onchange="renderStudentList()" class="bg-slate-50 border border-slate-300/80 text-slate-700 text-xs sm:text-sm rounded-xl px-3 py-2.5 focus:ring-2 focus:ring-brand-500 font-siemreap-body">
+                    <option value="">គ្រប់ថ្នាក់ (៧-១២)</option>
+                    <option value="7">ថ្នាក់ទី ៧</option>
+                    <option value="8">ថ្នាក់ទី ៨</option>
+                    <option value="9">ថ្នាក់ទី ៩</option>
+                    <option value="10">ថ្នាក់ទី ១០</option>
+                    <option value="11">ថ្នាក់ទី ១១</option>
+                    <option value="12">ថ្នាក់ទី ១២</option>
+                </select>
+
+                <!-- Dropdown ជ្រើសរើសបន្ទប់/អក្សរថ្នាក់ (A ដល់ I) -->
+                <select id="classRoomFilter" onchange="renderStudentList()" class="bg-slate-50 border border-slate-300/80 text-slate-700 text-xs sm:text-sm rounded-xl px-3 py-2.5 focus:ring-2 focus:ring-brand-500 font-siemreap-body">
+                    <option value="">គ្រប់បន្ទប់ (A-I)</option>
+                    <option value="A">បន្ទប់ A</option>
+                    <option value="B">បន្ទប់ B</option>
+                    <option value="C">បន្ទប់ C</option>
+                    <option value="D">បន្ទប់ D</option>
+                    <option value="E">បន្ទប់ E</option>
+                    <option value="F">បន្ទប់ F</option>
+                    <option value="G">បន្ទប់ G</option>
+                    <option value="H">បន្ទប់ H</option>
+                    <option value="I">បន្ទប់ I</option>
+                </select>
+
+                <!-- Dropdown ជ្រើសរើសឆ្នាំសិក្សា -->
+                <select id="academicYearFilter" onchange="renderStudentList()" class="bg-slate-50 border border-slate-300/80 text-slate-700 text-xs sm:text-sm rounded-xl px-3 py-2.5 focus:ring-2 focus:ring-brand-500 font-siemreap-body">
+                    <option value="">គ្រប់ឆ្នាំសិក្សា</option>
+                    <option value="2023-2024">២០២៣-២០២៤</option>
+                    <option value="2024-2025">២០២៤-២០២៥</option>
+                    <option value="2025-2026">២០២៥-២០២៦</option>
+                    <option value="2026-2027">២០២៦-២០២៧</option>
+                    <option value="2027-2028">២០២៧-២០២៨</option>
+                </select>
+
                 <select id="examCenterFilter" onchange="renderStudentList()" class="bg-slate-50 border border-slate-300/80 text-slate-700 text-xs sm:text-sm rounded-xl px-3 py-2.5 focus:ring-2 focus:ring-brand-500 font-siemreap-body">
                     <option value="">គ្រប់មណ្ឌលប្រឡងទាំងអស់</option>
                 </select>
+
+                <!-- Button Preview (មើល) -->
+                <button onclick="previewFilteredStudents()" title="មើលទិដ្ឋភាពទូទៅនៃសិស្សដែលបានជ្រើសរើស" class="bg-brand-600 hover:bg-brand-700 text-white px-3.5 py-2.5 rounded-xl text-xs sm:text-sm font-semibold transition shadow-sm flex items-center space-x-1.5 cursor-pointer">
+                    <i class="fa-solid fa-eye text-xs"></i>
+                    <span>មើល (Preview)</span>
+                </button>
 
                 <div class="text-xs text-slate-500 border-l border-slate-200 pl-3.5 flex items-center space-x-1.5 whitespace-nowrap">
                     <span>ទិន្នន័យសរុប៖</span>
@@ -291,6 +332,47 @@
                             </select>
                         </div>
 
+                        <!-- ថ្នាក់ទី (7-12) -->
+                        <div>
+                            <label class="block text-xs font-semibold text-slate-700 mb-1">ថ្នាក់ទី (Grade) *</label>
+                            <select id="inputGrade" required class="w-full px-3 py-2 border border-slate-300 rounded-xl text-xs sm:text-sm focus:ring-2 focus:ring-brand-500 focus:outline-none bg-white">
+                                <option value="12">ថ្នាក់ទី ១២</option>
+                                <option value="11">ថ្នាក់ទី ១១</option>
+                                <option value="10">ថ្នាក់ទី ១០</option>
+                                <option value="9">ថ្នាក់ទី ៩</option>
+                                <option value="8">ថ្នាក់ទី ៨</option>
+                                <option value="7">ថ្នាក់ទី ៧</option>
+                            </select>
+                        </div>
+
+                        <!-- បន្ទប់/អក្សរថ្នាក់ (A-I) -->
+                        <div>
+                            <label class="block text-xs font-semibold text-slate-700 mb-1">បន្ទប់/អក្សរថ្នាក់ (Section) *</label>
+                            <select id="inputClassRoom" required class="w-full px-3 py-2 border border-slate-300 rounded-xl text-xs sm:text-sm focus:ring-2 focus:ring-brand-500 focus:outline-none bg-white">
+                                <option value="A">ថ្នាក់ A</option>
+                                <option value="B">ថ្នាក់ B</option>
+                                <option value="C">ថ្នាក់ C</option>
+                                <option value="D">ថ្នាក់ D</option>
+                                <option value="E">ថ្នាក់ E</option>
+                                <option value="F">ថ្នាក់ F</option>
+                                <option value="G">ថ្នាក់ G</option>
+                                <option value="H">ថ្នាក់ H</option>
+                                <option value="I">ថ្នាក់ I</option>
+                            </select>
+                        </div>
+
+                        <!-- ឆ្នាំសិក្សា -->
+                        <div>
+                            <label class="block text-xs font-semibold text-slate-700 mb-1">ឆ្នាំសិក្សា (Academic Year) *</label>
+                            <select id="inputAcademicYear" required class="w-full px-3 py-2 border border-slate-300 rounded-xl text-xs sm:text-sm focus:ring-2 focus:ring-brand-500 focus:outline-none bg-white">
+                                <option value="2025-2026">២០២៥-២០២៦</option>
+                                <option value="2024-2025">២០២៤-២០២៥</option>
+                                <option value="2023-2024">២០២៣-២០២៤</option>
+                                <option value="2026-2027">២០២៦-២០២៧</option>
+                                <option value="2027-2028">២០២៧-២០២៨</option>
+                            </select>
+                        </div>
+
                         <!-- ៤. ថ្ងៃខែឆ្នាំកំណើត -->
                         <div>
                             <label class="block text-xs font-semibold text-slate-700 mb-1">៤. ថ្ងៃខែឆ្នាំកំណើត (dd/mm/yyyy) *</label>
@@ -311,7 +393,7 @@
 
                         <!-- ៨. លេខបន្ទប់ -->
                         <div>
-                            <label class="block text-xs font-semibold text-slate-700 mb-1">៨. លេខបន្ទប់</label>
+                            <label class="block text-xs font-semibold text-slate-700 mb-1">៨. លេខបន្ទប់ប្រឡង</label>
                             <input type="text" id="inputRoomNo" placeholder="ឧ. R-04" class="w-full px-3 py-2 border border-slate-300 rounded-xl text-xs sm:text-sm focus:ring-2 focus:ring-brand-500 focus:outline-none bg-white">
                         </div>
 
@@ -554,7 +636,7 @@
     </div>
 
     <script>
-        // Sample student data matching all 19 fields + Photo
+        // Sample student data matching all 19 fields + Photo + Grade & Academic Year
         let studentData = [
             {
                 id: "std-001",
@@ -562,6 +644,9 @@
                 fullName: "សុខ ចាន់ថា",
                 gender: "ប្រុស",
                 dob: "12/05/2004",
+                grade: "12",
+                classRoom: "A",
+                academicYear: "2025-2026",
                 photoUrl: null,
                 studentAddress: {
                     village: "ព្រែកតានេញ",
@@ -575,7 +660,6 @@
                 examCenter: "វិទ្យាល័យ ហ៊ុន សែន ច្បារអំពៅ",
                 examSession: "០៨ តុលា ២០២៤",
                 
-                // Father info
                 fatherName: "សុខ មករា",
                 fatherJob: "គ្រូបង្រៀន",
                 fatherAddress: {
@@ -586,7 +670,6 @@
                 },
                 fatherPhone: "012334455",
 
-                // Mother info
                 motherName: "ចាន់ សុភាព",
                 motherJob: "អាជីវករ",
                 motherAddress: {
@@ -607,6 +690,9 @@
                 fullName: "គឹម សុជាតិ",
                 gender: "ស្រី",
                 dob: "05/08/2005",
+                grade: "11",
+                classRoom: "B",
+                academicYear: "2024-2025",
                 photoUrl: null,
                 studentAddress: {
                     village: "ទឹកថ្លា",
@@ -668,25 +754,36 @@
             });
         }
 
-        function renderStudentList() {
-            const grid = document.getElementById('studentGrid');
-            const emptyState = document.getElementById('emptyState');
+        function getFilteredStudents() {
             const searchVal = document.getElementById('searchInput').value.toLowerCase();
             const centerFilter = document.getElementById('examCenterFilter').value;
+            const gradeFilter = document.getElementById('gradeFilter').value;
+            const classRoomFilter = document.getElementById('classRoomFilter').value;
+            const academicYearFilter = document.getElementById('academicYearFilter').value;
 
-            grid.innerHTML = '';
-
-            const filteredData = studentData.filter(item => {
+            return studentData.filter(item => {
                 const fullAddr = `${item.studentAddress.village} ${item.studentAddress.commune} ${item.studentAddress.district} ${item.studentAddress.province}`;
                 const matchesSearch = item.fullName.toLowerCase().includes(searchVal) || 
                                       item.studentId.toLowerCase().includes(searchVal) ||
                                       item.phone.includes(searchVal) ||
-                                      item.examCenter.toLowerCase().includes(searchVal) ||
+                                      (item.examCenter && item.examCenter.toLowerCase().includes(searchVal)) ||
                                       fullAddr.toLowerCase().includes(searchVal);
+                
                 const matchesCenter = centerFilter === '' || item.examCenter === centerFilter;
-                return matchesSearch && matchesCenter;
-            });
+                const matchesGrade = gradeFilter === '' || item.grade === gradeFilter;
+                const matchesRoom = classRoomFilter === '' || item.classRoom === classRoomFilter;
+                const matchesYear = academicYearFilter === '' || item.academicYear === academicYearFilter;
 
+                return matchesSearch && matchesCenter && matchesGrade && matchesRoom && matchesYear;
+            });
+        }
+
+        function renderStudentList() {
+            const grid = document.getElementById('studentGrid');
+            const emptyState = document.getElementById('emptyState');
+            grid.innerHTML = '';
+
+            const filteredData = getFilteredStudents();
             document.getElementById('totalCvCount').innerText = filteredData.length;
 
             if (filteredData.length === 0) {
@@ -723,6 +820,12 @@
                             </div>
 
                             <div class="mt-4 space-y-2 text-xs text-slate-600">
+                                <!-- Grade, Class Room & Academic Year Badge -->
+                                <div class="flex items-center justify-between bg-brand-50/60 p-2 rounded-xl border border-brand-100 text-[11px] font-medium text-brand-900">
+                                    <span><i class="fa-solid fa-graduation-cap text-brand-600 mr-1"></i>ថ្នាក់ទី <b>${student.grade || '១២'}${student.classRoom || 'A'}</b></span>
+                                    <span><i class="fa-solid fa-calendar-days text-indigo-500 mr-1"></i>ឆ្នាំ៖ <b>${student.academicYear || '២០២៥-២០២៦'}</b></span>
+                                </div>
+
                                 <div class="flex items-center justify-between bg-slate-50 p-2.5 rounded-xl border border-slate-150">
                                     <span><i class="fa-solid fa-cake-candles text-amber-500 mr-1.5"></i>ថ្ងៃកំណើត៖ <b>${student.dob}</b></span>
                                     <span><i class="fa-solid fa-phone text-emerald-500 mr-1"></i><b class="font-mono text-slate-800">${student.phone}</b></span>
@@ -770,6 +873,16 @@
             }
         }
 
+        function previewFilteredStudents() {
+            const filtered = getFilteredStudents();
+            if (filtered.length === 0) {
+                showToast("មិនមានទិន្នន័យសិស្សត្រូវបង្ហាញឡើយ");
+                return;
+            }
+            // Show first student or active list preview
+            viewStudentCv(filtered[0].id);
+        }
+
         function viewStudentCv(id) {
             const student = studentData.find(s => s.id === id);
             if (!student) return;
@@ -812,6 +925,7 @@
                             <span class="w-20 h-0.5 bg-indigo-600 block"></span>
                         </div>
                         <h2 class="text-lg sm:text-xl font-muol-title text-brand-700 mt-3">ជីវប្រវត្តិសិស្ស (STUDENT BIOGRAPHY)</h2>
+                        <p class="text-xs font-semibold text-slate-600 mt-1">ថ្នាក់ទី៖ <span class="font-bold text-brand-600">${student.grade || '១២'}${student.classRoom || 'A'}</span> | ឆ្នាំសិក្សា៖ <span class="font-bold text-indigo-700">${student.academicYear || '២០២៥-២០២៦'}</span></p>
                     </div>
                     <div class="ml-4 flex-shrink-0">
                         ${photoHtml}
@@ -887,99 +1001,6 @@
             openModal('viewModal');
         }
 
-        function handlePhotoUpload(event) {
-            const file = event.target.files[0];
-            if (file) {
-                const reader = new FileReader();
-                reader.onload = function(e) {
-                    setStudentPhoto(e.target.result);
-                };
-                reader.readAsDataURL(file);
-            }
-        }
-
-        function setStudentPhoto(base64Data) {
-            document.getElementById('photoDataBase64').value = base64Data;
-            document.getElementById('photoPreviewImg').src = base64Data;
-            document.getElementById('photoPreviewImg').classList.remove('hidden');
-            document.getElementById('photoPlaceholderIcon').classList.add('hidden');
-            document.getElementById('removePhotoBtn').classList.remove('hidden');
-        }
-
-        function removePhoto() {
-            document.getElementById('photoDataBase64').value = '';
-            document.getElementById('photoPreviewImg').src = '';
-            document.getElementById('photoPreviewImg').classList.add('hidden');
-            document.getElementById('photoPlaceholderIcon').classList.remove('hidden');
-            document.getElementById('removePhotoBtn').classList.add('hidden');
-            document.getElementById('photoFileInput').value = '';
-        }
-
-        async function openCameraModal() {
-            openModal('cameraModal');
-            const video = document.getElementById('cameraStream');
-            try {
-                const stream = await navigator.mediaDevices.getUserMedia({ video: true });
-                video.srcObject = stream;
-                mediaStreamTrack = stream.getTracks()[0];
-            } catch (err) {
-                alert("មិនអាចចូលប្រើប្រាស់ Camera លើ Device របស់អ្នកបានឡើយ៖ " + err.message);
-                closeCameraModal();
-            }
-        }
-
-        function closeCameraModal() {
-            if (mediaStreamTrack) {
-                mediaStreamTrack.stop();
-                mediaStreamTrack = null;
-            }
-            closeModal('cameraModal');
-        }
-
-        function captureCameraPhoto() {
-            const video = document.getElementById('cameraStream');
-            const canvas = document.getElementById('cameraCanvas');
-            const context = canvas.getContext('2d');
-
-            canvas.width = video.videoWidth || 300;
-            canvas.height = video.videoHeight || 400;
-
-            context.drawImage(video, 0, 0, canvas.width, canvas.height);
-            const dataUrl = canvas.toDataURL('image/jpeg');
-
-            setStudentPhoto(dataUrl);
-            closeCameraModal();
-            showToast("ថតរូបភាពសិស្សបានជោគជ័យ");
-        }
-
-        function copyStudentAddressTo(target) {
-            const village = document.getElementById('inputStudentVillage').value;
-            const commune = document.getElementById('inputStudentCommune').value;
-            const district = document.getElementById('inputStudentDistrict').value;
-            const province = document.getElementById('inputStudentProvince').value;
-
-            if (target === 'father') {
-                document.getElementById('inputFatherVillage').value = village;
-                document.getElementById('inputFatherCommune').value = commune;
-                document.getElementById('inputFatherDistrict').value = district;
-                document.getElementById('inputFatherProvince').value = province;
-            } else if (target === 'mother') {
-                document.getElementById('inputMotherVillage').value = village;
-                document.getElementById('inputMotherCommune').value = commune;
-                document.getElementById('inputMotherDistrict').value = district;
-                document.getElementById('inputMotherProvince').value = province;
-            }
-            showToast("បានចម្លងអាសយដ្ឋានសិស្សរួចរាល់");
-        }
-
-        function openAddModal() {
-            document.getElementById('formTitle').innerText = 'បញ្ចូលជីវប្រវត្តិសិស្សថ្មី (១៩ ចំណុច)';
-            document.getElementById('editStudentId').value = '';
-            document.getElementById('studentForm').reset();
-            removePhoto();
-            openModal('formModal');
-        }
-
         function openEditModal(id) {
             const student = studentData.find(s => s.id === id);
             if (!student) return;
@@ -993,10 +1014,13 @@
                 removePhoto();
             }
 
-            // Section 1
+            // Section 1 & Grade/Academic Year
             document.getElementById('inputStudentId').value = student.studentId || '';
             document.getElementById('inputFullName').value = student.fullName || '';
             document.getElementById('inputGender').value = student.gender || 'ប្រុស';
+            document.getElementById('inputGrade').value = student.grade || '12';
+            document.getElementById('inputClassRoom').value = student.classRoom || 'A';
+            document.getElementById('inputAcademicYear').value = student.academicYear || '2025-2026';
             document.getElementById('inputDob').value = student.dob || '';
             document.getElementById('inputPhone').value = student.phone || '';
             document.getElementById('inputDeskNo').value = student.deskNo || '';
@@ -1040,6 +1064,9 @@
                 studentId: document.getElementById('inputStudentId').value.trim(),
                 fullName: document.getElementById('inputFullName').value.trim(),
                 gender: document.getElementById('inputGender').value,
+                grade: document.getElementById('inputGrade').value,
+                classRoom: document.getElementById('inputClassRoom').value,
+                academicYear: document.getElementById('inputAcademicYear').value,
                 dob: document.getElementById('inputDob').value.trim(),
                 photoUrl: document.getElementById('photoDataBase64').value || null,
                 phone: document.getElementById('inputPhone').value.trim(),
