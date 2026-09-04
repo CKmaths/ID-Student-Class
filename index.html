@@ -510,7 +510,7 @@
                         <!-- ១៧. អាសយដ្ឋានម្តាយ (ដាច់ដោយឡែក) -->
                         <div class="pt-2">
                             <div class="flex items-center justify-between mb-1">
-                                <label class="text-[11px] font-bold text-slate-700">១Wrist. អាសយដ្ឋានម្តាយ (ភូមិ, ឃុំ, ស្រុក, ខេត្ត - វាយបញ្ចូលដាច់ដោយឡែក)</label>
+                                <label class="text-[11px] font-bold text-slate-700">១៧. អាសយដ្ឋានម្តាយ (ភូមិ, ឃុំ, ស្រុក, ខេត្ត - វាយបញ្ចូលដាច់ដោយឡែក)</label>
                                 <button type="button" onclick="copyStudentAddressTo('mother')" class="text-[10px] bg-amber-100 hover:bg-amber-200 text-amber-800 px-2.5 py-0.5 rounded-lg transition font-semibold">
                                     <i class="fa-solid fa-copy mr-1"></i>ដូចអាសយដ្ឋានសិស្ស
                                 </button>
@@ -735,6 +735,101 @@
         let currentActiveCvId = null;
         let selectedUploadedFile = null;
         let mediaStreamTrack = null;
+
+        // Function to copy Student Address to Father or Mother Address
+        function copyStudentAddressTo(target) {
+            const village = document.getElementById('inputStudentVillage').value;
+            const commune = document.getElementById('inputStudentCommune').value;
+            const district = document.getElementById('inputStudentDistrict').value;
+            const province = document.getElementById('inputStudentProvince').value;
+
+            if (target === 'father') {
+                document.getElementById('inputFatherVillage').value = village;
+                document.getElementById('inputFatherCommune').value = commune;
+                document.getElementById('inputFatherDistrict').value = district;
+                document.getElementById('inputFatherProvince').value = province;
+                showToast("បានចម្លងអាសយដ្ឋានទៅឪពុក");
+            } else if (target === 'mother') {
+                document.getElementById('inputMotherVillage').value = village;
+                document.getElementById('inputMotherCommune').value = commune;
+                document.getElementById('inputMotherDistrict').value = district;
+                document.getElementById('inputMotherProvince').value = province;
+                showToast("បានចម្លងអាសយដ្ឋានទៅម្តាយ");
+            }
+        }
+
+        // Function to open add student modal
+        function openAddModal() {
+            document.getElementById('formTitle').innerText = 'បញ្ចូលទិន្នន័យជីវប្រវត្តិសិស្ស';
+            document.getElementById('studentForm').reset();
+            document.getElementById('editStudentId').value = '';
+            removePhoto();
+            openModal('formModal');
+        }
+
+        // Photo Upload and Camera Capture Functions
+        function handlePhotoUpload(event) {
+            const file = event.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    setStudentPhoto(e.target.result);
+                };
+                reader.readAsDataURL(file);
+            }
+        }
+
+        function setStudentPhoto(dataUrl) {
+            document.getElementById('photoDataBase64').value = dataUrl;
+            document.getElementById('photoPreviewImg').src = dataUrl;
+            document.getElementById('photoPreviewImg').classList.remove('hidden');
+            document.getElementById('photoPlaceholderIcon').classList.add('hidden');
+            document.getElementById('removePhotoBtn').classList.remove('hidden');
+        }
+
+        function removePhoto() {
+            document.getElementById('photoDataBase64').value = '';
+            document.getElementById('photoPreviewImg').src = '';
+            document.getElementById('photoPreviewImg').classList.add('hidden');
+            document.getElementById('photoPlaceholderIcon').classList.remove('hidden');
+            document.getElementById('removePhotoBtn').classList.add('hidden');
+            document.getElementById('photoFileInput').value = '';
+        }
+
+        async function openCameraModal() {
+            openModal('cameraModal');
+            try {
+                const stream = await navigator.mediaDevices.getUserMedia({ video: true });
+                const video = document.getElementById('cameraStream');
+                video.srcObject = stream;
+                mediaStreamTrack = stream;
+            } catch (err) {
+                console.error("Camera error:", err);
+                showToast("មិនអាចបើក Camera បានទេ");
+                closeCameraModal();
+            }
+        }
+
+        function closeCameraModal() {
+            if (mediaStreamTrack) {
+                mediaStreamTrack.getTracks().forEach(track => track.stop());
+                mediaStreamTrack = null;
+            }
+            closeModal('cameraModal');
+        }
+
+        function captureCameraPhoto() {
+            const video = document.getElementById('cameraStream');
+            const canvas = document.getElementById('cameraCanvas');
+            canvas.width = video.videoWidth || 300;
+            canvas.height = video.videoHeight || 400;
+            const ctx = canvas.getContext('2d');
+            ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+            const dataUrl = canvas.toDataURL('image/jpeg');
+            setStudentPhoto(dataUrl);
+            closeCameraModal();
+            showToast("បានថតរូបភាពជោគជ័យ");
+        }
 
         window.addEventListener('DOMContentLoaded', () => {
             populateExamCenterFilter();
